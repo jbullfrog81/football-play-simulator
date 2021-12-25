@@ -195,16 +195,16 @@ func drawOffensivePlayersStartingPosition(imd *imdraw.IMDraw) {
 	imd.Push(pixel.V(260, 130))
 	imd.Circle(5, 2)
 
-	// Right Twins
+	// Right Side Twins
 	// inside twin
 	//imd.Color = colornames.Black
 	//imd.Push(pixel.V(400, 145))
 	//imd.Circle(5, 2)
 
 	// outside twin
-	imd.Color = colornames.Black
-	imd.Push(pixel.V(415, 145))
-	imd.Circle(5, 2)
+	//imd.Color = colornames.Black
+	//imd.Push(pixel.V(415, 145))
+	//imd.Circle(5, 2)
 
 }
 
@@ -282,8 +282,10 @@ func run() {
 	drawOffensivePlayersStartingPosition(imd)
 
 	var fiveYardOut routes.OffensePlayRoute
+	var tenYardOut routes.OffensePlayRoute
 
 	fiveYardOut = routes.DefineOutFiveYardRoute()
+	tenYardOut = routes.DefineOutTenYardRoute()
 
 	var rightTwin offensePlayerPosition
 
@@ -294,6 +296,16 @@ func run() {
 	rightTwin.maxX = 400.0
 	rightTwin.maxY = 145.0
 	rightTwin.color = colornames.Black
+
+	var leftTwin offensePlayerPosition
+
+	leftTwin.thickness = 2.0
+	leftTwin.radius = 5.0
+	leftTwin.minX = 415.0
+	leftTwin.minY = 145.0
+	leftTwin.maxX = 415.0
+	leftTwin.maxY = 145.0
+	leftTwin.color = colornames.Black
 
 	iteration := 0
 
@@ -309,6 +321,8 @@ func run() {
 		drawOffensivePlayersStartingPosition(imd)
 
 		drawOffenseRunPlay(imd, &fiveYardOut, &rightTwin, iteration)
+
+		drawOffenseRunPlay(imd, &tenYardOut, &leftTwin, iteration)
 
 		imd.Draw(win)
 
