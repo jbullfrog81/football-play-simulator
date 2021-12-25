@@ -135,6 +135,21 @@ func defineFootballFieldLines(footballFieldLines *[]footballFieldLine, footballF
 	}
 }
 
+func drawFootballFieldLines(footballFieldLines *[]footballFieldLine, footballFieldOutsideLines *footballFieldLine, footballFieldHashLines *[]footballFieldLine, footballFieldEndZones *[]footballFieldLine, imd *imdraw.IMDraw) {
+
+	for _, p := range *footballFieldLines {
+		p.draw(imd)
+	}
+	for _, p := range *footballFieldHashLines {
+		p.drawHashes(imd)
+	}
+	for _, p := range *footballFieldEndZones {
+		p.draw(imd)
+	}
+
+	footballFieldOutsideLines.draw(imd)
+}
+
 func run() {
 	cfg := pixelgl.WindowConfig{
 		Title:  "Football Play Simulator",
@@ -208,23 +223,15 @@ func run() {
 	leftSideLinePixel := 10
 	rightSideLinePixel := 600
 
-	defineFootballFieldLines(&footballFieldLines, &footballFieldOutsideLines, &footballFieldHashLines, &footballFieldEndZones, leftSideLinePixel, rightSideLinePixel)
+	defineFootballFieldLines(&footballFieldLines, &footballFieldOutsideLines,
+		&footballFieldHashLines, &footballFieldEndZones, leftSideLinePixel, rightSideLinePixel)
 
 	for !win.Closed() {
 		win.Clear(colornames.Darkolivegreen)
 
 		//imd.Clear()
-		for _, p := range footballFieldLines {
-			p.draw(imd)
-		}
-		for _, p := range footballFieldHashLines {
-			p.drawHashes(imd)
-		}
-		for _, p := range footballFieldEndZones {
-			p.draw(imd)
-		}
-
-		footballFieldOutsideLines.draw(imd)
+		drawFootballFieldLines(&footballFieldLines, &footballFieldOutsideLines,
+			&footballFieldHashLines, &footballFieldEndZones, imd)
 
 		imd.Draw(win)
 
