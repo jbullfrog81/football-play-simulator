@@ -1,7 +1,12 @@
 package main
 
 import (
+	"image"
 	"image/color"
+	"os"
+
+	_ "image/jpeg"
+	_ "image/png"
 
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/imdraw"
@@ -150,6 +155,61 @@ func drawFootballFieldLines(footballFieldLines *[]footballFieldLine, footballFie
 	footballFieldOutsideLines.draw(imd)
 }
 
+func drawOffensivePlayersStartingPosition(imd *imdraw.IMDraw) {
+
+	//Offensive Players
+	// left wide receiver
+	imd.Color = colornames.Black
+	imd.Push(pixel.V(180, 145))
+	imd.Circle(5, 2)
+
+	// left guard
+	imd.Color = colornames.Black
+	imd.Push(pixel.V(240, 145))
+	imd.Circle(5, 2)
+
+	// center
+	imd.Color = colornames.Black
+	imd.Push(pixel.V(255, 140))
+	imd.Push(pixel.V(265, 150))
+	imd.Rectangle(2)
+
+	// right guard
+	imd.Color = colornames.Black
+	imd.Push(pixel.V(280, 145))
+	imd.Circle(5, 2)
+
+	// QB
+	imd.Color = colornames.Black
+	imd.Push(pixel.V(260, 130))
+	imd.Circle(5, 2)
+
+	// Right Twins
+	// inside twin
+	imd.Color = colornames.Black
+	imd.Push(pixel.V(400, 145))
+	imd.Circle(5, 2)
+
+	// outside twin
+	imd.Color = colornames.Black
+	imd.Push(pixel.V(415, 145))
+	imd.Circle(5, 2)
+
+}
+
+func loadPicture(path string) (pixel.Picture, error) {
+	file, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+	img, _, err := image.Decode(file)
+	if err != nil {
+		return nil, err
+	}
+	return pixel.PictureDataFromImage(img), nil
+}
+
 func run() {
 	cfg := pixelgl.WindowConfig{
 		Title:  "Football Play Simulator",
@@ -170,44 +230,6 @@ func run() {
 	win.Clear(colornames.Darkolivegreen)
 
 	imd := imdraw.New(nil)
-
-	//Offensive Players
-	// left wide receiver
-	imd.Color = colornames.Black
-	imd.Push(pixel.V(100, 100))
-	imd.Circle(15, 2)
-
-	// left guard
-	imd.Color = colornames.Black
-	imd.Push(pixel.V(300, 100))
-	imd.Circle(15, 2)
-
-	// center
-	imd.Color = colornames.Black
-	imd.Push(pixel.V(325, 85))
-	imd.Push(pixel.V(355, 115))
-	imd.Rectangle(2)
-
-	// right guard
-	imd.Color = colornames.Black
-	imd.Push(pixel.V(380, 100))
-	imd.Circle(15, 2)
-
-	// QB
-	imd.Color = colornames.Black
-	imd.Push(pixel.V(340, 60))
-	imd.Circle(15, 2)
-
-	// Right Twins
-	// inside twin
-	imd.Color = colornames.Black
-	imd.Push(pixel.V(580, 100))
-	imd.Circle(15, 2)
-
-	// outside twin
-	imd.Color = colornames.Black
-	imd.Push(pixel.V(620, 100))
-	imd.Circle(15, 2)
 
 	// The lines on the football field:
 	// 1 pixel = 3.6 inches
@@ -233,7 +255,17 @@ func run() {
 		drawFootballFieldLines(&footballFieldLines, &footballFieldOutsideLines,
 			&footballFieldHashLines, &footballFieldEndZones, imd)
 
+		drawOffensivePlayersStartingPosition(imd)
+
 		imd.Draw(win)
+
+		// Add football
+		//pic, err := loadPicture("./images/football2.png")
+		//if err != nil {
+		//	panic(err)
+		//}
+		//sprite := pixel.NewSprite(pic, pic.Bounds())
+		//sprite.Draw(win, pixel.IM.Moved(win.Bounds().Center()))
 
 		win.Update()
 	}
