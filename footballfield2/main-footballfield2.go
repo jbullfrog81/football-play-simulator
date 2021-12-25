@@ -34,16 +34,111 @@ func (p *footballFieldLine) draw(imd *imdraw.IMDraw) {
 	imd.Rectangle(1)
 }
 
-func (p *footballFieldLine) defineHashLines() {
+func defineFootballFieldLines(footballFieldLines *[]footballFieldLine, footballFieldOutsideLines *footballFieldLine, footballFieldHashLines *[]footballFieldLine, footballFieldEndZones *[]footballFieldLine, leftSideLinePixel int, rightSideLinePixel int) {
+	//create the outside of the football field
+	footballFieldOutsideLines.minX = float64(leftSideLinePixel)
+	footballFieldOutsideLines.minY = float64(100)
+	footballFieldOutsideLines.maxX = float64(rightSideLinePixel)
+	footballFieldOutsideLines.maxY = float64(1000)
+	footballFieldOutsideLines.color = pixel.RGB(256, 256, 256)
 
+	var values footballFieldLine
+
+	//define the starting y pixel
+	yardLine := 100
+
+	//create the 5 yard lines
+	for i := 0; i < 21; i++ {
+		values.minX = float64(leftSideLinePixel)
+		values.minY = float64(yardLine)
+		values.maxX = float64(rightSideLinePixel)
+		values.maxY = float64(yardLine)
+		values.color = pixel.RGB(256, 256, 256)
+
+		*footballFieldLines = append(*footballFieldLines, values)
+		yardLine += 50
+	}
+	//reset the starting y pixel
+	yardLine = 100
+
+	//Create the right side hashlines
+	for i := 0; i < 81; i++ {
+		values.minX = float64(rightSideLinePixel - 5)
+		values.minY = float64(yardLine)
+		values.maxX = float64(rightSideLinePixel)
+		values.maxY = float64(yardLine)
+		values.color = pixel.RGB(256, 256, 256)
+
+		*footballFieldHashLines = append(*footballFieldHashLines, values)
+		yardLine += 10
+	}
+
+	//reset the starting y pixel
+	yardLine = 100
+
+	//Create the left side hashlines
+	for i := 0; i < 81; i++ {
+		values.minX = float64(leftSideLinePixel)
+		values.minY = float64(yardLine)
+		values.maxX = float64(leftSideLinePixel + 5)
+		values.maxY = float64(yardLine)
+		values.color = pixel.RGB(256, 256, 256)
+
+		*footballFieldHashLines = append(*footballFieldHashLines, values)
+		yardLine += 10
+	}
+
+	//reset the starting y pixel
+	yardLine = 100
+
+	//Create the left center hashlines
+	// center hash marks are about .442 from each side of the whole distance = 221 pixels
+	for i := 0; i < 81; i++ {
+		values.minX = float64(leftSideLinePixel + 221)
+		values.minY = float64(yardLine)
+		values.maxX = float64(leftSideLinePixel + 5 + 221 - 5 - 5)
+		values.maxY = float64(yardLine)
+		values.color = pixel.RGB(256, 256, 256)
+
+		*footballFieldHashLines = append(*footballFieldHashLines, values)
+		yardLine += 10
+	}
+
+	//reset the starting y pixel
+	yardLine = 100
+
+	//Create the right center hashlines
+	// center hash marks are about .442 from each side of the whole distance = 221 pixels
+	for i := 0; i < 81; i++ {
+		values.minX = float64(rightSideLinePixel - 5 - 221)
+		values.minY = float64(yardLine)
+		values.maxX = float64(rightSideLinePixel - 221)
+		values.maxY = float64(yardLine)
+		values.color = pixel.RGB(256, 256, 256)
+
+		*footballFieldHashLines = append(*footballFieldHashLines, values)
+		yardLine += 10
+	}
+
+	yardLine = 1
+
+	//create the end zones
+	for i := 0; i < 21; i++ {
+		values.minX = float64(leftSideLinePixel)
+		values.minY = float64(yardLine)
+		values.maxX = float64(rightSideLinePixel)
+		values.maxY = float64(yardLine + 100)
+		values.color = pixel.RGB(256, 256, 256)
+
+		*footballFieldEndZones = append(*footballFieldEndZones, values)
+		yardLine += 1000
+	}
 }
-
-//func createHashLines()
 
 func run() {
 	cfg := pixelgl.WindowConfig{
 		Title:  "Football Play Simulator",
-		Bounds: pixel.R(0, 0, 700, 700),
+		Bounds: pixel.R(0, 0, 1024, 700),
 		VSync:  true,
 	}
 
@@ -113,94 +208,7 @@ func run() {
 	leftSideLinePixel := 10
 	rightSideLinePixel := 600
 
-	//create the outside of the football field
-	footballFieldOutsideLines.minX = float64(leftSideLinePixel)
-	footballFieldOutsideLines.minY = float64(100)
-	footballFieldOutsideLines.maxX = float64(rightSideLinePixel)
-	footballFieldOutsideLines.maxY = float64(1000)
-	footballFieldOutsideLines.color = pixel.RGB(256, 256, 256)
-
-	var values footballFieldLine
-
-	//create the 5 yard lines
-	yardLine := 100
-	for i := 0; i < 21; i++ {
-		values.minX = float64(leftSideLinePixel)
-		values.minY = float64(yardLine)
-		values.maxX = float64(rightSideLinePixel)
-		values.maxY = float64(yardLine)
-		values.color = pixel.RGB(256, 256, 256)
-
-		footballFieldLines = append(footballFieldLines, values)
-		yardLine += 50
-	}
-
-	//Create the right side hashlines
-	yardLine = 100
-	for i := 0; i < 81; i++ {
-		values.minX = float64(rightSideLinePixel - 5)
-		values.minY = float64(yardLine)
-		values.maxX = float64(rightSideLinePixel)
-		values.maxY = float64(yardLine)
-		values.color = pixel.RGB(256, 256, 256)
-
-		footballFieldHashLines = append(footballFieldHashLines, values)
-		yardLine += 10
-	}
-
-	//Create the left side hashlines
-	yardLine = 100
-	for i := 0; i < 81; i++ {
-		values.minX = float64(leftSideLinePixel)
-		values.minY = float64(yardLine)
-		values.maxX = float64(leftSideLinePixel + 5)
-		values.maxY = float64(yardLine)
-		values.color = pixel.RGB(256, 256, 256)
-
-		footballFieldHashLines = append(footballFieldHashLines, values)
-		yardLine += 10
-	}
-
-	//Create the left center hashlines
-	// center hash marks are about .442 from each side of the whole distance = 221 pixels
-	yardLine = 100
-	for i := 0; i < 81; i++ {
-		values.minX = float64(leftSideLinePixel + 221)
-		values.minY = float64(yardLine)
-		values.maxX = float64(leftSideLinePixel + 5 + 221 - 5 - 5)
-		values.maxY = float64(yardLine)
-		values.color = pixel.RGB(256, 256, 256)
-
-		footballFieldHashLines = append(footballFieldHashLines, values)
-		yardLine += 10
-	}
-
-	//Create the right center hashlines
-	// center hash marks are about .442 from each side of the whole distance = 221 pixels
-	yardLine = 100
-	for i := 0; i < 81; i++ {
-		values.minX = float64(rightSideLinePixel - 5 - 221)
-		values.minY = float64(yardLine)
-		values.maxX = float64(rightSideLinePixel - 221)
-		values.maxY = float64(yardLine)
-		values.color = pixel.RGB(256, 256, 256)
-
-		footballFieldHashLines = append(footballFieldHashLines, values)
-		yardLine += 10
-	}
-
-	//create the end zones
-	yardLine = 0
-	for i := 0; i < 21; i++ {
-		values.minX = float64(leftSideLinePixel)
-		values.minY = float64(yardLine)
-		values.maxX = float64(rightSideLinePixel)
-		values.maxY = float64(yardLine + 100)
-		values.color = pixel.RGB(256, 256, 256)
-
-		footballFieldEndZones = append(footballFieldEndZones, values)
-		yardLine += 1000
-	}
+	defineFootballFieldLines(&footballFieldLines, &footballFieldOutsideLines, &footballFieldHashLines, &footballFieldEndZones, leftSideLinePixel, rightSideLinePixel)
 
 	for !win.Closed() {
 		win.Clear(colornames.Darkolivegreen)
