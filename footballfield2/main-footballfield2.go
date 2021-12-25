@@ -38,7 +38,7 @@ func (p *footballFieldLine) defineHashLines() {
 
 }
 
-func createHashLines()
+//func createHashLines()
 
 func run() {
 	cfg := pixelgl.WindowConfig{
@@ -133,6 +133,60 @@ func run() {
 
 		footballFieldLines = append(footballFieldLines, values)
 		yardLine += 50
+	}
+
+	//Create the right side hashlines
+	yardLine = 100
+	for i := 0; i < 81; i++ {
+		values.minX = float64(rightSideLinePixel - 5)
+		values.minY = float64(yardLine)
+		values.maxX = float64(rightSideLinePixel)
+		values.maxY = float64(yardLine)
+		values.color = pixel.RGB(256, 256, 256)
+
+		footballFieldHashLines = append(footballFieldHashLines, values)
+		yardLine += 10
+	}
+
+	//Create the left side hashlines
+	yardLine = 100
+	for i := 0; i < 81; i++ {
+		values.minX = float64(leftSideLinePixel)
+		values.minY = float64(yardLine)
+		values.maxX = float64(leftSideLinePixel + 5)
+		values.maxY = float64(yardLine)
+		values.color = pixel.RGB(256, 256, 256)
+
+		footballFieldHashLines = append(footballFieldHashLines, values)
+		yardLine += 10
+	}
+
+	//Create the left center hashlines
+	// center hash marks are about .442 from each side of the whole distance = 221 pixels
+	yardLine = 100
+	for i := 0; i < 81; i++ {
+		values.minX = float64(leftSideLinePixel + 221)
+		values.minY = float64(yardLine)
+		values.maxX = float64(leftSideLinePixel + 5 + 221 - 5 - 5)
+		values.maxY = float64(yardLine)
+		values.color = pixel.RGB(256, 256, 256)
+
+		footballFieldHashLines = append(footballFieldHashLines, values)
+		yardLine += 10
+	}
+
+	//Create the right center hashlines
+	// center hash marks are about .442 from each side of the whole distance = 221 pixels
+	yardLine = 100
+	for i := 0; i < 81; i++ {
+		values.minX = float64(rightSideLinePixel - 5 - 221)
+		values.minY = float64(yardLine)
+		values.maxX = float64(rightSideLinePixel - 221)
+		values.maxY = float64(yardLine)
+		values.color = pixel.RGB(256, 256, 256)
+
+		footballFieldHashLines = append(footballFieldHashLines, values)
+		yardLine += 10
 	}
 
 	//create the end zones
