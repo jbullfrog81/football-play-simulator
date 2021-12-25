@@ -1,11 +1,38 @@
 package main
 
 import (
+	"fmt"
+	"image"
+	_ "image/png"
+	"io"
+	"os"
+
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/imdraw"
 	"github.com/faiface/pixel/pixelgl"
+	"github.com/golang/glog"
 	"golang.org/x/image/colornames"
 )
+
+func logClose(file io.Closer) {
+	err := file.Close()
+	if err != nil {
+		glog.Error(err)
+	}
+}
+
+func loadPicture(path string) (pixel.Picture, error) {
+	file, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+	defer logClose(file)
+	img, _, err := image.Decode(file)
+	if err != nil {
+		return nil, err
+	}
+	return pixel.PictureDataFromImage(img), nil
+}
 
 func run() {
 	cfg := pixelgl.WindowConfig{
@@ -30,11 +57,16 @@ func run() {
 
 	//rect.Draw()
 
-	//fmt.Println(rect.W(), rect.H()) // 6 6
-	//fmt.Println(rect.Size())        // Vec(6, 6)
-	//
-	//fmt.Println(rect.Center())              // Vec(4, 4)
-	//fmt.Println(rect.Moved(pixel.V(4, 10))) // Rect(5, 11, 11, 17)
+	fmt.Println(rect.W(), rect.H()) // 6 6
+	fmt.Println(rect.Size())        // Vec(6, 6)
+
+	fmt.Println(rect.Center())              // Vec(4, 4)
+	fmt.Println(rect.Moved(pixel.V(4, 10))) // Rect(5, 11, 11, 17)
+
+	pic, err := loadPicture("./images/footballField.jpg")
+	if err != nil {
+		panic(err)
+	}
 
 	imd := imdraw.New(nil)
 
