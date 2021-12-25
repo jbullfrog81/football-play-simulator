@@ -221,7 +221,7 @@ func run() {
 	var footballFieldEndZones []footballFieldLine
 
 	leftSideLinePixel := 10
-	rightSideLinePixel := 600
+	rightSideLinePixel := 510
 
 	defineFootballFieldLines(&footballFieldLines, &footballFieldOutsideLines,
 		&footballFieldHashLines, &footballFieldEndZones, leftSideLinePixel, rightSideLinePixel)
