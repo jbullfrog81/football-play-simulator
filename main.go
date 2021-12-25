@@ -3,6 +3,7 @@ package main
 import (
 	"image"
 	"image/color"
+	"jbullfrog81/football-play-simulator/routes"
 	"os"
 
 	_ "image/jpeg"
@@ -21,6 +22,16 @@ type footballFieldLine struct {
 	maxX  float64
 	maxY  float64
 	color color.Color
+}
+
+type offensePlayerPosition struct {
+	thickness float64
+	radius    float64
+	minX      float64
+	minY      float64
+	maxX      float64
+	maxY      float64
+	color     color.Color
 }
 
 //create lines - yard hash marks on the football field
@@ -186,14 +197,31 @@ func drawOffensivePlayersStartingPosition(imd *imdraw.IMDraw) {
 
 	// Right Twins
 	// inside twin
-	imd.Color = colornames.Black
-	imd.Push(pixel.V(400, 145))
-	imd.Circle(5, 2)
+	//imd.Color = colornames.Black
+	//imd.Push(pixel.V(400, 145))
+	//imd.Circle(5, 2)
 
 	// outside twin
 	imd.Color = colornames.Black
 	imd.Push(pixel.V(415, 145))
 	imd.Circle(5, 2)
+
+}
+
+func drawOffenseRunPlay(imd *imdraw.IMDraw, route *routes.OffensePlayRoute, playerPosition *offensePlayerPosition, iteration int) {
+
+	println("starting draw offense run play")
+	if iteration < len(route.MinX) {
+		println("inside iteration loop")
+		playerPosition.minX += route.MinX[iteration]
+		playerPosition.minY += route.MinY[iteration]
+		playerPosition.maxX += route.MaxX[iteration]
+		playerPosition.maxY += route.MaxY[iteration]
+	}
+
+	imd.Color = playerPosition.color
+	imd.Push(pixel.V(playerPosition.minX, playerPosition.minY))
+	imd.Circle(playerPosition.radius, playerPosition.thickness)
 
 }
 
@@ -248,16 +276,43 @@ func run() {
 	defineFootballFieldLines(&footballFieldLines, &footballFieldOutsideLines,
 		&footballFieldHashLines, &footballFieldEndZones, leftSideLinePixel, rightSideLinePixel)
 
+	drawFootballFieldLines(&footballFieldLines, &footballFieldOutsideLines,
+		&footballFieldHashLines, &footballFieldEndZones, imd)
+
+	drawOffensivePlayersStartingPosition(imd)
+
+	var fiveYardOut routes.OffensePlayRoute
+
+	fiveYardOut = routes.DefineOutFiveYardRoute()
+
+	var rightTwin offensePlayerPosition
+
+	rightTwin.thickness = 2.0
+	rightTwin.radius = 5.0
+	rightTwin.minX = 400.0
+	rightTwin.minY = 145.0
+	rightTwin.maxX = 400.0
+	rightTwin.maxY = 145.0
+	rightTwin.color = colornames.Black
+
+	iteration := 0
+
 	for !win.Closed() {
+
 		win.Clear(colornames.Darkolivegreen)
 
-		//imd.Clear()
+		imd.Clear()
+
 		drawFootballFieldLines(&footballFieldLines, &footballFieldOutsideLines,
 			&footballFieldHashLines, &footballFieldEndZones, imd)
 
 		drawOffensivePlayersStartingPosition(imd)
 
+		drawOffenseRunPlay(imd, &fiveYardOut, &rightTwin, iteration)
+
 		imd.Draw(win)
+
+		//drawOffenseRunPlay(imd, increment)
 
 		// Add football
 		//pic, err := loadPicture("./images/football2.png")
@@ -268,6 +323,9 @@ func run() {
 		//sprite.Draw(win, pixel.IM.Moved(win.Bounds().Center()))
 
 		win.Update()
+
+		iteration += 1
+		println("iteration is: ", iteration)
 	}
 }
 
