@@ -1,7 +1,13 @@
 package main
 
 import (
+	"image"
 	"image/color"
+	"jbullfrog81/football-play-simulator/routes"
+	"os"
+
+	_ "image/jpeg"
+	_ "image/png"
 
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/imdraw"
@@ -16,6 +22,16 @@ type footballFieldLine struct {
 	maxX  float64
 	maxY  float64
 	color color.Color
+}
+
+type offensePlayerPosition struct {
+	thickness float64
+	radius    float64
+	minX      float64
+	minY      float64
+	maxX      float64
+	maxY      float64
+	color     color.Color
 }
 
 //create lines - yard hash marks on the football field
@@ -150,6 +166,78 @@ func drawFootballFieldLines(footballFieldLines *[]footballFieldLine, footballFie
 	footballFieldOutsideLines.draw(imd)
 }
 
+func drawOffensivePlayersStartingPosition(imd *imdraw.IMDraw) {
+
+	//Offensive Players
+	// left wide receiver
+	//imd.Color = colornames.Black
+	//imd.Push(pixel.V(180, 145))
+	//imd.Circle(5, 2)
+
+	// left guard
+	imd.Color = colornames.Black
+	imd.Push(pixel.V(240, 145))
+	imd.Circle(5, 2)
+
+	// center
+	imd.Color = colornames.Black
+	imd.Push(pixel.V(255, 140))
+	imd.Push(pixel.V(265, 150))
+	imd.Rectangle(2)
+
+	// right guard
+	imd.Color = colornames.Black
+	imd.Push(pixel.V(280, 145))
+	imd.Circle(5, 2)
+
+	// QB
+	imd.Color = colornames.Black
+	imd.Push(pixel.V(260, 130))
+	imd.Circle(5, 2)
+
+	// Right Side Twins
+	// inside twin
+	//imd.Color = colornames.Black
+	//imd.Push(pixel.V(400, 145))
+	//imd.Circle(5, 2)
+
+	// outside twin
+	//imd.Color = colornames.Black
+	//imd.Push(pixel.V(415, 145))
+	//imd.Circle(5, 2)
+
+}
+
+func drawOffenseRunPlay(imd *imdraw.IMDraw, route *routes.OffensePlayRoute, playerPosition *offensePlayerPosition, iteration int) {
+
+	println("starting draw offense run play")
+	if iteration < len(route.MinX) {
+		println("inside iteration loop")
+		playerPosition.minX += route.MinX[iteration]
+		playerPosition.minY += route.MinY[iteration]
+		playerPosition.maxX += route.MaxX[iteration]
+		playerPosition.maxY += route.MaxY[iteration]
+	}
+
+	imd.Color = playerPosition.color
+	imd.Push(pixel.V(playerPosition.minX, playerPosition.minY))
+	imd.Circle(playerPosition.radius, playerPosition.thickness)
+
+}
+
+func loadPicture(path string) (pixel.Picture, error) {
+	file, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+	img, _, err := image.Decode(file)
+	if err != nil {
+		return nil, err
+	}
+	return pixel.PictureDataFromImage(img), nil
+}
+
 func run() {
 	cfg := pixelgl.WindowConfig{
 		Title:  "Football Play Simulator",
@@ -171,44 +259,6 @@ func run() {
 
 	imd := imdraw.New(nil)
 
-	//Offensive Players
-	// left wide receiver
-	imd.Color = colornames.Black
-	imd.Push(pixel.V(100, 100))
-	imd.Circle(15, 2)
-
-	// left guard
-	imd.Color = colornames.Black
-	imd.Push(pixel.V(300, 100))
-	imd.Circle(15, 2)
-
-	// center
-	imd.Color = colornames.Black
-	imd.Push(pixel.V(325, 85))
-	imd.Push(pixel.V(355, 115))
-	imd.Rectangle(2)
-
-	// right guard
-	imd.Color = colornames.Black
-	imd.Push(pixel.V(380, 100))
-	imd.Circle(15, 2)
-
-	// QB
-	imd.Color = colornames.Black
-	imd.Push(pixel.V(340, 60))
-	imd.Circle(15, 2)
-
-	// Right Twins
-	// inside twin
-	imd.Color = colornames.Black
-	imd.Push(pixel.V(580, 100))
-	imd.Circle(15, 2)
-
-	// outside twin
-	imd.Color = colornames.Black
-	imd.Push(pixel.V(620, 100))
-	imd.Circle(15, 2)
-
 	// The lines on the football field:
 	// 1 pixel = 3.6 inches
 	// 10 pixels = 1 yard
@@ -226,16 +276,90 @@ func run() {
 	defineFootballFieldLines(&footballFieldLines, &footballFieldOutsideLines,
 		&footballFieldHashLines, &footballFieldEndZones, leftSideLinePixel, rightSideLinePixel)
 
+	drawFootballFieldLines(&footballFieldLines, &footballFieldOutsideLines,
+		&footballFieldHashLines, &footballFieldEndZones, imd)
+
+	drawOffensivePlayersStartingPosition(imd)
+
+	//var fiveYardOut routes.OffensePlayRoute
+	//var tenYardOut routes.OffensePlayRoute
+	var sevenYardOutAndUp routes.OffensePlayRoute
+	var tenYardPost routes.OffensePlayRoute
+	//var fiveYardWhip routes.OffensePlayRoute
+	var sevenYardWhip routes.OffensePlayRoute
+
+	//fiveYardOut = routes.DefineOutFiveYardRoute()
+	//tenYardOut = routes.DefineOutTenYardRoute()
+	sevenYardOutAndUp = routes.DefineOutAndUpSevenYardRoute()
+	tenYardPost = routes.DefinePostTenYardRoute()
+	//fiveYardWhip = routes.DefineWhipFiveYardRoute()
+	sevenYardWhip = routes.DefineWhipSevenYardRoute()
+
+	var rightTwin offensePlayerPosition
+
+	rightTwin.thickness = 2.0
+	rightTwin.radius = 5.0
+	rightTwin.minX = 400.0
+	rightTwin.minY = 145.0
+	rightTwin.maxX = 400.0
+	rightTwin.maxY = 145.0
+	rightTwin.color = colornames.Black
+
+	var leftTwin offensePlayerPosition
+
+	leftTwin.thickness = 2.0
+	leftTwin.radius = 5.0
+	leftTwin.minX = 415.0
+	leftTwin.minY = 145.0
+	leftTwin.maxX = 415.0
+	leftTwin.maxY = 145.0
+	leftTwin.color = colornames.Black
+
+	var leftWideReceiver offensePlayerPosition
+
+	leftWideReceiver.thickness = 2.0
+	leftWideReceiver.radius = 5.0
+	leftWideReceiver.minX = 180.0
+	leftWideReceiver.minY = 145.0
+	leftWideReceiver.maxX = 180.0
+	leftWideReceiver.maxY = 145.0
+	leftWideReceiver.color = colornames.Black
+
+	iteration := 0
+
 	for !win.Closed() {
+
 		win.Clear(colornames.Darkolivegreen)
 
-		//imd.Clear()
+		imd.Clear()
+
 		drawFootballFieldLines(&footballFieldLines, &footballFieldOutsideLines,
 			&footballFieldHashLines, &footballFieldEndZones, imd)
 
+		drawOffensivePlayersStartingPosition(imd)
+
+		drawOffenseRunPlay(imd, &tenYardPost, &rightTwin, iteration)
+
+		drawOffenseRunPlay(imd, &sevenYardWhip, &leftTwin, iteration)
+
+		drawOffenseRunPlay(imd, &sevenYardOutAndUp, &leftWideReceiver, iteration)
+
 		imd.Draw(win)
 
+		//drawOffenseRunPlay(imd, increment)
+
+		// Add football
+		//pic, err := loadPicture("./images/football2.png")
+		//if err != nil {
+		//	panic(err)
+		//}
+		//sprite := pixel.NewSprite(pic, pic.Bounds())
+		//sprite.Draw(win, pixel.IM.Moved(win.Bounds().Center()))
+
 		win.Update()
+
+		iteration += 1
+		println("iteration is: ", iteration)
 	}
 }
 
