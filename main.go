@@ -225,6 +225,17 @@ func drawOffenseRunPlay(imd *imdraw.IMDraw, route *routes.OffensePlayRoute, play
 
 }
 
+func defineOffensivePlayerPosition(playerPosition *offensePlayerPosition, thickness float64,
+	radius float64, minX float64, minY float64, maxX float64, maxY float64, color color.RGBA) {
+	playerPosition.thickness = thickness
+	playerPosition.radius = radius
+	playerPosition.minX = minX
+	playerPosition.minY = minY
+	playerPosition.maxX = maxX
+	playerPosition.maxY = maxY
+	playerPosition.color = color
+}
+
 func loadPicture(path string) (pixel.Picture, error) {
 	file, err := os.Open(path)
 	if err != nil {
@@ -296,40 +307,27 @@ func run() {
 	sevenYardWhip = routes.DefineWhipSevenYardRoute()
 
 	var rightTwin offensePlayerPosition
-
-	rightTwin.thickness = 2.0
-	rightTwin.radius = 5.0
-	rightTwin.minX = 400.0
-	rightTwin.minY = 145.0
-	rightTwin.maxX = 400.0
-	rightTwin.maxY = 145.0
-	rightTwin.color = colornames.Black
-
 	var leftTwin offensePlayerPosition
-
-	leftTwin.thickness = 2.0
-	leftTwin.radius = 5.0
-	leftTwin.minX = 415.0
-	leftTwin.minY = 145.0
-	leftTwin.maxX = 415.0
-	leftTwin.maxY = 145.0
-	leftTwin.color = colornames.Black
-
 	var leftWideReceiver offensePlayerPosition
 
-	leftWideReceiver.thickness = 2.0
-	leftWideReceiver.radius = 5.0
-	leftWideReceiver.minX = 180.0
-	leftWideReceiver.minY = 145.0
-	leftWideReceiver.maxX = 180.0
-	leftWideReceiver.maxY = 145.0
-	leftWideReceiver.color = colornames.Black
+	defineOffensivePlayerPosition(&rightTwin, 2.0, 5.0, 400.0, 145.0, 400.0, 145.0, colornames.Black)
+	defineOffensivePlayerPosition(&leftTwin, 2.0, 5.0, 415.0, 145.0, 415.0, 145.0, colornames.Black)
+	defineOffensivePlayerPosition(&leftWideReceiver, 2.0, 5.0, 180.0, 145.0, 180.0, 145.0, colornames.Black)
 
 	iteration := 0
 
 	for !win.Closed() {
 
 		win.Clear(colornames.Darkolivegreen)
+
+		// restart the play when pressing enter
+		if win.JustPressed(pixelgl.KeyEnter) {
+			drawOffensivePlayersStartingPosition(imd)
+			defineOffensivePlayerPosition(&rightTwin, 2.0, 5.0, 400.0, 145.0, 400.0, 145.0, colornames.Black)
+			defineOffensivePlayerPosition(&leftTwin, 2.0, 5.0, 415.0, 145.0, 415.0, 145.0, colornames.Black)
+			defineOffensivePlayerPosition(&leftWideReceiver, 2.0, 5.0, 180.0, 145.0, 180.0, 145.0, colornames.Black)
+			iteration = 0
+		}
 
 		imd.Clear()
 
