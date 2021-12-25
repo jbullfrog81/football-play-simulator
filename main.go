@@ -170,9 +170,9 @@ func drawOffensivePlayersStartingPosition(imd *imdraw.IMDraw) {
 
 	//Offensive Players
 	// left wide receiver
-	imd.Color = colornames.Black
-	imd.Push(pixel.V(180, 145))
-	imd.Circle(5, 2)
+	//imd.Color = colornames.Black
+	//imd.Push(pixel.V(180, 145))
+	//imd.Circle(5, 2)
 
 	// left guard
 	imd.Color = colornames.Black
@@ -281,11 +281,19 @@ func run() {
 
 	drawOffensivePlayersStartingPosition(imd)
 
-	var fiveYardOut routes.OffensePlayRoute
-	var tenYardOut routes.OffensePlayRoute
+	//var fiveYardOut routes.OffensePlayRoute
+	//var tenYardOut routes.OffensePlayRoute
+	var sevenYardOutAndUp routes.OffensePlayRoute
+	var tenYardPost routes.OffensePlayRoute
+	//var fiveYardWhip routes.OffensePlayRoute
+	var sevenYardWhip routes.OffensePlayRoute
 
-	fiveYardOut = routes.DefineOutFiveYardRoute()
-	tenYardOut = routes.DefineOutTenYardRoute()
+	//fiveYardOut = routes.DefineOutFiveYardRoute()
+	//tenYardOut = routes.DefineOutTenYardRoute()
+	sevenYardOutAndUp = routes.DefineOutAndUpSevenYardRoute()
+	tenYardPost = routes.DefinePostTenYardRoute()
+	//fiveYardWhip = routes.DefineWhipFiveYardRoute()
+	sevenYardWhip = routes.DefineWhipSevenYardRoute()
 
 	var rightTwin offensePlayerPosition
 
@@ -307,6 +315,16 @@ func run() {
 	leftTwin.maxY = 145.0
 	leftTwin.color = colornames.Black
 
+	var leftWideReceiver offensePlayerPosition
+
+	leftWideReceiver.thickness = 2.0
+	leftWideReceiver.radius = 5.0
+	leftWideReceiver.minX = 180.0
+	leftWideReceiver.minY = 145.0
+	leftWideReceiver.maxX = 180.0
+	leftWideReceiver.maxY = 145.0
+	leftWideReceiver.color = colornames.Black
+
 	iteration := 0
 
 	for !win.Closed() {
@@ -320,9 +338,11 @@ func run() {
 
 		drawOffensivePlayersStartingPosition(imd)
 
-		drawOffenseRunPlay(imd, &fiveYardOut, &rightTwin, iteration)
+		drawOffenseRunPlay(imd, &tenYardPost, &rightTwin, iteration)
 
-		drawOffenseRunPlay(imd, &tenYardOut, &leftTwin, iteration)
+		drawOffenseRunPlay(imd, &sevenYardWhip, &leftTwin, iteration)
+
+		drawOffenseRunPlay(imd, &sevenYardOutAndUp, &leftWideReceiver, iteration)
 
 		imd.Draw(win)
 
