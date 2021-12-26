@@ -284,7 +284,8 @@ func run() {
 	var myTeamOffenseInitialFormation formations.OffenseTeamFormation
 
 	//This is the base offense formation
-	myTeamOffenseInitialFormation = formations.SetOffensiveTeamFormationBunchRight()
+	//myTeamOffenseInitialFormation = formations.SetOffensiveTeamFormationShotgunBunchRight()
+	myTeamOffenseInitialFormation = formations.SetOffensiveTeamFormationShotgunTripsLeft()
 
 	drawOffensivePlayers(imd, &myTeamOffenseInitialFormation)
 

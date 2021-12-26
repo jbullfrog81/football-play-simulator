@@ -71,7 +71,7 @@ func DefineOffensiveTeamFormation(Player1 *OffensePlayer, player2 *OffensePlayer
 	return OffensiveTeam
 }
 
-func SetOffensiveTeamFormationBunchRight() OffenseTeamFormation {
+func SetOffensiveTeamFormationShotgunBunchRight() OffenseTeamFormation {
 
 	var leftGuard OffensePlayer
 	var center OffensePlayer
@@ -92,14 +92,320 @@ func SetOffensiveTeamFormationBunchRight() OffenseTeamFormation {
 	leftGuard.Coordinates = DefineOffensivePlayerCoordinates(240.0, 145.0, 240.0, 145.0)
 	center.Coordinates = DefineOffensivePlayerCoordinates(260.0, 145.0, 260.0, 145.0)
 	rightGuard.Coordinates = DefineOffensivePlayerCoordinates(280.0, 145.0, 280.0, 145.0)
-	quarterBack.Coordinates = DefineOffensivePlayerCoordinates(260.0, 130.0, 260.0, 130.0)
+	quarterBack.Coordinates = DefineOffensivePlayerCoordinates(260.0, 105.0, 260.0, 105.0)
 	receiver1.Coordinates = DefineOffensivePlayerCoordinates(360.0, 145.0, 360.0, 145.0)
-	receiver2.Coordinates = DefineOffensivePlayerCoordinates(370.0, 130.0, 370.0, 145.0)
+	receiver2.Coordinates = DefineOffensivePlayerCoordinates(370.0, 130.0, 370.0, 130.0)
 	receiver3.Coordinates = DefineOffensivePlayerCoordinates(380.0, 145.0, 380.0, 145.0)
 
 	var offensiveTeam OffenseTeamFormation
 
 	offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &receiver1, &receiver2, &receiver3)
+
+	return offensiveTeam
+
+}
+
+func SetOffensiveTeamFormationShotgunBunchLeft() OffenseTeamFormation {
+
+	var leftGuard OffensePlayer
+	var center OffensePlayer
+	var rightGuard OffensePlayer
+	var quarterBack OffensePlayer
+	var receiver1 OffensePlayer
+	var receiver2 OffensePlayer
+	var receiver3 OffensePlayer
+
+	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Black)
+	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Black)
+	rightGuard.Attributes = DefineOffensivePlayerAttributes("Right Guard", 2.0, 5.0, colornames.Black)
+	quarterBack.Attributes = DefineOffensivePlayerAttributes("Quarterback", 2.0, 5.0, colornames.Black)
+	receiver1.Attributes = DefineOffensivePlayerAttributes("Wide Receiver", 2.0, 5.0, colornames.Black)
+	receiver2.Attributes = DefineOffensivePlayerAttributes("Wide Receiver", 2.0, 5.0, colornames.Black)
+	receiver3.Attributes = DefineOffensivePlayerAttributes("Wide Receiver", 2.0, 5.0, colornames.Black)
+
+	leftGuard.Coordinates = DefineOffensivePlayerCoordinates(240.0, 145.0, 240.0, 145.0)
+	center.Coordinates = DefineOffensivePlayerCoordinates(260.0, 145.0, 260.0, 145.0)
+	rightGuard.Coordinates = DefineOffensivePlayerCoordinates(280.0, 145.0, 280.0, 145.0)
+	quarterBack.Coordinates = DefineOffensivePlayerCoordinates(260.0, 105.0, 260.0, 105.0)
+	receiver1.Coordinates = DefineOffensivePlayerCoordinates(160.0, 145.0, 160.0, 145.0)
+	receiver2.Coordinates = DefineOffensivePlayerCoordinates(150.0, 130.0, 150.0, 130.0)
+	receiver3.Coordinates = DefineOffensivePlayerCoordinates(140.0, 145.0, 140.0, 145.0)
+
+	var offensiveTeam OffenseTeamFormation
+
+	offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &receiver1, &receiver2, &receiver3)
+
+	return offensiveTeam
+
+}
+
+func SetOffensiveTeamFormationShotgunTripsLeft() OffenseTeamFormation {
+
+	var leftGuard OffensePlayer
+	var center OffensePlayer
+	var rightGuard OffensePlayer
+	var quarterBack OffensePlayer
+	var receiver1 OffensePlayer
+	var receiver2 OffensePlayer
+	var receiver3 OffensePlayer
+
+	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Black)
+	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Black)
+	rightGuard.Attributes = DefineOffensivePlayerAttributes("Right Guard", 2.0, 5.0, colornames.Black)
+	quarterBack.Attributes = DefineOffensivePlayerAttributes("Quarterback", 2.0, 5.0, colornames.Black)
+	receiver1.Attributes = DefineOffensivePlayerAttributes("Wide Receiver", 2.0, 5.0, colornames.Black)
+	receiver2.Attributes = DefineOffensivePlayerAttributes("Wide Receiver", 2.0, 5.0, colornames.Black)
+	receiver3.Attributes = DefineOffensivePlayerAttributes("Wide Receiver", 2.0, 5.0, colornames.Black)
+
+	leftGuard.Coordinates = DefineOffensivePlayerCoordinates(240.0, 145.0, 240.0, 145.0)
+	center.Coordinates = DefineOffensivePlayerCoordinates(260.0, 145.0, 260.0, 145.0)
+	rightGuard.Coordinates = DefineOffensivePlayerCoordinates(280.0, 145.0, 280.0, 145.0)
+	quarterBack.Coordinates = DefineOffensivePlayerCoordinates(260.0, 105.0, 260.0, 105.0)
+	receiver1.Coordinates = DefineOffensivePlayerCoordinates(160.0, 145.0, 160.0, 145.0)
+	receiver2.Coordinates = DefineOffensivePlayerCoordinates(140.0, 145.0, 140.0, 145.0)
+	receiver3.Coordinates = DefineOffensivePlayerCoordinates(120.0, 145.0, 120.0, 145.0)
+
+	var offensiveTeam OffenseTeamFormation
+
+	offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &receiver1, &receiver2, &receiver3)
+
+	return offensiveTeam
+
+}
+
+func SetOffensiveTeamFormationShotgunTripsRight() OffenseTeamFormation {
+
+	var leftGuard OffensePlayer
+	var center OffensePlayer
+	var rightGuard OffensePlayer
+	var quarterBack OffensePlayer
+	var receiver1 OffensePlayer
+	var receiver2 OffensePlayer
+	var receiver3 OffensePlayer
+
+	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Black)
+	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Black)
+	rightGuard.Attributes = DefineOffensivePlayerAttributes("Right Guard", 2.0, 5.0, colornames.Black)
+	quarterBack.Attributes = DefineOffensivePlayerAttributes("Quarterback", 2.0, 5.0, colornames.Black)
+	receiver1.Attributes = DefineOffensivePlayerAttributes("Wide Receiver", 2.0, 5.0, colornames.Black)
+	receiver2.Attributes = DefineOffensivePlayerAttributes("Wide Receiver", 2.0, 5.0, colornames.Black)
+	receiver3.Attributes = DefineOffensivePlayerAttributes("Wide Receiver", 2.0, 5.0, colornames.Black)
+
+	leftGuard.Coordinates = DefineOffensivePlayerCoordinates(240.0, 145.0, 240.0, 145.0)
+	center.Coordinates = DefineOffensivePlayerCoordinates(260.0, 145.0, 260.0, 145.0)
+	rightGuard.Coordinates = DefineOffensivePlayerCoordinates(280.0, 145.0, 280.0, 145.0)
+	quarterBack.Coordinates = DefineOffensivePlayerCoordinates(260.0, 105.0, 260.0, 105.0)
+	receiver1.Coordinates = DefineOffensivePlayerCoordinates(360.0, 145.0, 360.0, 145.0)
+	receiver2.Coordinates = DefineOffensivePlayerCoordinates(380.0, 145.0, 380.0, 145.0)
+	receiver3.Coordinates = DefineOffensivePlayerCoordinates(400.0, 145.0, 400.0, 145.0)
+
+	var offensiveTeam OffenseTeamFormation
+
+	offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &receiver1, &receiver2, &receiver3)
+
+	return offensiveTeam
+
+}
+
+func SetOffensiveTeamFormationShotgunTwinsRightBackRight() OffenseTeamFormation {
+
+	var leftGuard OffensePlayer
+	var center OffensePlayer
+	var rightGuard OffensePlayer
+	var quarterBack OffensePlayer
+	var receiver1 OffensePlayer
+	var receiver2 OffensePlayer
+	var runningBack OffensePlayer
+
+	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Black)
+	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Black)
+	rightGuard.Attributes = DefineOffensivePlayerAttributes("Right Guard", 2.0, 5.0, colornames.Black)
+	quarterBack.Attributes = DefineOffensivePlayerAttributes("Quarterback", 2.0, 5.0, colornames.Black)
+	runningBack.Attributes = DefineOffensivePlayerAttributes("Running Back", 2.0, 5.0, colornames.Black)
+	receiver1.Attributes = DefineOffensivePlayerAttributes("Wide Receiver", 2.0, 5.0, colornames.Black)
+	receiver2.Attributes = DefineOffensivePlayerAttributes("Wide Receiver", 2.0, 5.0, colornames.Black)
+
+	leftGuard.Coordinates = DefineOffensivePlayerCoordinates(240.0, 145.0, 240.0, 145.0)
+	center.Coordinates = DefineOffensivePlayerCoordinates(260.0, 145.0, 260.0, 145.0)
+	rightGuard.Coordinates = DefineOffensivePlayerCoordinates(280.0, 145.0, 280.0, 145.0)
+	quarterBack.Coordinates = DefineOffensivePlayerCoordinates(260.0, 105.0, 260.0, 105.0)
+	runningBack.Coordinates = DefineOffensivePlayerCoordinates(280.0, 85.0, 280.0, 85.0)
+	receiver1.Coordinates = DefineOffensivePlayerCoordinates(360.0, 145.0, 360.0, 145.0)
+	receiver2.Coordinates = DefineOffensivePlayerCoordinates(380.0, 145.0, 380.0, 145.0)
+
+	var offensiveTeam OffenseTeamFormation
+
+	offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &runningBack, &receiver1, &receiver2)
+
+	return offensiveTeam
+
+}
+
+func SetOffensiveTeamFormationShotgunTwinsRightBackLeft() OffenseTeamFormation {
+
+	var leftGuard OffensePlayer
+	var center OffensePlayer
+	var rightGuard OffensePlayer
+	var quarterBack OffensePlayer
+	var receiver1 OffensePlayer
+	var receiver2 OffensePlayer
+	var runningBack OffensePlayer
+
+	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Black)
+	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Black)
+	rightGuard.Attributes = DefineOffensivePlayerAttributes("Right Guard", 2.0, 5.0, colornames.Black)
+	quarterBack.Attributes = DefineOffensivePlayerAttributes("Quarterback", 2.0, 5.0, colornames.Black)
+	runningBack.Attributes = DefineOffensivePlayerAttributes("Running Back", 2.0, 5.0, colornames.Black)
+	receiver1.Attributes = DefineOffensivePlayerAttributes("Wide Receiver", 2.0, 5.0, colornames.Black)
+	receiver2.Attributes = DefineOffensivePlayerAttributes("Wide Receiver", 2.0, 5.0, colornames.Black)
+
+	leftGuard.Coordinates = DefineOffensivePlayerCoordinates(240.0, 145.0, 240.0, 145.0)
+	center.Coordinates = DefineOffensivePlayerCoordinates(260.0, 145.0, 260.0, 145.0)
+	rightGuard.Coordinates = DefineOffensivePlayerCoordinates(280.0, 145.0, 280.0, 145.0)
+	quarterBack.Coordinates = DefineOffensivePlayerCoordinates(260.0, 105.0, 260.0, 105.0)
+	runningBack.Coordinates = DefineOffensivePlayerCoordinates(240.0, 85.0, 280.0, 85.0)
+	receiver1.Coordinates = DefineOffensivePlayerCoordinates(360.0, 145.0, 360.0, 145.0)
+	receiver2.Coordinates = DefineOffensivePlayerCoordinates(380.0, 145.0, 380.0, 145.0)
+
+	var offensiveTeam OffenseTeamFormation
+
+	offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &runningBack, &receiver1, &receiver2)
+
+	return offensiveTeam
+
+}
+
+func SetOffensiveTeamFormationShotgunTwinsLeftBackRight() OffenseTeamFormation {
+
+	var leftGuard OffensePlayer
+	var center OffensePlayer
+	var rightGuard OffensePlayer
+	var quarterBack OffensePlayer
+	var receiver1 OffensePlayer
+	var receiver2 OffensePlayer
+	var runningBack OffensePlayer
+
+	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Black)
+	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Black)
+	rightGuard.Attributes = DefineOffensivePlayerAttributes("Right Guard", 2.0, 5.0, colornames.Black)
+	quarterBack.Attributes = DefineOffensivePlayerAttributes("Quarterback", 2.0, 5.0, colornames.Black)
+	runningBack.Attributes = DefineOffensivePlayerAttributes("Running Back", 2.0, 5.0, colornames.Black)
+	receiver1.Attributes = DefineOffensivePlayerAttributes("Wide Receiver", 2.0, 5.0, colornames.Black)
+	receiver2.Attributes = DefineOffensivePlayerAttributes("Wide Receiver", 2.0, 5.0, colornames.Black)
+
+	leftGuard.Coordinates = DefineOffensivePlayerCoordinates(240.0, 145.0, 240.0, 145.0)
+	center.Coordinates = DefineOffensivePlayerCoordinates(260.0, 145.0, 260.0, 145.0)
+	rightGuard.Coordinates = DefineOffensivePlayerCoordinates(280.0, 145.0, 280.0, 145.0)
+	quarterBack.Coordinates = DefineOffensivePlayerCoordinates(260.0, 105.0, 260.0, 105.0)
+	runningBack.Coordinates = DefineOffensivePlayerCoordinates(280.0, 85.0, 280.0, 85.0)
+	receiver1.Coordinates = DefineOffensivePlayerCoordinates(160.0, 145.0, 160.0, 145.0)
+	receiver2.Coordinates = DefineOffensivePlayerCoordinates(180.0, 145.0, 180.0, 145.0)
+
+	var offensiveTeam OffenseTeamFormation
+
+	offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &runningBack, &receiver1, &receiver2)
+
+	return offensiveTeam
+
+}
+
+func SetOffensiveTeamFormationShotgunTwinsLeftBackLeft() OffenseTeamFormation {
+
+	var leftGuard OffensePlayer
+	var center OffensePlayer
+	var rightGuard OffensePlayer
+	var quarterBack OffensePlayer
+	var receiver1 OffensePlayer
+	var receiver2 OffensePlayer
+	var runningBack OffensePlayer
+
+	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Black)
+	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Black)
+	rightGuard.Attributes = DefineOffensivePlayerAttributes("Right Guard", 2.0, 5.0, colornames.Black)
+	quarterBack.Attributes = DefineOffensivePlayerAttributes("Quarterback", 2.0, 5.0, colornames.Black)
+	runningBack.Attributes = DefineOffensivePlayerAttributes("Running Back", 2.0, 5.0, colornames.Black)
+	receiver1.Attributes = DefineOffensivePlayerAttributes("Wide Receiver", 2.0, 5.0, colornames.Black)
+	receiver2.Attributes = DefineOffensivePlayerAttributes("Wide Receiver", 2.0, 5.0, colornames.Black)
+
+	leftGuard.Coordinates = DefineOffensivePlayerCoordinates(240.0, 145.0, 240.0, 145.0)
+	center.Coordinates = DefineOffensivePlayerCoordinates(260.0, 145.0, 260.0, 145.0)
+	rightGuard.Coordinates = DefineOffensivePlayerCoordinates(280.0, 145.0, 280.0, 145.0)
+	quarterBack.Coordinates = DefineOffensivePlayerCoordinates(260.0, 105.0, 260.0, 105.0)
+	runningBack.Coordinates = DefineOffensivePlayerCoordinates(240.0, 85.0, 280.0, 85.0)
+	receiver1.Coordinates = DefineOffensivePlayerCoordinates(160.0, 145.0, 160.0, 145.0)
+	receiver2.Coordinates = DefineOffensivePlayerCoordinates(180.0, 145.0, 180.0, 145.0)
+
+	var offensiveTeam OffenseTeamFormation
+
+	offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &runningBack, &receiver1, &receiver2)
+
+	return offensiveTeam
+
+}
+
+func SetOffensiveTeamFormationShotgunSplitBackRecieverRight() OffenseTeamFormation {
+
+	var leftGuard OffensePlayer
+	var center OffensePlayer
+	var rightGuard OffensePlayer
+	var quarterBack OffensePlayer
+	var receiver1 OffensePlayer
+	var runningBackRight OffensePlayer
+	var runningBackLeft OffensePlayer
+
+	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Black)
+	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Black)
+	rightGuard.Attributes = DefineOffensivePlayerAttributes("Right Guard", 2.0, 5.0, colornames.Black)
+	quarterBack.Attributes = DefineOffensivePlayerAttributes("Quarterback", 2.0, 5.0, colornames.Black)
+	runningBackLeft.Attributes = DefineOffensivePlayerAttributes("Running Back", 2.0, 5.0, colornames.Black)
+	runningBackRight.Attributes = DefineOffensivePlayerAttributes("Running Back", 2.0, 5.0, colornames.Black)
+	receiver1.Attributes = DefineOffensivePlayerAttributes("Wide Receiver", 2.0, 5.0, colornames.Black)
+
+	leftGuard.Coordinates = DefineOffensivePlayerCoordinates(240.0, 145.0, 240.0, 145.0)
+	center.Coordinates = DefineOffensivePlayerCoordinates(260.0, 145.0, 260.0, 145.0)
+	rightGuard.Coordinates = DefineOffensivePlayerCoordinates(280.0, 145.0, 280.0, 145.0)
+	quarterBack.Coordinates = DefineOffensivePlayerCoordinates(260.0, 105.0, 260.0, 105.0)
+	runningBackLeft.Coordinates = DefineOffensivePlayerCoordinates(240.0, 85.0, 240.0, 85.0)
+	runningBackRight.Coordinates = DefineOffensivePlayerCoordinates(280.0, 85.0, 280.0, 85.0)
+	receiver1.Coordinates = DefineOffensivePlayerCoordinates(360.0, 145.0, 360.0, 145.0)
+
+	var offensiveTeam OffenseTeamFormation
+
+	offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &runningBackRight, &receiver1, &runningBackLeft)
+
+	return offensiveTeam
+
+}
+
+func SetOffensiveTeamFormationShotgunSplitBackRecieverLeft() OffenseTeamFormation {
+
+	var leftGuard OffensePlayer
+	var center OffensePlayer
+	var rightGuard OffensePlayer
+	var quarterBack OffensePlayer
+	var receiver1 OffensePlayer
+	var runningBackRight OffensePlayer
+	var runningBackLeft OffensePlayer
+
+	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Black)
+	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Black)
+	rightGuard.Attributes = DefineOffensivePlayerAttributes("Right Guard", 2.0, 5.0, colornames.Black)
+	quarterBack.Attributes = DefineOffensivePlayerAttributes("Quarterback", 2.0, 5.0, colornames.Black)
+	runningBackLeft.Attributes = DefineOffensivePlayerAttributes("Running Back", 2.0, 5.0, colornames.Black)
+	runningBackRight.Attributes = DefineOffensivePlayerAttributes("Running Back", 2.0, 5.0, colornames.Black)
+	receiver1.Attributes = DefineOffensivePlayerAttributes("Wide Receiver", 2.0, 5.0, colornames.Black)
+
+	leftGuard.Coordinates = DefineOffensivePlayerCoordinates(240.0, 145.0, 240.0, 145.0)
+	center.Coordinates = DefineOffensivePlayerCoordinates(260.0, 145.0, 260.0, 145.0)
+	rightGuard.Coordinates = DefineOffensivePlayerCoordinates(280.0, 145.0, 280.0, 145.0)
+	quarterBack.Coordinates = DefineOffensivePlayerCoordinates(260.0, 105.0, 260.0, 105.0)
+	runningBackLeft.Coordinates = DefineOffensivePlayerCoordinates(240.0, 85.0, 240.0, 85.0)
+	runningBackRight.Coordinates = DefineOffensivePlayerCoordinates(280.0, 85.0, 280.0, 85.0)
+	receiver1.Coordinates = DefineOffensivePlayerCoordinates(160.0, 145.0, 160.0, 145.0)
+
+	var offensiveTeam OffenseTeamFormation
+
+	offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &runningBackRight, &receiver1, &runningBackLeft)
 
 	return offensiveTeam
 
