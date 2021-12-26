@@ -347,19 +347,13 @@ func run() {
 				drawOffensivePlayers(imd, &myTeamOffenseInitialFormation)
 			}
 
-			drawOffensePlayerRunPlay(imd, &tenYardPost, &myTeamOffenseRunPlayFormation.Player5, iteration)
-
-			drawOffensePlayerRunPlay(imd, &sevenYardWhip, &myTeamOffenseRunPlayFormation.Player6, iteration)
-
-			drawOffensePlayerRunPlay(imd, &sevenYardOutAndUp, &myTeamOffenseRunPlayFormation.Player7, iteration)
-
 			drawOffensePlayerRunPlay(imd, &fiveYardOut, &myTeamOffenseRunPlayFormation.Player1, iteration)
-
 			drawOffensePlayerRunPlay(imd, &block, &myTeamOffenseRunPlayFormation.Player2, iteration)
-
 			drawOffensePlayerRunPlay(imd, &tenYardOut, &myTeamOffenseRunPlayFormation.Player3, iteration)
-
 			drawOffensePlayerRunPlay(imd, &block, &myTeamOffenseRunPlayFormation.Player4, iteration)
+			drawOffensePlayerRunPlay(imd, &tenYardPost, &myTeamOffenseRunPlayFormation.Player5, iteration)
+			drawOffensePlayerRunPlay(imd, &sevenYardWhip, &myTeamOffenseRunPlayFormation.Player6, iteration)
+			drawOffensePlayerRunPlay(imd, &sevenYardOutAndUp, &myTeamOffenseRunPlayFormation.Player7, iteration)
 
 			imd.Draw(win)
 
