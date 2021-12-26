@@ -171,3 +171,16 @@ func DefineOutAndUpSevenYardRoute() OffensePlayRoute {
 	return route
 
 }
+
+func DefineBlockRoute() OffensePlayRoute {
+
+	var route OffensePlayRoute
+
+	route.MinX = append(route.MinX, float64(0))
+	route.MinY = append(route.MinY, float64(0))
+	route.MaxX = append(route.MaxX, float64(0))
+	route.MaxY = append(route.MaxY, float64(0))
+
+	return route
+
+}

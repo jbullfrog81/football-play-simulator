@@ -3,6 +3,7 @@ package main
 import (
 	"image"
 	"image/color"
+	formations "jbullfrog81/football-play-simulator/formations"
 	"jbullfrog81/football-play-simulator/routes"
 	"os"
 
@@ -166,62 +167,52 @@ func drawFootballFieldLines(footballFieldLines *[]footballFieldLine, footballFie
 	footballFieldOutsideLines.draw(imd)
 }
 
-func drawOffensivePlayersStartingPosition(imd *imdraw.IMDraw) {
+func drawOffensivePlayers(imd *imdraw.IMDraw, team *formations.OffenseTeamFormation) {
 
-	//Offensive Players
-	// left wide receiver
-	//imd.Color = colornames.Black
-	//imd.Push(pixel.V(180, 145))
-	//imd.Circle(5, 2)
+	imd.Color = team.Player1.Attributes.Color
+	imd.Push(pixel.V(team.Player1.Coordinates.MinX, team.Player1.Coordinates.MinY))
+	imd.Circle(team.Player1.Attributes.Radius, team.Player1.Attributes.Thickness)
 
-	// left guard
-	imd.Color = colornames.Black
-	imd.Push(pixel.V(240, 145))
-	imd.Circle(5, 2)
+	imd.Color = team.Player2.Attributes.Color
+	imd.Push(pixel.V(team.Player2.Coordinates.MinX, team.Player2.Coordinates.MinY))
+	imd.Circle(team.Player2.Attributes.Radius, team.Player2.Attributes.Thickness)
 
-	// center
-	imd.Color = colornames.Black
-	imd.Push(pixel.V(255, 140))
-	imd.Push(pixel.V(265, 150))
-	imd.Rectangle(2)
+	imd.Color = team.Player3.Attributes.Color
+	imd.Push(pixel.V(team.Player3.Coordinates.MinX, team.Player3.Coordinates.MinY))
+	imd.Circle(team.Player3.Attributes.Radius, team.Player3.Attributes.Thickness)
 
-	// right guard
-	imd.Color = colornames.Black
-	imd.Push(pixel.V(280, 145))
-	imd.Circle(5, 2)
+	imd.Color = team.Player4.Attributes.Color
+	imd.Push(pixel.V(team.Player4.Coordinates.MinX, team.Player4.Coordinates.MinY))
+	imd.Circle(team.Player4.Attributes.Radius, team.Player4.Attributes.Thickness)
 
-	// QB
-	imd.Color = colornames.Black
-	imd.Push(pixel.V(260, 130))
-	imd.Circle(5, 2)
+	imd.Color = team.Player5.Attributes.Color
+	imd.Push(pixel.V(team.Player5.Coordinates.MinX, team.Player5.Coordinates.MinY))
+	imd.Circle(team.Player5.Attributes.Radius, team.Player5.Attributes.Thickness)
 
-	// Right Side Twins
-	// inside twin
-	//imd.Color = colornames.Black
-	//imd.Push(pixel.V(400, 145))
-	//imd.Circle(5, 2)
+	imd.Color = team.Player6.Attributes.Color
+	imd.Push(pixel.V(team.Player6.Coordinates.MinX, team.Player6.Coordinates.MinY))
+	imd.Circle(team.Player6.Attributes.Radius, team.Player6.Attributes.Thickness)
 
-	// outside twin
-	//imd.Color = colornames.Black
-	//imd.Push(pixel.V(415, 145))
-	//imd.Circle(5, 2)
+	imd.Color = team.Player7.Attributes.Color
+	imd.Push(pixel.V(team.Player7.Coordinates.MinX, team.Player7.Coordinates.MinY))
+	imd.Circle(team.Player7.Attributes.Radius, team.Player7.Attributes.Thickness)
 
 }
 
-func drawOffenseRunPlay(imd *imdraw.IMDraw, route *routes.OffensePlayRoute, playerPosition *offensePlayerPosition, iteration int) {
+func drawOffensePlayerRunPlay(imd *imdraw.IMDraw, route *routes.OffensePlayRoute, playerPosition *formations.OffensePlayer, iteration int) {
 
 	println("starting draw offense run play")
 	if iteration < len(route.MinX) {
 		println("inside iteration loop")
-		playerPosition.minX += route.MinX[iteration]
-		playerPosition.minY += route.MinY[iteration]
-		playerPosition.maxX += route.MaxX[iteration]
-		playerPosition.maxY += route.MaxY[iteration]
+		playerPosition.Coordinates.MinX += route.MinX[iteration]
+		playerPosition.Coordinates.MinY += route.MinY[iteration]
+		playerPosition.Coordinates.MaxX += route.MaxX[iteration]
+		playerPosition.Coordinates.MaxY += route.MaxY[iteration]
 	}
 
-	imd.Color = playerPosition.color
-	imd.Push(pixel.V(playerPosition.minX, playerPosition.minY))
-	imd.Circle(playerPosition.radius, playerPosition.thickness)
+	imd.Color = playerPosition.Attributes.Color
+	imd.Push(pixel.V(playerPosition.Coordinates.MinX, playerPosition.Coordinates.MinY))
+	imd.Circle(playerPosition.Attributes.Radius, playerPosition.Attributes.Thickness)
 
 }
 
@@ -290,29 +281,39 @@ func run() {
 	drawFootballFieldLines(&footballFieldLines, &footballFieldOutsideLines,
 		&footballFieldHashLines, &footballFieldEndZones, imd)
 
-	drawOffensivePlayersStartingPosition(imd)
+	var myTeamOffenseInitialFormation formations.OffenseTeamFormation
 
-	//var fiveYardOut routes.OffensePlayRoute
-	//var tenYardOut routes.OffensePlayRoute
+	//This is the base offense formation
+	myTeamOffenseInitialFormation = formations.SetOffensiveTeamFormationBunchRight()
+
+	drawOffensivePlayers(imd, &myTeamOffenseInitialFormation)
+
+	//Use this for moving the players during the play
+	myTeamOffenseRunPlayFormation := myTeamOffenseInitialFormation
+
+	var fiveYardOut routes.OffensePlayRoute
+	var tenYardOut routes.OffensePlayRoute
 	var sevenYardOutAndUp routes.OffensePlayRoute
 	var tenYardPost routes.OffensePlayRoute
 	//var fiveYardWhip routes.OffensePlayRoute
 	var sevenYardWhip routes.OffensePlayRoute
+	var block routes.OffensePlayRoute
 
-	//fiveYardOut = routes.DefineOutFiveYardRoute()
-	//tenYardOut = routes.DefineOutTenYardRoute()
+	block = routes.DefineBlockRoute()
+	fiveYardOut = routes.DefineOutFiveYardRoute()
+	tenYardOut = routes.DefineOutTenYardRoute()
 	sevenYardOutAndUp = routes.DefineOutAndUpSevenYardRoute()
 	tenYardPost = routes.DefinePostTenYardRoute()
 	//fiveYardWhip = routes.DefineWhipFiveYardRoute()
 	sevenYardWhip = routes.DefineWhipSevenYardRoute()
 
-	var rightTwin offensePlayerPosition
-	var leftTwin offensePlayerPosition
-	var leftWideReceiver offensePlayerPosition
+	//var rightTwin offensePlayerPosition
+	//var leftTwin offensePlayerPosition
+	//var leftWideReceiver offensePlayerPosition
 
-	defineOffensivePlayerPosition(&rightTwin, 2.0, 5.0, 400.0, 145.0, 400.0, 145.0, colornames.Black)
-	defineOffensivePlayerPosition(&leftTwin, 2.0, 5.0, 415.0, 145.0, 415.0, 145.0, colornames.Black)
-	defineOffensivePlayerPosition(&leftWideReceiver, 2.0, 5.0, 180.0, 145.0, 180.0, 145.0, colornames.Black)
+	//defineOffensivePlayerPosition(&rightTwin, 2.0, 5.0, 400.0, 145.0, 400.0, 145.0, colornames.Black)
+	//defineOffensivePlayerPosition(&leftTwin, 2.0, 5.0, 415.0, 145.0, 415.0, 145.0, colornames.Black)
+	//defineOffensivePlayerPosition(&leftWideReceiver, 2.0, 5.0, 180.0, 145.0, 180.0, 145.0, colornames.Black)
 
 	iteration := 0
 
@@ -325,10 +326,11 @@ func run() {
 
 			// restart the play when pressing enter
 			if win.JustPressed(pixelgl.KeyEnter) {
-				drawOffensivePlayersStartingPosition(imd)
-				defineOffensivePlayerPosition(&rightTwin, 2.0, 5.0, 400.0, 145.0, 400.0, 145.0, colornames.Black)
-				defineOffensivePlayerPosition(&leftTwin, 2.0, 5.0, 415.0, 145.0, 415.0, 145.0, colornames.Black)
-				defineOffensivePlayerPosition(&leftWideReceiver, 2.0, 5.0, 180.0, 145.0, 180.0, 145.0, colornames.Black)
+				//redraw the initial play formation
+				drawOffensivePlayers(imd, &myTeamOffenseInitialFormation)
+
+				//reset the run play formation
+				myTeamOffenseRunPlayFormation = myTeamOffenseInitialFormation
 				iteration = 0
 			}
 
@@ -341,13 +343,23 @@ func run() {
 			drawFootballFieldLines(&footballFieldLines, &footballFieldOutsideLines,
 				&footballFieldHashLines, &footballFieldEndZones, imd)
 
-			drawOffensivePlayersStartingPosition(imd)
+			if iteration == 0 {
+				drawOffensivePlayers(imd, &myTeamOffenseInitialFormation)
+			}
 
-			drawOffenseRunPlay(imd, &tenYardPost, &rightTwin, iteration)
+			drawOffensePlayerRunPlay(imd, &tenYardPost, &myTeamOffenseRunPlayFormation.Player5, iteration)
 
-			drawOffenseRunPlay(imd, &sevenYardWhip, &leftTwin, iteration)
+			drawOffensePlayerRunPlay(imd, &sevenYardWhip, &myTeamOffenseRunPlayFormation.Player6, iteration)
 
-			drawOffenseRunPlay(imd, &sevenYardOutAndUp, &leftWideReceiver, iteration)
+			drawOffensePlayerRunPlay(imd, &sevenYardOutAndUp, &myTeamOffenseRunPlayFormation.Player7, iteration)
+
+			drawOffensePlayerRunPlay(imd, &fiveYardOut, &myTeamOffenseRunPlayFormation.Player1, iteration)
+
+			drawOffensePlayerRunPlay(imd, &block, &myTeamOffenseRunPlayFormation.Player2, iteration)
+
+			drawOffensePlayerRunPlay(imd, &tenYardOut, &myTeamOffenseRunPlayFormation.Player3, iteration)
+
+			drawOffensePlayerRunPlay(imd, &block, &myTeamOffenseRunPlayFormation.Player4, iteration)
 
 			imd.Draw(win)
 
@@ -368,6 +380,7 @@ func run() {
 			println("the windowState is:", windowState)
 
 		} else {
+			//when paused we have to send signals to screen or the window will bomb out
 			imd.Draw(win)
 			win.Update()
 
