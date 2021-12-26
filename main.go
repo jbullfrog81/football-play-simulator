@@ -465,6 +465,8 @@ func run() {
 			drawFootballFieldLines(&footballFieldLines, &footballFieldOutsideLines,
 				&footballFieldHashLines, &footballFieldEndZones, imd)
 
+			drawFootballFieldYardNumbers(imd, win)
+
 			if iteration == 0 {
 				drawOffensivePlayers(imd, &myTeamOffenseInitialFormation)
 			}
