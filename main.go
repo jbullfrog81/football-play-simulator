@@ -301,12 +301,12 @@ func run() {
 	var block routes.OffensePlayRoute
 
 	block = routes.DefineBlockRoute()
-	fiveYardOut = routes.DefineOutFiveYardRoute()
-	tenYardOut = routes.DefineOutTenYardRoute()
-	sevenYardOutAndUp = routes.DefineOutAndUpSevenYardRoute()
-	tenYardPost = routes.DefinePostTenYardRoute()
+	fiveYardOut = routes.DefineLeftOutFiveYardRoute()
+	tenYardOut = routes.DefineLeftOutTenYardRoute()
+	sevenYardOutAndUp = routes.DefineLeftOutAndUpSevenYardRoute()
+	tenYardPost = routes.DefineLeftPostTenYardRoute()
 	//fiveYardWhip = routes.DefineWhipFiveYardRoute()
-	sevenYardWhip = routes.DefineWhipSevenYardRoute()
+	sevenYardWhip = routes.DefineLeftWhipSevenYardRoute()
 
 	//var rightTwin offensePlayerPosition
 	//var leftTwin offensePlayerPosition
@@ -318,7 +318,7 @@ func run() {
 
 	iteration := 0
 
-	windowState := "running"
+	windowState := "paused"
 
 	for !win.Closed() {
 

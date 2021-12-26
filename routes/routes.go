@@ -411,9 +411,9 @@ func DefineLeftPostTenYardRoute() OffensePlayRoute {
 
 	for i := 0; i < 151; i++ {
 		route.MinX = append(route.MinX, float64(1))
-		route.MinY = append(route.MinY, float64(-1))
+		route.MinY = append(route.MinY, float64(1))
 		route.MaxX = append(route.MaxX, float64(1))
-		route.MaxY = append(route.MaxY, float64(-1))
+		route.MaxY = append(route.MaxY, float64(1))
 	}
 
 	return route
