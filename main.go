@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"image"
 	"image/color"
 	formations "jbullfrog81/football-play-simulator/formations"
@@ -13,7 +14,9 @@ import (
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/imdraw"
 	"github.com/faiface/pixel/pixelgl"
+	"github.com/faiface/pixel/text"
 	"golang.org/x/image/colornames"
+	"golang.org/x/image/font/basicfont"
 )
 
 //rectangles to make the football field 5 yard lines
@@ -152,6 +155,122 @@ func defineFootballFieldLines(footballFieldLines *[]footballFieldLine, footballF
 	}
 }
 
+func drawFootballFieldYardNumbers(imd *imdraw.IMDraw, win *pixelgl.Window) {
+
+	//Right side of the field yard line numbers
+	atlas := text.NewAtlas(basicfont.Face7x13, text.ASCII)
+
+	basicTxt := text.New(pixel.V(490, 180), atlas)
+
+	fmt.Fprintln(basicTxt, "1 0")
+
+	basicTxt.Draw(win, pixel.IM.Scaled(basicTxt.Orig, 2).Rotated(basicTxt.Orig, 1.55))
+
+	basicTxt = text.New(pixel.V(490, 280), atlas)
+
+	fmt.Fprintln(basicTxt, "2 0")
+
+	basicTxt.Draw(win, pixel.IM.Scaled(basicTxt.Orig, 2).Rotated(basicTxt.Orig, 1.55))
+
+	basicTxt = text.New(pixel.V(490, 380), atlas)
+
+	fmt.Fprintln(basicTxt, "3 0")
+
+	basicTxt.Draw(win, pixel.IM.Scaled(basicTxt.Orig, 2).Rotated(basicTxt.Orig, 1.55))
+
+	basicTxt = text.New(pixel.V(490, 480), atlas)
+
+	fmt.Fprintln(basicTxt, "4 0")
+
+	basicTxt.Draw(win, pixel.IM.Scaled(basicTxt.Orig, 2).Rotated(basicTxt.Orig, 1.55))
+
+	basicTxt = text.New(pixel.V(490, 580), atlas)
+
+	fmt.Fprintln(basicTxt, "5 0")
+
+	basicTxt.Draw(win, pixel.IM.Scaled(basicTxt.Orig, 2).Rotated(basicTxt.Orig, 1.55))
+
+	basicTxt = text.New(pixel.V(490, 680), atlas)
+
+	fmt.Fprintln(basicTxt, "4 0")
+
+	basicTxt.Draw(win, pixel.IM.Scaled(basicTxt.Orig, 2).Rotated(basicTxt.Orig, 1.55))
+
+	basicTxt = text.New(pixel.V(490, 780), atlas)
+
+	fmt.Fprintln(basicTxt, "3 0")
+
+	basicTxt.Draw(win, pixel.IM.Scaled(basicTxt.Orig, 2).Rotated(basicTxt.Orig, 1.55))
+
+	basicTxt = text.New(pixel.V(490, 880), atlas)
+
+	fmt.Fprintln(basicTxt, "2 0")
+
+	basicTxt.Draw(win, pixel.IM.Scaled(basicTxt.Orig, 2).Rotated(basicTxt.Orig, 1.55))
+
+	basicTxt = text.New(pixel.V(490, 980), atlas)
+
+	fmt.Fprintln(basicTxt, "1 0")
+
+	basicTxt.Draw(win, pixel.IM.Scaled(basicTxt.Orig, 2).Rotated(basicTxt.Orig, 1.55))
+
+	//Left side of the field yard line numbers
+	basicTxt = text.New(pixel.V(25, 220), atlas)
+
+	fmt.Fprintln(basicTxt, "1 0")
+
+	basicTxt.Draw(win, pixel.IM.Scaled(basicTxt.Orig, 2).Rotated(basicTxt.Orig, -1.55))
+
+	basicTxt = text.New(pixel.V(25, 320), atlas)
+
+	fmt.Fprintln(basicTxt, "2 0")
+
+	basicTxt.Draw(win, pixel.IM.Scaled(basicTxt.Orig, 2).Rotated(basicTxt.Orig, -1.55))
+
+	basicTxt = text.New(pixel.V(25, 420), atlas)
+
+	fmt.Fprintln(basicTxt, "3 0")
+
+	basicTxt.Draw(win, pixel.IM.Scaled(basicTxt.Orig, 2).Rotated(basicTxt.Orig, -1.55))
+
+	basicTxt = text.New(pixel.V(25, 520), atlas)
+
+	fmt.Fprintln(basicTxt, "4 0")
+
+	basicTxt.Draw(win, pixel.IM.Scaled(basicTxt.Orig, 2).Rotated(basicTxt.Orig, -1.55))
+
+	basicTxt = text.New(pixel.V(25, 620), atlas)
+
+	fmt.Fprintln(basicTxt, "5 0")
+
+	basicTxt.Draw(win, pixel.IM.Scaled(basicTxt.Orig, 2).Rotated(basicTxt.Orig, -1.55))
+
+	basicTxt = text.New(pixel.V(25, 720), atlas)
+
+	fmt.Fprintln(basicTxt, "4 0")
+
+	basicTxt.Draw(win, pixel.IM.Scaled(basicTxt.Orig, 2).Rotated(basicTxt.Orig, -1.55))
+
+	basicTxt = text.New(pixel.V(25, 820), atlas)
+
+	fmt.Fprintln(basicTxt, "3 0")
+
+	basicTxt.Draw(win, pixel.IM.Scaled(basicTxt.Orig, 2).Rotated(basicTxt.Orig, -1.55))
+
+	basicTxt = text.New(pixel.V(25, 920), atlas)
+
+	fmt.Fprintln(basicTxt, "2 0")
+
+	basicTxt.Draw(win, pixel.IM.Scaled(basicTxt.Orig, 2).Rotated(basicTxt.Orig, -1.55))
+
+	basicTxt = text.New(pixel.V(25, 1020), atlas)
+
+	fmt.Fprintln(basicTxt, "1 0")
+
+	basicTxt.Draw(win, pixel.IM.Scaled(basicTxt.Orig, 2).Rotated(basicTxt.Orig, -1.55))
+
+}
+
 func drawFootballFieldLines(footballFieldLines *[]footballFieldLine, footballFieldOutsideLines *footballFieldLine, footballFieldHashLines *[]footballFieldLine, footballFieldEndZones *[]footballFieldLine, imd *imdraw.IMDraw) {
 
 	for _, p := range *footballFieldLines {
@@ -280,6 +399,8 @@ func run() {
 
 	drawFootballFieldLines(&footballFieldLines, &footballFieldOutsideLines,
 		&footballFieldHashLines, &footballFieldEndZones, imd)
+
+	drawFootballFieldYardNumbers(imd, win)
 
 	var myTeamOffenseInitialFormation formations.OffenseTeamFormation
 
