@@ -316,48 +316,65 @@ func run() {
 
 	iteration := 0
 
+	windowState := "running"
+
 	for !win.Closed() {
 
-		win.Clear(colornames.Darkolivegreen)
+		if windowState == "running" {
+			win.Clear(colornames.Darkolivegreen)
 
-		// restart the play when pressing enter
-		if win.JustPressed(pixelgl.KeyEnter) {
+			// restart the play when pressing enter
+			if win.JustPressed(pixelgl.KeyEnter) {
+				drawOffensivePlayersStartingPosition(imd)
+				defineOffensivePlayerPosition(&rightTwin, 2.0, 5.0, 400.0, 145.0, 400.0, 145.0, colornames.Black)
+				defineOffensivePlayerPosition(&leftTwin, 2.0, 5.0, 415.0, 145.0, 415.0, 145.0, colornames.Black)
+				defineOffensivePlayerPosition(&leftWideReceiver, 2.0, 5.0, 180.0, 145.0, 180.0, 145.0, colornames.Black)
+				iteration = 0
+			}
+
+			if win.JustPressed(pixelgl.KeySpace) {
+				windowState = "paused"
+			}
+
+			imd.Clear()
+
+			drawFootballFieldLines(&footballFieldLines, &footballFieldOutsideLines,
+				&footballFieldHashLines, &footballFieldEndZones, imd)
+
 			drawOffensivePlayersStartingPosition(imd)
-			defineOffensivePlayerPosition(&rightTwin, 2.0, 5.0, 400.0, 145.0, 400.0, 145.0, colornames.Black)
-			defineOffensivePlayerPosition(&leftTwin, 2.0, 5.0, 415.0, 145.0, 415.0, 145.0, colornames.Black)
-			defineOffensivePlayerPosition(&leftWideReceiver, 2.0, 5.0, 180.0, 145.0, 180.0, 145.0, colornames.Black)
-			iteration = 0
+
+			drawOffenseRunPlay(imd, &tenYardPost, &rightTwin, iteration)
+
+			drawOffenseRunPlay(imd, &sevenYardWhip, &leftTwin, iteration)
+
+			drawOffenseRunPlay(imd, &sevenYardOutAndUp, &leftWideReceiver, iteration)
+
+			imd.Draw(win)
+
+			//drawOffenseRunPlay(imd, increment)
+
+			// Add football
+			//pic, err := loadPicture("./images/football2.png")
+			//if err != nil {
+			//	panic(err)
+			//}
+			//sprite := pixel.NewSprite(pic, pic.Bounds())
+			//sprite.Draw(win, pixel.IM.Moved(win.Bounds().Center()))
+
+			win.Update()
+
+			iteration += 1
+			println("iteration is: ", iteration)
+			println("the windowState is:", windowState)
+
+		} else {
+			imd.Draw(win)
+			win.Update()
+
+			if win.JustPressed(pixelgl.MouseButtonLeft) {
+				windowState = "running"
+			}
 		}
-
-		imd.Clear()
-
-		drawFootballFieldLines(&footballFieldLines, &footballFieldOutsideLines,
-			&footballFieldHashLines, &footballFieldEndZones, imd)
-
-		drawOffensivePlayersStartingPosition(imd)
-
-		drawOffenseRunPlay(imd, &tenYardPost, &rightTwin, iteration)
-
-		drawOffenseRunPlay(imd, &sevenYardWhip, &leftTwin, iteration)
-
-		drawOffenseRunPlay(imd, &sevenYardOutAndUp, &leftWideReceiver, iteration)
-
-		imd.Draw(win)
-
-		//drawOffenseRunPlay(imd, increment)
-
-		// Add football
-		//pic, err := loadPicture("./images/football2.png")
-		//if err != nil {
-		//	panic(err)
-		//}
-		//sprite := pixel.NewSprite(pic, pic.Bounds())
-		//sprite.Draw(win, pixel.IM.Moved(win.Bounds().Center()))
-
-		win.Update()
-
-		iteration += 1
-		println("iteration is: ", iteration)
 	}
 }
 

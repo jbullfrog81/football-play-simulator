@@ -1,6 +1,16 @@
 # football-play-simulator
 Program to simulate American Football plays
 
+## User Inputs
+
+Keyboard
+- enter: will restart the play
+- spacebar: will pause the program
+
+Mouse:
+- left click: will unpause the program
+
+
 ## Dependencies
 
 
