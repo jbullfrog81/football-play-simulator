@@ -5,6 +5,7 @@ import (
 	"image"
 	"image/color"
 	formations "jbullfrog81/football-play-simulator/formations"
+	"jbullfrog81/football-play-simulator/playbook"
 	"jbullfrog81/football-play-simulator/routes"
 	"os"
 
@@ -359,6 +360,32 @@ func loadPicture(path string) (pixel.Picture, error) {
 	return pixel.PictureDataFromImage(img), nil
 }
 
+func BuildDefaultOffensivePlayBook(defaultPlaybook *playbook.PlayBook) {
+
+	var setupPlayerRoutes []routes.OffensePlayRoute
+
+	//List of all the routes:
+	//-----------------------
+	//block = routes.DefineBlockRoute()
+	//fiveYardOut = routes.DefineLeftOutFiveYardRoute()
+	//tenYardOut = routes.DefineLeftOutTenYardRoute()
+	//sevenYardOutAndUp = routes.DefineLeftOutAndUpSevenYardRoute()
+	//tenYardPost = routes.DefineLeftPostTenYardRoute()
+	//fiveYardWhip = routes.DefineWhipFiveYardRoute()
+	//sevenYardWhip = routes.DefineLeftWhipSevenYardRoute()
+
+	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineGoRoute())
+	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineBlockRoute())
+	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineLeftOutFiveYardRoute())
+	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineBlockRoute())
+	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineLeftOutAndUpSevenYardRoute())
+	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineLeftWhipFiveYardRoute())
+	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineLeftPostTenYardRoute())
+
+	playbook.AddPlayBookPage(defaultPlaybook, "Bunch Left In Whipper", formations.SetOffensiveTeamFormationShotgunBunchLeft(), setupPlayerRoutes)
+
+}
+
 func run() {
 	cfg := pixelgl.WindowConfig{
 		Title:  "Football Play Simulator",
@@ -402,32 +429,36 @@ func run() {
 
 	drawFootballFieldYardNumbers(imd, win)
 
-	var myTeamOffenseInitialFormation formations.OffenseTeamFormation
+	//var myTeamOffenseInitialFormation formations.OffenseTeamFormation
 
 	//This is the base offense formation
 	//myTeamOffenseInitialFormation = formations.SetOffensiveTeamFormationShotgunBunchRight()
-	myTeamOffenseInitialFormation = formations.SetOffensiveTeamFormationShotgunTripsLeft()
+	var myTeamOffensivePlayBook playbook.PlayBook
 
-	drawOffensivePlayers(imd, &myTeamOffenseInitialFormation)
+	BuildDefaultOffensivePlayBook(&myTeamOffensivePlayBook)
+
+	//myTeamOffenseInitialFormation = formations.SetOffensiveTeamFormationShotgunTripsLeft()
+
+	drawOffensivePlayers(imd, &myTeamOffensivePlayBook.OffensivePlays[0].Formation)
 
 	//Use this for moving the players during the play
-	myTeamOffenseRunPlayFormation := myTeamOffenseInitialFormation
+	myTeamOffenseRunPlayFormation := myTeamOffensivePlayBook.OffensivePlays[0].Formation
 
-	var fiveYardOut routes.OffensePlayRoute
-	var tenYardOut routes.OffensePlayRoute
-	var sevenYardOutAndUp routes.OffensePlayRoute
-	var tenYardPost routes.OffensePlayRoute
+	//var fiveYardOut routes.OffensePlayRoute
+	//var tenYardOut routes.OffensePlayRoute
+	//var sevenYardOutAndUp routes.OffensePlayRoute
+	//var tenYardPost routes.OffensePlayRoute
 	//var fiveYardWhip routes.OffensePlayRoute
-	var sevenYardWhip routes.OffensePlayRoute
-	var block routes.OffensePlayRoute
+	//var sevenYardWhip routes.OffensePlayRoute
+	//var block routes.OffensePlayRoute
 
-	block = routes.DefineBlockRoute()
-	fiveYardOut = routes.DefineLeftOutFiveYardRoute()
-	tenYardOut = routes.DefineLeftOutTenYardRoute()
-	sevenYardOutAndUp = routes.DefineLeftOutAndUpSevenYardRoute()
-	tenYardPost = routes.DefineLeftPostTenYardRoute()
+	//block = routes.DefineBlockRoute()
+	//fiveYardOut = routes.DefineLeftOutFiveYardRoute()
+	//tenYardOut = routes.DefineLeftOutTenYardRoute()
+	//sevenYardOutAndUp = routes.DefineLeftOutAndUpSevenYardRoute()
+	//tenYardPost = routes.DefineLeftPostTenYardRoute()
 	//fiveYardWhip = routes.DefineWhipFiveYardRoute()
-	sevenYardWhip = routes.DefineLeftWhipSevenYardRoute()
+	//sevenYardWhip = routes.DefineLeftWhipSevenYardRoute()
 
 	//var rightTwin offensePlayerPosition
 	//var leftTwin offensePlayerPosition
@@ -449,10 +480,10 @@ func run() {
 			// restart the play when pressing enter
 			if win.JustPressed(pixelgl.KeyEnter) {
 				//redraw the initial play formation
-				drawOffensivePlayers(imd, &myTeamOffenseInitialFormation)
+				drawOffensivePlayers(imd, &myTeamOffensivePlayBook.OffensivePlays[0].Formation)
 
 				//reset the run play formation
-				myTeamOffenseRunPlayFormation = myTeamOffenseInitialFormation
+				myTeamOffenseRunPlayFormation = myTeamOffensivePlayBook.OffensivePlays[0].Formation
 				iteration = 0
 			}
 
@@ -468,16 +499,16 @@ func run() {
 			drawFootballFieldYardNumbers(imd, win)
 
 			if iteration == 0 {
-				drawOffensivePlayers(imd, &myTeamOffenseInitialFormation)
+				drawOffensivePlayers(imd, &myTeamOffensivePlayBook.OffensivePlays[0].Formation)
 			}
 
-			drawOffensePlayerRunPlay(imd, &fiveYardOut, &myTeamOffenseRunPlayFormation.Player1, iteration)
-			drawOffensePlayerRunPlay(imd, &block, &myTeamOffenseRunPlayFormation.Player2, iteration)
-			drawOffensePlayerRunPlay(imd, &tenYardOut, &myTeamOffenseRunPlayFormation.Player3, iteration)
-			drawOffensePlayerRunPlay(imd, &block, &myTeamOffenseRunPlayFormation.Player4, iteration)
-			drawOffensePlayerRunPlay(imd, &tenYardPost, &myTeamOffenseRunPlayFormation.Player5, iteration)
-			drawOffensePlayerRunPlay(imd, &sevenYardWhip, &myTeamOffenseRunPlayFormation.Player6, iteration)
-			drawOffensePlayerRunPlay(imd, &sevenYardOutAndUp, &myTeamOffenseRunPlayFormation.Player7, iteration)
+			drawOffensePlayerRunPlay(imd, &myTeamOffensivePlayBook.OffensivePlays[0].PlayerRoutes[0], &myTeamOffenseRunPlayFormation.Player1, iteration)
+			drawOffensePlayerRunPlay(imd, &myTeamOffensivePlayBook.OffensivePlays[0].PlayerRoutes[1], &myTeamOffenseRunPlayFormation.Player2, iteration)
+			drawOffensePlayerRunPlay(imd, &myTeamOffensivePlayBook.OffensivePlays[0].PlayerRoutes[2], &myTeamOffenseRunPlayFormation.Player3, iteration)
+			drawOffensePlayerRunPlay(imd, &myTeamOffensivePlayBook.OffensivePlays[0].PlayerRoutes[3], &myTeamOffenseRunPlayFormation.Player4, iteration)
+			drawOffensePlayerRunPlay(imd, &myTeamOffensivePlayBook.OffensivePlays[0].PlayerRoutes[4], &myTeamOffenseRunPlayFormation.Player5, iteration)
+			drawOffensePlayerRunPlay(imd, &myTeamOffensivePlayBook.OffensivePlays[0].PlayerRoutes[5], &myTeamOffenseRunPlayFormation.Player6, iteration)
+			drawOffensePlayerRunPlay(imd, &myTeamOffensivePlayBook.OffensivePlays[0].PlayerRoutes[6], &myTeamOffenseRunPlayFormation.Player7, iteration)
 
 			imd.Draw(win)
 
