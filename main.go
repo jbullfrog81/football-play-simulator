@@ -8,6 +8,7 @@ import (
 	"jbullfrog81/football-play-simulator/playbook"
 	"jbullfrog81/football-play-simulator/routes"
 	"os"
+	"time"
 
 	_ "image/jpeg"
 	_ "image/png"
@@ -18,6 +19,12 @@ import (
 	"github.com/faiface/pixel/text"
 	"golang.org/x/image/colornames"
 	"golang.org/x/image/font/basicfont"
+)
+
+//Global variables
+var (
+	frameTick *time.Ticker
+	fps       float64
 )
 
 //rectangles to make the football field 5 yard lines
@@ -419,6 +426,9 @@ func run() {
 		panic(err)
 	}
 
+	// Set the frames per second to be 60
+	setFPS(60)
+
 	// smooth out the graphics i.e. don't be pixelated
 	win.SetSmooth(true)
 
@@ -553,6 +563,10 @@ func run() {
 			println("iteration is: ", iteration)
 			println("the windowState is:", windowState)
 
+			if frameTick != nil {
+				<-frameTick.C
+			}
+
 		} else {
 			//when paused we have to send signals to screen or the window will bomb out
 
@@ -578,7 +592,20 @@ func run() {
 			if win.JustPressed(pixelgl.MouseButtonLeft) {
 				windowState = "running"
 			}
+
+			if frameTick != nil {
+				<-frameTick.C
+			}
+
 		}
+	}
+}
+
+func setFPS(fps int) {
+	if fps <= 0 {
+		frameTick = nil
+	} else {
+		frameTick = time.NewTicker(time.Second / time.Duration(fps))
 	}
 }
 
