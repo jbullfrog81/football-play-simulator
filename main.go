@@ -435,7 +435,11 @@ func run() {
 	//myTeamOffenseInitialFormation = formations.SetOffensiveTeamFormationShotgunBunchRight()
 	var myTeamOffensivePlayBook playbook.PlayBook
 
+	myTeamOffensivePlayBook.PlayBookName = "Default"
+
 	BuildDefaultOffensivePlayBook(&myTeamOffensivePlayBook)
+
+	playbook.SavePlayBookToFile(&myTeamOffensivePlayBook)
 
 	//myTeamOffenseInitialFormation = formations.SetOffensiveTeamFormationShotgunTripsLeft()
 
