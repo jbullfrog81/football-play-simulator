@@ -391,6 +391,18 @@ func BuildDefaultOffensivePlayBook(defaultPlaybook *playbook.PlayBook) {
 
 	playbook.AddPlayBookPage(defaultPlaybook, "Bunch Left In Whipper", formations.SetOffensiveTeamFormationShotgunBunchLeft(), setupPlayerRoutes)
 
+	setupPlayerRoutes = nil
+
+	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineGoRoute())
+	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineBlockRoute())
+	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineRightOutFiveYardRoute())
+	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineBlockRoute())
+	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineRightOutAndUpSevenYardRoute())
+	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineRightWhipFiveYardRoute())
+	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineRightPostTenYardRoute())
+
+	playbook.AddPlayBookPage(defaultPlaybook, "Bunch Right In Whipper", formations.SetOffensiveTeamFormationShotgunBunchLeft(), setupPlayerRoutes)
+
 }
 
 func drawSpecificOffensiveFormations(imd *imdraw.IMDraw, win *pixelgl.Window, iteration int) {
