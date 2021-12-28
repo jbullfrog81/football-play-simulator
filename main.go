@@ -405,7 +405,7 @@ func BuildDefaultOffensivePlayBook(defaultPlaybook *playbook.PlayBook) {
 
 }
 
-func drawSpecificOffensiveFormations(imd *imdraw.IMDraw, win *pixelgl.Window, iteration int) {
+func drawSpecificOffensiveFormation(imd *imdraw.IMDraw, win *pixelgl.Window, iteration int) {
 
 	availableOffensiveFormations := formations.ReturnAllOffensiveTeamFormations()
 	currentFormation := availableOffensiveFormations.Formations[iteration]
@@ -593,7 +593,7 @@ func run() {
 			win.Clear(colornames.Darkolivegreen)
 
 			imd2.Clear()
-			drawSpecificOffensiveFormations(imd2, win, OffenseFormationIteration)
+			drawSpecificOffensiveFormation(imd2, win, OffenseFormationIteration)
 
 			drawFootballFieldYardNumbers(imd, win)
 
