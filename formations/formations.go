@@ -25,14 +25,22 @@ type OffensePlayer struct {
 	Attributes  OffensePlayerAttributes
 }
 
+type AllOffenseTeamFormations struct {
+	Formations []OffenseTeamFormation
+}
+
 type OffenseTeamFormation struct {
-	Player1 OffensePlayer
-	Player2 OffensePlayer
-	Player3 OffensePlayer
-	Player4 OffensePlayer
-	Player5 OffensePlayer
-	Player6 OffensePlayer
-	Player7 OffensePlayer
+	Player1       OffensePlayer
+	Player2       OffensePlayer
+	Player3       OffensePlayer
+	Player4       OffensePlayer
+	Player5       OffensePlayer
+	Player6       OffensePlayer
+	Player7       OffensePlayer
+	FormationName string
+	SnapType      string
+	Receivers     int
+	RunningBacks  int
 }
 
 func DefineOffensivePlayerCoordinates(minX float64, minY float64, maxX float64, maxY float64) (playerCoordinates OffensePlayerCoordinates) {
@@ -42,6 +50,22 @@ func DefineOffensivePlayerCoordinates(minX float64, minY float64, maxX float64, 
 	playerCoordinates.MaxY = maxY
 
 	return playerCoordinates
+}
+
+func ReturnAllOffensiveTeamFormations() (AllFormations AllOffenseTeamFormations) {
+
+	AllFormations.Formations = append(AllFormations.Formations, SetOffensiveTeamFormationShotgunBunchRight())
+	AllFormations.Formations = append(AllFormations.Formations, SetOffensiveTeamFormationShotgunBunchLeft())
+	AllFormations.Formations = append(AllFormations.Formations, SetOffensiveTeamFormationShotgunSplitBackRecieverLeft())
+	AllFormations.Formations = append(AllFormations.Formations, SetOffensiveTeamFormationShotgunSplitBackRecieverRight())
+	AllFormations.Formations = append(AllFormations.Formations, SetOffensiveTeamFormationShotgunTripsLeft())
+	AllFormations.Formations = append(AllFormations.Formations, SetOffensiveTeamFormationShotgunTripsRight())
+	AllFormations.Formations = append(AllFormations.Formations, SetOffensiveTeamFormationShotgunTwinsLeftBackLeft())
+	AllFormations.Formations = append(AllFormations.Formations, SetOffensiveTeamFormationShotgunTwinsLeftBackRight())
+	AllFormations.Formations = append(AllFormations.Formations, SetOffensiveTeamFormationShotgunTwinsRightBackLeft())
+	AllFormations.Formations = append(AllFormations.Formations, SetOffensiveTeamFormationShotgunTwinsRightBackRight())
+
+	return AllFormations
 }
 
 func DefineOffensivePlayerAttributes(position string, thickness float64, radius float64, color color.Color) (PlayerAttributes OffensePlayerAttributes) {
@@ -101,6 +125,11 @@ func SetOffensiveTeamFormationShotgunBunchRight() OffenseTeamFormation {
 
 	offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &receiver1, &receiver2, &receiver3)
 
+	offensiveTeam.FormationName = "Bunch Right"
+	offensiveTeam.SnapType = "Shotgun"
+	offensiveTeam.Receivers = 3
+	offensiveTeam.RunningBacks = 0
+
 	return offensiveTeam
 
 }
@@ -134,6 +163,11 @@ func SetOffensiveTeamFormationShotgunBunchLeft() OffenseTeamFormation {
 	var offensiveTeam OffenseTeamFormation
 
 	offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &receiver1, &receiver2, &receiver3)
+
+	offensiveTeam.FormationName = "Bunch Left"
+	offensiveTeam.SnapType = "Shotgun"
+	offensiveTeam.Receivers = 3
+	offensiveTeam.RunningBacks = 0
 
 	return offensiveTeam
 
@@ -169,6 +203,11 @@ func SetOffensiveTeamFormationShotgunTripsLeft() OffenseTeamFormation {
 
 	offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &receiver1, &receiver2, &receiver3)
 
+	offensiveTeam.FormationName = "Trips Left"
+	offensiveTeam.SnapType = "Shotgun"
+	offensiveTeam.Receivers = 3
+	offensiveTeam.RunningBacks = 0
+
 	return offensiveTeam
 
 }
@@ -202,6 +241,11 @@ func SetOffensiveTeamFormationShotgunTripsRight() OffenseTeamFormation {
 	var offensiveTeam OffenseTeamFormation
 
 	offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &receiver1, &receiver2, &receiver3)
+
+	offensiveTeam.FormationName = "Trips Right"
+	offensiveTeam.SnapType = "Shotgun"
+	offensiveTeam.Receivers = 3
+	offensiveTeam.RunningBacks = 0
 
 	return offensiveTeam
 
@@ -237,6 +281,11 @@ func SetOffensiveTeamFormationShotgunTwinsRightBackRight() OffenseTeamFormation 
 
 	offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &runningBack, &receiver1, &receiver2)
 
+	offensiveTeam.FormationName = "Twins Right Running Back Right"
+	offensiveTeam.SnapType = "Shotgun"
+	offensiveTeam.Receivers = 2
+	offensiveTeam.RunningBacks = 1
+
 	return offensiveTeam
 
 }
@@ -270,6 +319,11 @@ func SetOffensiveTeamFormationShotgunTwinsRightBackLeft() OffenseTeamFormation {
 	var offensiveTeam OffenseTeamFormation
 
 	offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &runningBack, &receiver1, &receiver2)
+
+	offensiveTeam.FormationName = "Twins Right Running Back Left"
+	offensiveTeam.SnapType = "Shotgun"
+	offensiveTeam.Receivers = 2
+	offensiveTeam.RunningBacks = 1
 
 	return offensiveTeam
 
@@ -305,6 +359,11 @@ func SetOffensiveTeamFormationShotgunTwinsLeftBackRight() OffenseTeamFormation {
 
 	offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &runningBack, &receiver1, &receiver2)
 
+	offensiveTeam.FormationName = "Twins Left Running Back Right"
+	offensiveTeam.SnapType = "Shotgun"
+	offensiveTeam.Receivers = 2
+	offensiveTeam.RunningBacks = 1
+
 	return offensiveTeam
 
 }
@@ -338,6 +397,11 @@ func SetOffensiveTeamFormationShotgunTwinsLeftBackLeft() OffenseTeamFormation {
 	var offensiveTeam OffenseTeamFormation
 
 	offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &runningBack, &receiver1, &receiver2)
+
+	offensiveTeam.FormationName = "Twins Left Running Back Left"
+	offensiveTeam.SnapType = "Shotgun"
+	offensiveTeam.Receivers = 2
+	offensiveTeam.RunningBacks = 1
 
 	return offensiveTeam
 
@@ -373,6 +437,11 @@ func SetOffensiveTeamFormationShotgunSplitBackRecieverRight() OffenseTeamFormati
 
 	offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &runningBackRight, &receiver1, &runningBackLeft)
 
+	offensiveTeam.FormationName = "Split Backs Reciever Right"
+	offensiveTeam.SnapType = "Shotgun"
+	offensiveTeam.Receivers = 1
+	offensiveTeam.RunningBacks = 2
+
 	return offensiveTeam
 
 }
@@ -406,6 +475,11 @@ func SetOffensiveTeamFormationShotgunSplitBackRecieverLeft() OffenseTeamFormatio
 	var offensiveTeam OffenseTeamFormation
 
 	offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &runningBackRight, &receiver1, &runningBackLeft)
+
+	offensiveTeam.FormationName = "Split Backs Reciever Left"
+	offensiveTeam.SnapType = "Shotgun"
+	offensiveTeam.Receivers = 1
+	offensiveTeam.RunningBacks = 2
 
 	return offensiveTeam
 

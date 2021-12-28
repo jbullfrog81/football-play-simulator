@@ -386,6 +386,27 @@ func BuildDefaultOffensivePlayBook(defaultPlaybook *playbook.PlayBook) {
 
 }
 
+func drawSpecificOffensiveFormations(imd *imdraw.IMDraw, win *pixelgl.Window, iteration int) {
+
+	availableOffensiveFormations := formations.ReturnAllOffensiveTeamFormations()
+	currentFormation := availableOffensiveFormations.Formations[iteration]
+	//for i, v := range availableOffensiveFormations.Formations {
+	//	if i < 1 {
+
+	drawOffensivePlayers(imd, &currentFormation)
+
+	atlas := text.NewAtlas(basicfont.Face7x13, text.ASCII)
+	basicTxt := text.New(pixel.V(600, 400), atlas)
+
+	fmt.Fprintln(basicTxt, "Name: "+currentFormation.FormationName)
+	fmt.Fprintln(basicTxt, "Snap Type: "+currentFormation.SnapType)
+	fmt.Fprintln(basicTxt, "Recievers: "+fmt.Sprint(currentFormation.Receivers))
+	fmt.Fprintln(basicTxt, "Running Backs: "+fmt.Sprint(currentFormation.RunningBacks))
+
+	basicTxt.Draw(win, pixel.IM)
+
+}
+
 func run() {
 	cfg := pixelgl.WindowConfig{
 		Title:  "Football Play Simulator",
@@ -406,6 +427,7 @@ func run() {
 	win.Clear(colornames.Darkolivegreen)
 
 	imd := imdraw.New(nil)
+	imd2 := imdraw.New(nil)
 
 	// The lines on the football field:
 	// 1 pixel = 3.6 inches
@@ -429,10 +451,7 @@ func run() {
 
 	drawFootballFieldYardNumbers(imd, win)
 
-	//var myTeamOffenseInitialFormation formations.OffenseTeamFormation
-
-	//This is the base offense formation
-	//myTeamOffenseInitialFormation = formations.SetOffensiveTeamFormationShotgunBunchRight()
+	//Manual creation of a playbook
 	var myTeamOffensivePlayBook playbook.PlayBook
 
 	myTeamOffensivePlayBook.PlayBookName = "Default"
@@ -443,7 +462,7 @@ func run() {
 
 	//myTeamOffenseInitialFormation = formations.SetOffensiveTeamFormationShotgunTripsLeft()
 
-	drawOffensivePlayers(imd, &myTeamOffensivePlayBook.OffensivePlays[0].Formation)
+	//drawOffensivePlayers(imd, &myTeamOffensivePlayBook.OffensivePlays[0].Formation)
 
 	//Use this for moving the players during the play
 	myTeamOffenseRunPlayFormation := myTeamOffensivePlayBook.OffensivePlays[0].Formation
@@ -475,6 +494,8 @@ func run() {
 	iteration := 0
 
 	windowState := "paused"
+
+	OffenseFormationIteration := 0
 
 	for !win.Closed() {
 
@@ -534,7 +555,24 @@ func run() {
 
 		} else {
 			//when paused we have to send signals to screen or the window will bomb out
+
+			if win.JustPressed(pixelgl.KeyDown) && OffenseFormationIteration > 0 {
+				OffenseFormationIteration -= 1
+			}
+
+			if win.JustPressed(pixelgl.KeyUp) && OffenseFormationIteration < 9 {
+				OffenseFormationIteration += 1
+			}
+
+			win.Clear(colornames.Darkolivegreen)
+
+			imd2.Clear()
+			drawSpecificOffensiveFormations(imd2, win, OffenseFormationIteration)
+
+			drawFootballFieldYardNumbers(imd, win)
+
 			imd.Draw(win)
+			imd2.Draw(win)
 			win.Update()
 
 			if win.JustPressed(pixelgl.MouseButtonLeft) {
