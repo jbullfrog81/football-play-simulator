@@ -189,10 +189,17 @@ func DefineRightWhipSevenYardRoute() OffensePlayRoute {
 
 	//var values OffensePlayRoute
 
-	for i := 0; i < 71; i++ {
+	for i := 0; i < 51; i++ {
 		route.MinX = append(route.MinX, float64(0))
 		route.MinY = append(route.MinY, float64(1))
 		route.MaxX = append(route.MaxX, float64(0))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	for i := 0; i < 21; i++ {
+		route.MinX = append(route.MinX, float64(-1))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(-1))
 		route.MaxY = append(route.MaxY, float64(1))
 	}
 
@@ -220,10 +227,17 @@ func DefineRightWhipFiveYardRoute() OffensePlayRoute {
 
 	//var values OffensePlayRoute
 
-	for i := 0; i < 51; i++ {
+	for i := 0; i < 41; i++ {
 		route.MinX = append(route.MinX, float64(0))
 		route.MinY = append(route.MinY, float64(1))
 		route.MaxX = append(route.MaxX, float64(0))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	for i := 0; i < 11; i++ {
+		route.MinX = append(route.MinX, float64(-1))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(-1))
 		route.MaxY = append(route.MaxY, float64(1))
 	}
 
@@ -435,6 +449,13 @@ func DefineLeftWhipSevenYardRoute() OffensePlayRoute {
 		route.MaxY = append(route.MaxY, float64(1))
 	}
 
+	for i := 0; i < 51; i++ {
+		route.MinX = append(route.MinX, float64(1))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(1))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
 	for i := 0; i < 31; i++ {
 		route.MinX = append(route.MinX, float64(1))
 		route.MinY = append(route.MinY, float64(0))
@@ -459,10 +480,17 @@ func DefineLeftWhipFiveYardRoute() OffensePlayRoute {
 
 	//var values OffensePlayRoute
 
-	for i := 0; i < 51; i++ {
+	for i := 0; i < 41; i++ {
 		route.MinX = append(route.MinX, float64(0))
 		route.MinY = append(route.MinY, float64(1))
 		route.MaxX = append(route.MaxX, float64(0))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	for i := 0; i < 11; i++ {
+		route.MinX = append(route.MinX, float64(1))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(1))
 		route.MaxY = append(route.MaxY, float64(1))
 	}
 

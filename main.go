@@ -426,6 +426,40 @@ func drawSpecificOffensiveFormation(imd *imdraw.IMDraw, win *pixelgl.Window, ite
 
 }
 
+func drawOffensivePlayerPlayRoute(imd *imdraw.IMDraw, playerCoordinates formations.OffensePlayerCoordinates, playerRoutes routes.OffensePlayRoute) {
+
+	imd.Color = colornames.Gold
+
+	for i, _ := range playerRoutes.MinX {
+		playerCoordinates.MinX += playerRoutes.MinX[i]
+		playerCoordinates.MinY += playerRoutes.MinY[i]
+		imd.Push(pixel.V(playerCoordinates.MinX, playerCoordinates.MinY))
+	}
+
+	imd.Line(1)
+
+}
+
+func drawOffensivePlayBookPage(imd *imdraw.IMDraw, win *pixelgl.Window, pageNumber int, offensivePlayBook *playbook.PlayBook) {
+
+	drawOffensivePlayerPlayRoute(imd, offensivePlayBook.OffensivePlays[pageNumber].Formation.Player1.Coordinates, offensivePlayBook.OffensivePlays[pageNumber].PlayerRoutes[0])
+
+	drawOffensivePlayerPlayRoute(imd, offensivePlayBook.OffensivePlays[pageNumber].Formation.Player2.Coordinates, offensivePlayBook.OffensivePlays[pageNumber].PlayerRoutes[1])
+
+	drawOffensivePlayerPlayRoute(imd, offensivePlayBook.OffensivePlays[pageNumber].Formation.Player3.Coordinates, offensivePlayBook.OffensivePlays[pageNumber].PlayerRoutes[2])
+
+	drawOffensivePlayerPlayRoute(imd, offensivePlayBook.OffensivePlays[pageNumber].Formation.Player4.Coordinates, offensivePlayBook.OffensivePlays[pageNumber].PlayerRoutes[3])
+
+	drawOffensivePlayerPlayRoute(imd, offensivePlayBook.OffensivePlays[pageNumber].Formation.Player5.Coordinates, offensivePlayBook.OffensivePlays[pageNumber].PlayerRoutes[4])
+
+	drawOffensivePlayerPlayRoute(imd, offensivePlayBook.OffensivePlays[pageNumber].Formation.Player6.Coordinates, offensivePlayBook.OffensivePlays[pageNumber].PlayerRoutes[5])
+
+	drawOffensivePlayerPlayRoute(imd, offensivePlayBook.OffensivePlays[pageNumber].Formation.Player7.Coordinates, offensivePlayBook.OffensivePlays[pageNumber].PlayerRoutes[6])
+
+	drawOffensivePlayers(imd, &offensivePlayBook.OffensivePlays[pageNumber].Formation)
+
+}
+
 func run() {
 	cfg := pixelgl.WindowConfig{
 		Title:  "Football Play Simulator",
@@ -450,6 +484,7 @@ func run() {
 
 	imd := imdraw.New(nil)
 	imd2 := imdraw.New(nil)
+	imdOffensivePlayBook := imdraw.New(nil)
 
 	// The lines on the football field:
 	// 1 pixel = 3.6 inches
@@ -515,9 +550,16 @@ func run() {
 
 	iteration := 0
 
-	windowState := "paused"
+	// Available Window States:
+	// - OffensivePlaybook
+	// - running
+	// - OffensiveFormations
+	// - paused
+	windowState := "OffensivePlaybook"
 
 	OffenseFormationIteration := 0
+
+	OffensePlaybookPageNumber := 0
 
 	for !win.Closed() {
 
@@ -579,7 +621,39 @@ func run() {
 				<-frameTick.C
 			}
 
-		} else {
+		} else if windowState == "OffensivePlaybook" {
+
+			if win.JustPressed(pixelgl.KeyRight) && OffensePlaybookPageNumber < 1 {
+				OffensePlaybookPageNumber += 1
+			}
+
+			if win.JustPressed(pixelgl.KeyLeft) && OffensePlaybookPageNumber > 0 {
+				OffensePlaybookPageNumber -= 1
+			}
+
+			win.Clear(colornames.Darkolivegreen)
+
+			imd.Draw(win)
+
+			drawFootballFieldYardNumbers(imd, win)
+
+			imdOffensivePlayBook.Clear()
+
+			drawOffensivePlayBookPage(imdOffensivePlayBook, win, OffensePlaybookPageNumber, &myTeamOffensivePlayBook)
+
+			imdOffensivePlayBook.Draw(win)
+
+			win.Update()
+
+			if win.JustPressed(pixelgl.MouseButtonLeft) {
+				windowState = "running"
+			}
+
+			if frameTick != nil {
+				<-frameTick.C
+			}
+
+		} else if windowState == "OffensiveFormations" {
 			//when paused we have to send signals to screen or the window will bomb out
 
 			if win.JustPressed(pixelgl.KeyDown) && OffenseFormationIteration > 0 {
@@ -608,7 +682,6 @@ func run() {
 			if frameTick != nil {
 				<-frameTick.C
 			}
-
 		}
 	}
 }
