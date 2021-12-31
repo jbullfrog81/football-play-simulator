@@ -159,13 +159,11 @@ func run() {
 				formations.DrawOffensivePlayers(imd, &myTeamOffensivePlayBook.OffensivePlays[OffenseRunPlayPlaybookPageNumber].Formation)
 			}
 
-			formations.DrawOffensePlayerRunPlay(imd, &myTeamOffensivePlayBook.OffensivePlays[OffenseRunPlayPlaybookPageNumber].PlayerRoutes[0], &myTeamOffenseRunPlayFormation.Player1, iteration)
-			formations.DrawOffensePlayerRunPlay(imd, &myTeamOffensivePlayBook.OffensivePlays[OffenseRunPlayPlaybookPageNumber].PlayerRoutes[1], &myTeamOffenseRunPlayFormation.Player2, iteration)
-			formations.DrawOffensePlayerRunPlay(imd, &myTeamOffensivePlayBook.OffensivePlays[OffenseRunPlayPlaybookPageNumber].PlayerRoutes[2], &myTeamOffenseRunPlayFormation.Player3, iteration)
-			formations.DrawOffensePlayerRunPlay(imd, &myTeamOffensivePlayBook.OffensivePlays[OffenseRunPlayPlaybookPageNumber].PlayerRoutes[3], &myTeamOffenseRunPlayFormation.Player4, iteration)
-			formations.DrawOffensePlayerRunPlay(imd, &myTeamOffensivePlayBook.OffensivePlays[OffenseRunPlayPlaybookPageNumber].PlayerRoutes[4], &myTeamOffenseRunPlayFormation.Player5, iteration)
-			formations.DrawOffensePlayerRunPlay(imd, &myTeamOffensivePlayBook.OffensivePlays[OffenseRunPlayPlaybookPageNumber].PlayerRoutes[5], &myTeamOffenseRunPlayFormation.Player6, iteration)
-			formations.DrawOffensePlayerRunPlay(imd, &myTeamOffensivePlayBook.OffensivePlays[OffenseRunPlayPlaybookPageNumber].PlayerRoutes[6], &myTeamOffenseRunPlayFormation.Player7, iteration)
+			for i, _ := range myTeamOffenseRunPlayFormation.Players {
+
+				formations.DrawOffensePlayerRunPlay(imd, &myTeamOffensivePlayBook.OffensivePlays[OffenseRunPlayPlaybookPageNumber].PlayerRoutes[i], &myTeamOffenseRunPlayFormation.Players[i], iteration)
+
+			}
 
 			playbook.DrawOffensiveRunPlayMenu(imd, win, &myTeamOffensivePlayBook, OffenseRunPlayPlaybookPageNumber)
 
@@ -187,9 +185,9 @@ func run() {
 			println("iteration is: ", iteration)
 			println("the windowState is:", windowState)
 
-			if frameTick != nil {
-				<-frameTick.C
-			}
+			//if frameTick != nil {
+			//	<-frameTick.C
+			//}
 
 		} else if windowState == "OffensivePlaybook" {
 

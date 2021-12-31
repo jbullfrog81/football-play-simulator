@@ -38,13 +38,7 @@ type AllOffenseTeamFormations struct {
 }
 
 type OffenseTeamFormation struct {
-	Player1       OffensePlayer
-	Player2       OffensePlayer
-	Player3       OffensePlayer
-	Player4       OffensePlayer
-	Player5       OffensePlayer
-	Player6       OffensePlayer
-	Player7       OffensePlayer
+	Players       []OffensePlayer
 	FormationName string
 	SnapType      string
 	Receivers     int
@@ -90,15 +84,9 @@ func DefineOffensivePlayer(playerAttributes *OffensePlayerAttributes, playerCoor
 	player.Attributes = *playerAttributes
 }
 
-func DefineOffensiveTeamFormation(Player1 *OffensePlayer, player2 *OffensePlayer, player3 *OffensePlayer, player4 *OffensePlayer, player5 *OffensePlayer, player6 *OffensePlayer, player7 *OffensePlayer) (OffensiveTeam OffenseTeamFormation) {
+func DefineOffensiveTeamFormation(Players []OffensePlayer) (OffensiveTeam OffenseTeamFormation) {
 
-	OffensiveTeam.Player1 = *Player1
-	OffensiveTeam.Player2 = *player2
-	OffensiveTeam.Player3 = *player3
-	OffensiveTeam.Player4 = *player4
-	OffensiveTeam.Player5 = *player5
-	OffensiveTeam.Player6 = *player6
-	OffensiveTeam.Player7 = *player7
+	OffensiveTeam.Players = Players
 
 	return OffensiveTeam
 }
@@ -131,7 +119,15 @@ func SetOffensiveTeamFormationShotgunBunchRight() OffenseTeamFormation {
 
 	var offensiveTeam OffenseTeamFormation
 
-	offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &receiver1, &receiver2, &receiver3)
+	offensiveTeam.Players = append(offensiveTeam.Players, leftGuard)
+	offensiveTeam.Players = append(offensiveTeam.Players, center)
+	offensiveTeam.Players = append(offensiveTeam.Players, rightGuard)
+	offensiveTeam.Players = append(offensiveTeam.Players, quarterBack)
+	offensiveTeam.Players = append(offensiveTeam.Players, receiver1)
+	offensiveTeam.Players = append(offensiveTeam.Players, receiver2)
+	offensiveTeam.Players = append(offensiveTeam.Players, receiver3)
+
+	//offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &receiver1, &receiver2, &receiver3)
 
 	offensiveTeam.FormationName = "Bunch Right"
 	offensiveTeam.SnapType = "Shotgun"
@@ -170,7 +166,15 @@ func SetOffensiveTeamFormationShotgunBunchLeft() OffenseTeamFormation {
 
 	var offensiveTeam OffenseTeamFormation
 
-	offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &receiver1, &receiver2, &receiver3)
+	offensiveTeam.Players = append(offensiveTeam.Players, leftGuard)
+	offensiveTeam.Players = append(offensiveTeam.Players, center)
+	offensiveTeam.Players = append(offensiveTeam.Players, rightGuard)
+	offensiveTeam.Players = append(offensiveTeam.Players, quarterBack)
+	offensiveTeam.Players = append(offensiveTeam.Players, receiver1)
+	offensiveTeam.Players = append(offensiveTeam.Players, receiver2)
+	offensiveTeam.Players = append(offensiveTeam.Players, receiver3)
+
+	//offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &receiver1, &receiver2, &receiver3)
 
 	offensiveTeam.FormationName = "Bunch Left"
 	offensiveTeam.SnapType = "Shotgun"
@@ -209,7 +213,15 @@ func SetOffensiveTeamFormationShotgunTripsLeft() OffenseTeamFormation {
 
 	var offensiveTeam OffenseTeamFormation
 
-	offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &receiver1, &receiver2, &receiver3)
+	offensiveTeam.Players = append(offensiveTeam.Players, leftGuard)
+	offensiveTeam.Players = append(offensiveTeam.Players, center)
+	offensiveTeam.Players = append(offensiveTeam.Players, rightGuard)
+	offensiveTeam.Players = append(offensiveTeam.Players, quarterBack)
+	offensiveTeam.Players = append(offensiveTeam.Players, receiver1)
+	offensiveTeam.Players = append(offensiveTeam.Players, receiver2)
+	offensiveTeam.Players = append(offensiveTeam.Players, receiver3)
+
+	//offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &receiver1, &receiver2, &receiver3)
 
 	offensiveTeam.FormationName = "Trips Left"
 	offensiveTeam.SnapType = "Shotgun"
@@ -248,7 +260,15 @@ func SetOffensiveTeamFormationShotgunTripsRight() OffenseTeamFormation {
 
 	var offensiveTeam OffenseTeamFormation
 
-	offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &receiver1, &receiver2, &receiver3)
+	offensiveTeam.Players = append(offensiveTeam.Players, leftGuard)
+	offensiveTeam.Players = append(offensiveTeam.Players, center)
+	offensiveTeam.Players = append(offensiveTeam.Players, rightGuard)
+	offensiveTeam.Players = append(offensiveTeam.Players, quarterBack)
+	offensiveTeam.Players = append(offensiveTeam.Players, receiver1)
+	offensiveTeam.Players = append(offensiveTeam.Players, receiver2)
+	offensiveTeam.Players = append(offensiveTeam.Players, receiver3)
+
+	//offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &receiver1, &receiver2, &receiver3)
 
 	offensiveTeam.FormationName = "Trips Right"
 	offensiveTeam.SnapType = "Shotgun"
@@ -287,7 +307,15 @@ func SetOffensiveTeamFormationShotgunTwinsRightBackRight() OffenseTeamFormation 
 
 	var offensiveTeam OffenseTeamFormation
 
-	offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &runningBack, &receiver1, &receiver2)
+	offensiveTeam.Players = append(offensiveTeam.Players, leftGuard)
+	offensiveTeam.Players = append(offensiveTeam.Players, center)
+	offensiveTeam.Players = append(offensiveTeam.Players, rightGuard)
+	offensiveTeam.Players = append(offensiveTeam.Players, quarterBack)
+	offensiveTeam.Players = append(offensiveTeam.Players, runningBack)
+	offensiveTeam.Players = append(offensiveTeam.Players, receiver1)
+	offensiveTeam.Players = append(offensiveTeam.Players, receiver2)
+
+	//offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &runningBack, &receiver1, &receiver2)
 
 	offensiveTeam.FormationName = "Twins Right Running Back Right"
 	offensiveTeam.SnapType = "Shotgun"
@@ -326,7 +354,15 @@ func SetOffensiveTeamFormationShotgunTwinsRightBackLeft() OffenseTeamFormation {
 
 	var offensiveTeam OffenseTeamFormation
 
-	offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &runningBack, &receiver1, &receiver2)
+	offensiveTeam.Players = append(offensiveTeam.Players, leftGuard)
+	offensiveTeam.Players = append(offensiveTeam.Players, center)
+	offensiveTeam.Players = append(offensiveTeam.Players, rightGuard)
+	offensiveTeam.Players = append(offensiveTeam.Players, quarterBack)
+	offensiveTeam.Players = append(offensiveTeam.Players, runningBack)
+	offensiveTeam.Players = append(offensiveTeam.Players, receiver1)
+	offensiveTeam.Players = append(offensiveTeam.Players, receiver2)
+
+	//offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &runningBack, &receiver1, &receiver2)
 
 	offensiveTeam.FormationName = "Twins Right Running Back Left"
 	offensiveTeam.SnapType = "Shotgun"
@@ -365,7 +401,15 @@ func SetOffensiveTeamFormationShotgunTwinsLeftBackRight() OffenseTeamFormation {
 
 	var offensiveTeam OffenseTeamFormation
 
-	offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &runningBack, &receiver1, &receiver2)
+	offensiveTeam.Players = append(offensiveTeam.Players, leftGuard)
+	offensiveTeam.Players = append(offensiveTeam.Players, center)
+	offensiveTeam.Players = append(offensiveTeam.Players, rightGuard)
+	offensiveTeam.Players = append(offensiveTeam.Players, quarterBack)
+	offensiveTeam.Players = append(offensiveTeam.Players, runningBack)
+	offensiveTeam.Players = append(offensiveTeam.Players, receiver1)
+	offensiveTeam.Players = append(offensiveTeam.Players, receiver2)
+
+	//offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &runningBack, &receiver1, &receiver2)
 
 	offensiveTeam.FormationName = "Twins Left Running Back Right"
 	offensiveTeam.SnapType = "Shotgun"
@@ -404,7 +448,15 @@ func SetOffensiveTeamFormationShotgunTwinsLeftBackLeft() OffenseTeamFormation {
 
 	var offensiveTeam OffenseTeamFormation
 
-	offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &runningBack, &receiver1, &receiver2)
+	offensiveTeam.Players = append(offensiveTeam.Players, leftGuard)
+	offensiveTeam.Players = append(offensiveTeam.Players, center)
+	offensiveTeam.Players = append(offensiveTeam.Players, rightGuard)
+	offensiveTeam.Players = append(offensiveTeam.Players, quarterBack)
+	offensiveTeam.Players = append(offensiveTeam.Players, runningBack)
+	offensiveTeam.Players = append(offensiveTeam.Players, receiver1)
+	offensiveTeam.Players = append(offensiveTeam.Players, receiver2)
+
+	//offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &runningBack, &receiver1, &receiver2)
 
 	offensiveTeam.FormationName = "Twins Left Running Back Left"
 	offensiveTeam.SnapType = "Shotgun"
@@ -443,7 +495,15 @@ func SetOffensiveTeamFormationShotgunSplitBackRecieverRight() OffenseTeamFormati
 
 	var offensiveTeam OffenseTeamFormation
 
-	offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &runningBackRight, &receiver1, &runningBackLeft)
+	offensiveTeam.Players = append(offensiveTeam.Players, leftGuard)
+	offensiveTeam.Players = append(offensiveTeam.Players, center)
+	offensiveTeam.Players = append(offensiveTeam.Players, rightGuard)
+	offensiveTeam.Players = append(offensiveTeam.Players, quarterBack)
+	offensiveTeam.Players = append(offensiveTeam.Players, runningBackRight)
+	offensiveTeam.Players = append(offensiveTeam.Players, receiver1)
+	offensiveTeam.Players = append(offensiveTeam.Players, runningBackLeft)
+
+	//offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &runningBackRight, &receiver1, &runningBackLeft)
 
 	offensiveTeam.FormationName = "Split Backs Reciever Right"
 	offensiveTeam.SnapType = "Shotgun"
@@ -482,7 +542,15 @@ func SetOffensiveTeamFormationShotgunSplitBackRecieverLeft() OffenseTeamFormatio
 
 	var offensiveTeam OffenseTeamFormation
 
-	offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &runningBackRight, &receiver1, &runningBackLeft)
+	offensiveTeam.Players = append(offensiveTeam.Players, leftGuard)
+	offensiveTeam.Players = append(offensiveTeam.Players, center)
+	offensiveTeam.Players = append(offensiveTeam.Players, rightGuard)
+	offensiveTeam.Players = append(offensiveTeam.Players, quarterBack)
+	offensiveTeam.Players = append(offensiveTeam.Players, runningBackRight)
+	offensiveTeam.Players = append(offensiveTeam.Players, receiver1)
+	offensiveTeam.Players = append(offensiveTeam.Players, runningBackLeft)
+
+	//offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &runningBackRight, &receiver1, &runningBackLeft)
 
 	offensiveTeam.FormationName = "Split Backs Reciever Left"
 	offensiveTeam.SnapType = "Shotgun"
@@ -495,33 +563,35 @@ func SetOffensiveTeamFormationShotgunSplitBackRecieverLeft() OffenseTeamFormatio
 
 func DrawOffensivePlayers(imd *imdraw.IMDraw, team *OffenseTeamFormation) {
 
-	imd.Color = team.Player1.Attributes.Color
-	imd.Push(pixel.V(team.Player1.Coordinates.MinX, team.Player1.Coordinates.MinY))
-	imd.Circle(team.Player1.Attributes.Radius, team.Player1.Attributes.Thickness)
+	for _, v := range team.Players {
+		imd.Color = v.Attributes.Color
+		imd.Push(pixel.V(v.Coordinates.MinX, v.Coordinates.MinY))
+		imd.Circle(v.Attributes.Radius, v.Attributes.Thickness)
+	}
 
-	imd.Color = team.Player2.Attributes.Color
-	imd.Push(pixel.V(team.Player2.Coordinates.MinX, team.Player2.Coordinates.MinY))
-	imd.Circle(team.Player2.Attributes.Radius, team.Player2.Attributes.Thickness)
-
-	imd.Color = team.Player3.Attributes.Color
-	imd.Push(pixel.V(team.Player3.Coordinates.MinX, team.Player3.Coordinates.MinY))
-	imd.Circle(team.Player3.Attributes.Radius, team.Player3.Attributes.Thickness)
-
-	imd.Color = team.Player4.Attributes.Color
-	imd.Push(pixel.V(team.Player4.Coordinates.MinX, team.Player4.Coordinates.MinY))
-	imd.Circle(team.Player4.Attributes.Radius, team.Player4.Attributes.Thickness)
-
-	imd.Color = team.Player5.Attributes.Color
-	imd.Push(pixel.V(team.Player5.Coordinates.MinX, team.Player5.Coordinates.MinY))
-	imd.Circle(team.Player5.Attributes.Radius, team.Player5.Attributes.Thickness)
-
-	imd.Color = team.Player6.Attributes.Color
-	imd.Push(pixel.V(team.Player6.Coordinates.MinX, team.Player6.Coordinates.MinY))
-	imd.Circle(team.Player6.Attributes.Radius, team.Player6.Attributes.Thickness)
-
-	imd.Color = team.Player7.Attributes.Color
-	imd.Push(pixel.V(team.Player7.Coordinates.MinX, team.Player7.Coordinates.MinY))
-	imd.Circle(team.Player7.Attributes.Radius, team.Player7.Attributes.Thickness)
+	//imd.Color = team.Player2.Attributes.Color
+	//imd.Push(pixel.V(team.Player2.Coordinates.MinX, team.Player2.Coordinates.MinY))
+	//imd.Circle(team.Player2.Attributes.Radius, team.Player2.Attributes.Thickness)
+	//
+	//imd.Color = team.Player3.Attributes.Color
+	//imd.Push(pixel.V(team.Player3.Coordinates.MinX, team.Player3.Coordinates.MinY))
+	//imd.Circle(team.Player3.Attributes.Radius, team.Player3.Attributes.Thickness)
+	//
+	//imd.Color = team.Player4.Attributes.Color
+	//imd.Push(pixel.V(team.Player4.Coordinates.MinX, team.Player4.Coordinates.MinY))
+	//imd.Circle(team.Player4.Attributes.Radius, team.Player4.Attributes.Thickness)
+	//
+	//imd.Color = team.Player5.Attributes.Color
+	//imd.Push(pixel.V(team.Player5.Coordinates.MinX, team.Player5.Coordinates.MinY))
+	//imd.Circle(team.Player5.Attributes.Radius, team.Player5.Attributes.Thickness)
+	//
+	//imd.Color = team.Player6.Attributes.Color
+	//imd.Push(pixel.V(team.Player6.Coordinates.MinX, team.Player6.Coordinates.MinY))
+	//imd.Circle(team.Player6.Attributes.Radius, team.Player6.Attributes.Thickness)
+	//
+	//imd.Color = team.Player7.Attributes.Color
+	//imd.Push(pixel.V(team.Player7.Coordinates.MinX, team.Player7.Coordinates.MinY))
+	//imd.Circle(team.Player7.Attributes.Radius, team.Player7.Attributes.Thickness)
 
 }
 

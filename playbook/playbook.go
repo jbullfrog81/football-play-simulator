@@ -100,19 +100,24 @@ func DrawOffensivePlayerPlayRoute(imd *imdraw.IMDraw, playerCoordinates formatio
 
 func DrawOffensivePlayBookPage(imd *imdraw.IMDraw, win *pixelgl.Window, pageNumber int, offensivePlayBook *PlayBook) {
 
-	DrawOffensivePlayerPlayRoute(imd, offensivePlayBook.OffensivePlays[pageNumber].Formation.Player1.Coordinates, offensivePlayBook.OffensivePlays[pageNumber].PlayerRoutes[0])
+	for i, v := range offensivePlayBook.OffensivePlays[pageNumber].Formation.Players {
 
-	DrawOffensivePlayerPlayRoute(imd, offensivePlayBook.OffensivePlays[pageNumber].Formation.Player2.Coordinates, offensivePlayBook.OffensivePlays[pageNumber].PlayerRoutes[1])
+		DrawOffensivePlayerPlayRoute(imd, v.Coordinates, offensivePlayBook.OffensivePlays[pageNumber].PlayerRoutes[i])
 
-	DrawOffensivePlayerPlayRoute(imd, offensivePlayBook.OffensivePlays[pageNumber].Formation.Player3.Coordinates, offensivePlayBook.OffensivePlays[pageNumber].PlayerRoutes[2])
+	}
+	//DrawOffensivePlayerPlayRoute(imd, offensivePlayBook.OffensivePlays[pageNumber].Formation.Player1.Coordinates, offensivePlayBook.OffensivePlays[pageNumber].PlayerRoutes[0])
 
-	DrawOffensivePlayerPlayRoute(imd, offensivePlayBook.OffensivePlays[pageNumber].Formation.Player4.Coordinates, offensivePlayBook.OffensivePlays[pageNumber].PlayerRoutes[3])
+	//DrawOffensivePlayerPlayRoute(imd, offensivePlayBook.OffensivePlays[pageNumber].Formation.Player2.Coordinates, offensivePlayBook.OffensivePlays[pageNumber].PlayerRoutes[1])
 
-	DrawOffensivePlayerPlayRoute(imd, offensivePlayBook.OffensivePlays[pageNumber].Formation.Player5.Coordinates, offensivePlayBook.OffensivePlays[pageNumber].PlayerRoutes[4])
+	//DrawOffensivePlayerPlayRoute(imd, offensivePlayBook.OffensivePlays[pageNumber].Formation.Player3.Coordinates, offensivePlayBook.OffensivePlays[pageNumber].PlayerRoutes[2])
 
-	DrawOffensivePlayerPlayRoute(imd, offensivePlayBook.OffensivePlays[pageNumber].Formation.Player6.Coordinates, offensivePlayBook.OffensivePlays[pageNumber].PlayerRoutes[5])
+	//DrawOffensivePlayerPlayRoute(imd, offensivePlayBook.OffensivePlays[pageNumber].Formation.Player4.Coordinates, offensivePlayBook.OffensivePlays[pageNumber].PlayerRoutes[3])
 
-	DrawOffensivePlayerPlayRoute(imd, offensivePlayBook.OffensivePlays[pageNumber].Formation.Player7.Coordinates, offensivePlayBook.OffensivePlays[pageNumber].PlayerRoutes[6])
+	//DrawOffensivePlayerPlayRoute(imd, offensivePlayBook.OffensivePlays[pageNumber].Formation.Player5.Coordinates, offensivePlayBook.OffensivePlays[pageNumber].PlayerRoutes[4])
+
+	//DrawOffensivePlayerPlayRoute(imd, offensivePlayBook.OffensivePlays[pageNumber].Formation.Player6.Coordinates, offensivePlayBook.OffensivePlays[pageNumber].PlayerRoutes[5])
+
+	//DrawOffensivePlayerPlayRoute(imd, offensivePlayBook.OffensivePlays[pageNumber].Formation.Player7.Coordinates, offensivePlayBook.OffensivePlays[pageNumber].PlayerRoutes[6])
 
 	formations.DrawOffensivePlayers(imd, &offensivePlayBook.OffensivePlays[pageNumber].Formation)
 
