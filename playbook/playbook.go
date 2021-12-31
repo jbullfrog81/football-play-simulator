@@ -139,3 +139,25 @@ func DrawOffensivePlayBookMenu(imd *imdraw.IMDraw, win *pixelgl.Window, offensiv
 
 	basicTxt.Draw(win, pixel.IM)
 }
+
+func DrawOffensiveRunPlayMenu(imd *imdraw.IMDraw, win *pixelgl.Window, offensivePlayBook *PlayBook, pageNumber int) {
+
+	atlas := text.NewAtlas(basicfont.Face7x13, text.ASCII)
+
+	basicTxtMenu := text.New(pixel.V(600, 600), atlas)
+
+	fmt.Fprintln(basicTxtMenu, "Play Run Menu:")
+
+	basicTxtMenu.Draw(win, pixel.IM.Scaled(basicTxtMenu.Orig, 2))
+
+	basicTxt := text.New(pixel.V(600, 400), atlas)
+
+	fmt.Fprintln(basicTxt, "Playbook Name: "+offensivePlayBook.PlayBookName)
+	fmt.Fprintln(basicTxt, "Play Name: "+offensivePlayBook.OffensivePlays[pageNumber].PlayName)
+	fmt.Fprintln(basicTxt, "Formation Name: "+offensivePlayBook.OffensivePlays[pageNumber].Formation.FormationName)
+	fmt.Fprintln(basicTxt, "Snap Type: "+offensivePlayBook.OffensivePlays[pageNumber].Formation.SnapType)
+	fmt.Fprintln(basicTxt, "Recievers: "+fmt.Sprint(offensivePlayBook.OffensivePlays[pageNumber].Formation.Receivers))
+	fmt.Fprintln(basicTxt, "Running Backs: "+fmt.Sprint(offensivePlayBook.OffensivePlays[pageNumber].Formation.RunningBacks))
+
+	basicTxt.Draw(win, pixel.IM)
+}

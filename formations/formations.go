@@ -562,3 +562,15 @@ func DrawSpecificOffensiveFormation(imd *imdraw.IMDraw, win *pixelgl.Window, ite
 	basicTxt.Draw(win, pixel.IM)
 
 }
+
+func DrawOffensiveFormatonsMenu(imd *imdraw.IMDraw, win *pixelgl.Window) {
+
+	atlas := text.NewAtlas(basicfont.Face7x13, text.ASCII)
+
+	basicTxtMenu := text.New(pixel.V(600, 600), atlas)
+
+	fmt.Fprintln(basicTxtMenu, "Formations Menu:")
+
+	basicTxtMenu.Draw(win, pixel.IM.Scaled(basicTxtMenu.Orig, 2))
+
+}

@@ -114,7 +114,7 @@ func run() {
 
 	// Available Window States:
 	// - OffensivePlaybook
-	// - running
+	// - RunPlay
 	// - OffensiveFormations
 	// - paused
 	windowState := "OffensivePlaybook"
@@ -123,9 +123,11 @@ func run() {
 
 	OffensePlaybookPageNumber := 0
 
+	OffenseRunPlayPlaybookPageNumber := 0
+
 	for !win.Closed() {
 
-		if windowState == "running" {
+		if windowState == "RunPlay" {
 			win.Clear(colornames.Darkolivegreen)
 
 			if win.JustPressed(pixelgl.KeyEscape) {
@@ -135,10 +137,10 @@ func run() {
 			// restart the play when pressing enter
 			if win.JustPressed(pixelgl.KeyEnter) {
 				//redraw the initial play formation
-				formations.DrawOffensivePlayers(imd, &myTeamOffensivePlayBook.OffensivePlays[0].Formation)
+				formations.DrawOffensivePlayers(imd, &myTeamOffensivePlayBook.OffensivePlays[OffenseRunPlayPlaybookPageNumber].Formation)
 
 				//reset the run play formation
-				myTeamOffenseRunPlayFormation = myTeamOffensivePlayBook.OffensivePlays[0].Formation
+				myTeamOffenseRunPlayFormation = myTeamOffensivePlayBook.OffensivePlays[OffenseRunPlayPlaybookPageNumber].Formation
 				iteration = 0
 			}
 
@@ -148,20 +150,24 @@ func run() {
 
 			imd.Clear()
 
+			imdFootballField.Draw(win)
+
 			field.DrawFootballFieldLines(imdFootballField, leftSideLinePixel, rightSideLinePixel)
 			field.DrawFootballFieldYardNumbers(imdFootballField, win)
 
 			if iteration == 0 {
-				formations.DrawOffensivePlayers(imd, &myTeamOffensivePlayBook.OffensivePlays[0].Formation)
+				formations.DrawOffensivePlayers(imd, &myTeamOffensivePlayBook.OffensivePlays[OffenseRunPlayPlaybookPageNumber].Formation)
 			}
 
-			formations.DrawOffensePlayerRunPlay(imd, &myTeamOffensivePlayBook.OffensivePlays[0].PlayerRoutes[0], &myTeamOffenseRunPlayFormation.Player1, iteration)
-			formations.DrawOffensePlayerRunPlay(imd, &myTeamOffensivePlayBook.OffensivePlays[0].PlayerRoutes[1], &myTeamOffenseRunPlayFormation.Player2, iteration)
-			formations.DrawOffensePlayerRunPlay(imd, &myTeamOffensivePlayBook.OffensivePlays[0].PlayerRoutes[2], &myTeamOffenseRunPlayFormation.Player3, iteration)
-			formations.DrawOffensePlayerRunPlay(imd, &myTeamOffensivePlayBook.OffensivePlays[0].PlayerRoutes[3], &myTeamOffenseRunPlayFormation.Player4, iteration)
-			formations.DrawOffensePlayerRunPlay(imd, &myTeamOffensivePlayBook.OffensivePlays[0].PlayerRoutes[4], &myTeamOffenseRunPlayFormation.Player5, iteration)
-			formations.DrawOffensePlayerRunPlay(imd, &myTeamOffensivePlayBook.OffensivePlays[0].PlayerRoutes[5], &myTeamOffenseRunPlayFormation.Player6, iteration)
-			formations.DrawOffensePlayerRunPlay(imd, &myTeamOffensivePlayBook.OffensivePlays[0].PlayerRoutes[6], &myTeamOffenseRunPlayFormation.Player7, iteration)
+			formations.DrawOffensePlayerRunPlay(imd, &myTeamOffensivePlayBook.OffensivePlays[OffenseRunPlayPlaybookPageNumber].PlayerRoutes[0], &myTeamOffenseRunPlayFormation.Player1, iteration)
+			formations.DrawOffensePlayerRunPlay(imd, &myTeamOffensivePlayBook.OffensivePlays[OffenseRunPlayPlaybookPageNumber].PlayerRoutes[1], &myTeamOffenseRunPlayFormation.Player2, iteration)
+			formations.DrawOffensePlayerRunPlay(imd, &myTeamOffensivePlayBook.OffensivePlays[OffenseRunPlayPlaybookPageNumber].PlayerRoutes[2], &myTeamOffenseRunPlayFormation.Player3, iteration)
+			formations.DrawOffensePlayerRunPlay(imd, &myTeamOffensivePlayBook.OffensivePlays[OffenseRunPlayPlaybookPageNumber].PlayerRoutes[3], &myTeamOffenseRunPlayFormation.Player4, iteration)
+			formations.DrawOffensePlayerRunPlay(imd, &myTeamOffensivePlayBook.OffensivePlays[OffenseRunPlayPlaybookPageNumber].PlayerRoutes[4], &myTeamOffenseRunPlayFormation.Player5, iteration)
+			formations.DrawOffensePlayerRunPlay(imd, &myTeamOffensivePlayBook.OffensivePlays[OffenseRunPlayPlaybookPageNumber].PlayerRoutes[5], &myTeamOffenseRunPlayFormation.Player6, iteration)
+			formations.DrawOffensePlayerRunPlay(imd, &myTeamOffensivePlayBook.OffensivePlays[OffenseRunPlayPlaybookPageNumber].PlayerRoutes[6], &myTeamOffenseRunPlayFormation.Player7, iteration)
+
+			playbook.DrawOffensiveRunPlayMenu(imd, win, &myTeamOffensivePlayBook, OffenseRunPlayPlaybookPageNumber)
 
 			imd.Draw(win)
 
@@ -222,7 +228,7 @@ func run() {
 		} else if windowState == "OffensiveFormations" {
 
 			if win.JustPressed(pixelgl.KeyEscape) {
-				windowState = "running"
+				windowState = "RunPlay"
 			}
 
 			if win.JustPressed(pixelgl.KeyDown) && OffenseFormationIteration > 0 {
@@ -237,6 +243,7 @@ func run() {
 
 			imdOffensiveFormations.Clear()
 			formations.DrawSpecificOffensiveFormation(imdOffensiveFormations, win, OffenseFormationIteration)
+			formations.DrawOffensiveFormatonsMenu(imdOffensiveFormations, win)
 
 			field.DrawFootballFieldYardNumbers(imdFootballField, win)
 
