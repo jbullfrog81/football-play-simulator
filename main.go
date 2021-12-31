@@ -209,6 +209,8 @@ func run() {
 
 			playbook.DrawOffensivePlayBookPage(imdOffensivePlayBook, win, OffensePlaybookPageNumber, &myTeamOffensivePlayBook)
 
+			playbook.DrawOffensivePlayBookMenu(imdOffensivePlayBook, win, &myTeamOffensivePlayBook, OffensePlaybookPageNumber)
+
 			imdOffensivePlayBook.Draw(win)
 
 			win.Update()
