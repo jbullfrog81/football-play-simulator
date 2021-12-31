@@ -1,9 +1,17 @@
 package formations
 
 import (
+	"fmt"
 	"image/color"
 
+	"jbullfrog81/football-play-simulator/routes"
+
+	"github.com/faiface/pixel"
+	"github.com/faiface/pixel/imdraw"
+	"github.com/faiface/pixel/pixelgl"
+	"github.com/faiface/pixel/text"
 	"golang.org/x/image/colornames"
+	"golang.org/x/image/font/basicfont"
 )
 
 type OffensePlayerCoordinates struct {
@@ -482,5 +490,75 @@ func SetOffensiveTeamFormationShotgunSplitBackRecieverLeft() OffenseTeamFormatio
 	offensiveTeam.RunningBacks = 2
 
 	return offensiveTeam
+
+}
+
+func DrawOffensivePlayers(imd *imdraw.IMDraw, team *OffenseTeamFormation) {
+
+	imd.Color = team.Player1.Attributes.Color
+	imd.Push(pixel.V(team.Player1.Coordinates.MinX, team.Player1.Coordinates.MinY))
+	imd.Circle(team.Player1.Attributes.Radius, team.Player1.Attributes.Thickness)
+
+	imd.Color = team.Player2.Attributes.Color
+	imd.Push(pixel.V(team.Player2.Coordinates.MinX, team.Player2.Coordinates.MinY))
+	imd.Circle(team.Player2.Attributes.Radius, team.Player2.Attributes.Thickness)
+
+	imd.Color = team.Player3.Attributes.Color
+	imd.Push(pixel.V(team.Player3.Coordinates.MinX, team.Player3.Coordinates.MinY))
+	imd.Circle(team.Player3.Attributes.Radius, team.Player3.Attributes.Thickness)
+
+	imd.Color = team.Player4.Attributes.Color
+	imd.Push(pixel.V(team.Player4.Coordinates.MinX, team.Player4.Coordinates.MinY))
+	imd.Circle(team.Player4.Attributes.Radius, team.Player4.Attributes.Thickness)
+
+	imd.Color = team.Player5.Attributes.Color
+	imd.Push(pixel.V(team.Player5.Coordinates.MinX, team.Player5.Coordinates.MinY))
+	imd.Circle(team.Player5.Attributes.Radius, team.Player5.Attributes.Thickness)
+
+	imd.Color = team.Player6.Attributes.Color
+	imd.Push(pixel.V(team.Player6.Coordinates.MinX, team.Player6.Coordinates.MinY))
+	imd.Circle(team.Player6.Attributes.Radius, team.Player6.Attributes.Thickness)
+
+	imd.Color = team.Player7.Attributes.Color
+	imd.Push(pixel.V(team.Player7.Coordinates.MinX, team.Player7.Coordinates.MinY))
+	imd.Circle(team.Player7.Attributes.Radius, team.Player7.Attributes.Thickness)
+
+}
+
+func DrawOffensePlayerRunPlay(imd *imdraw.IMDraw, route *routes.OffensePlayRoute, playerPosition *OffensePlayer, iteration int) {
+
+	println("starting draw offense run play")
+	if iteration < len(route.MinX) {
+		println("inside iteration loop")
+		playerPosition.Coordinates.MinX += route.MinX[iteration]
+		playerPosition.Coordinates.MinY += route.MinY[iteration]
+		playerPosition.Coordinates.MaxX += route.MaxX[iteration]
+		playerPosition.Coordinates.MaxY += route.MaxY[iteration]
+	}
+
+	imd.Color = playerPosition.Attributes.Color
+	imd.Push(pixel.V(playerPosition.Coordinates.MinX, playerPosition.Coordinates.MinY))
+	imd.Circle(playerPosition.Attributes.Radius, playerPosition.Attributes.Thickness)
+
+}
+
+func DrawSpecificOffensiveFormation(imd *imdraw.IMDraw, win *pixelgl.Window, iteration int) {
+
+	availableOffensiveFormations := ReturnAllOffensiveTeamFormations()
+	currentFormation := availableOffensiveFormations.Formations[iteration]
+	//for i, v := range availableOffensiveFormations.Formations {
+	//	if i < 1 {
+
+	DrawOffensivePlayers(imd, &currentFormation)
+
+	atlas := text.NewAtlas(basicfont.Face7x13, text.ASCII)
+	basicTxt := text.New(pixel.V(600, 400), atlas)
+
+	fmt.Fprintln(basicTxt, "Name: "+currentFormation.FormationName)
+	fmt.Fprintln(basicTxt, "Snap Type: "+currentFormation.SnapType)
+	fmt.Fprintln(basicTxt, "Recievers: "+fmt.Sprint(currentFormation.Receivers))
+	fmt.Fprintln(basicTxt, "Running Backs: "+fmt.Sprint(currentFormation.RunningBacks))
+
+	basicTxt.Draw(win, pixel.IM)
 
 }
