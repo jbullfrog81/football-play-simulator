@@ -7,6 +7,82 @@ type OffensePlayRoute struct {
 	MaxY []float64
 }
 
+type OffensePlayRoutes struct {
+	Routes []OffensePlayRoute
+}
+
+func ReturnAllOffensePlayRoutes() (allRoutes OffensePlayRoutes) {
+
+	var route OffensePlayRoute
+
+	// TODO: figure out how to iterate through a slice of all route functions
+	// to generate all of the routes
+	//var sliceOfRoutes := {"","",}
+
+	route = DefineBlockRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineGoRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineRightSlantThreeYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineRightOutFiveYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineRightOutTenYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineRightInFiveYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineRightInTenYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineRightPostTenYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineRightWhipSevenYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineRightWhipFiveYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineRightOutAndUpSevenYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineLeftSlantThreeYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineLeftOutFiveYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineLeftOutTenYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineLeftInFiveYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineLeftInTenYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineLeftPostTenYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineLeftWhipSevenYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineLeftWhipFiveYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineLeftOutAndUpSevenYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	return allRoutes
+
+}
+
 // Field Side Agnostic Routes
 
 func DefineBlockRoute() OffensePlayRoute {

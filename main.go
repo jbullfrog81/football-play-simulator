@@ -1,11 +1,13 @@
 package main
 
 import (
+	"fmt"
 	"image"
 	"image/color"
 	"jbullfrog81/football-play-simulator/field"
 	"jbullfrog81/football-play-simulator/formations"
 	"jbullfrog81/football-play-simulator/playbook"
+	"jbullfrog81/football-play-simulator/routes"
 	"os"
 	"time"
 
@@ -15,7 +17,9 @@ import (
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/imdraw"
 	"github.com/faiface/pixel/pixelgl"
+	"github.com/faiface/pixel/text"
 	"golang.org/x/image/colornames"
+	"golang.org/x/image/font/basicfont"
 )
 
 //Global variables
@@ -32,6 +36,55 @@ type offensePlayerPosition struct {
 	maxX      float64
 	maxY      float64
 	color     color.Color
+}
+
+func DrawBuildPlaybookMenuSavedPlayerRoutes(imd *imdraw.IMDraw, win *pixelgl.Window, savedRoutes routes.OffensePlayRoutes, formationIteration int) {
+	availableOffensiveFormations := formations.ReturnAllOffensiveTeamFormations()
+
+	for i, _ := range savedRoutes.Routes {
+		playbook.DrawOffensivePlayerPlayRoute(imd, availableOffensiveFormations.Formations[formationIteration].Players[i].Coordinates, savedRoutes.Routes[i], colornames.Gold)
+	}
+
+	imd.Draw(win)
+}
+
+func DrawSpecificOffensiveFormationHighlightOnePlayer(imd *imdraw.IMDraw, win *pixelgl.Window, formationIteration int, routeIteration int, playerHighlight int) {
+
+	availableOffensiveFormations := formations.ReturnAllOffensiveTeamFormations()
+	availableOffensiveRoutes := routes.ReturnAllOffensePlayRoutes()
+	//currentFormation := availableOffensiveFormations.Formations[iteration]
+	//for i, v := range availableOffensiveFormations.Formations {
+	//	if i < 1 {
+
+	DrawOffensivePlayersHighlightOnePlayer(imd, availableOffensiveFormations.Formations[formationIteration], playerHighlight, availableOffensiveRoutes.Routes[routeIteration])
+
+	atlas := text.NewAtlas(basicfont.Face7x13, text.ASCII)
+	basicTxt := text.New(pixel.V(600, 400), atlas)
+
+	fmt.Fprintln(basicTxt, "Name: "+availableOffensiveFormations.Formations[formationIteration].FormationName)
+	fmt.Fprintln(basicTxt, "Snap Type: "+availableOffensiveFormations.Formations[formationIteration].SnapType)
+	fmt.Fprintln(basicTxt, "Recievers: "+fmt.Sprint(availableOffensiveFormations.Formations[formationIteration].Receivers))
+	fmt.Fprintln(basicTxt, "Running Backs: "+fmt.Sprint(availableOffensiveFormations.Formations[formationIteration].RunningBacks))
+
+	basicTxt.Draw(win, pixel.IM)
+
+}
+
+// This function will draw the offensive team formation with a specific player highlighted in
+// red and the route they are assigned
+func DrawOffensivePlayersHighlightOnePlayer(imd *imdraw.IMDraw, team formations.OffenseTeamFormation, playerHighlight int, playerHighlightRoute routes.OffensePlayRoute) {
+
+	for i, v := range team.Players {
+
+		if i == playerHighlight {
+			imd.Color = colornames.Red
+			playbook.DrawOffensivePlayerPlayRoute(imd, v.Coordinates, playerHighlightRoute, colornames.Red)
+		} else {
+			imd.Color = v.Attributes.Color
+		}
+		imd.Push(pixel.V(v.Coordinates.MinX, v.Coordinates.MinY))
+		imd.Circle(v.Attributes.Radius, v.Attributes.Thickness)
+	}
 }
 
 func defineOffensivePlayerPosition(playerPosition *offensePlayerPosition, thickness float64,
@@ -85,6 +138,7 @@ func run() {
 	imdFootballField := imdraw.New(nil)
 	imdOffensiveFormations := imdraw.New(nil)
 	imdOffensivePlayBook := imdraw.New(nil)
+	imdBuildOffensivePlaybook := imdraw.New(nil)
 
 	// The lines on the football field:
 	// 1 pixel = 3.6 inches
@@ -102,6 +156,9 @@ func run() {
 	//Manual creation of a playbook
 	var myTeamOffensivePlayBook playbook.PlayBook
 
+	// Build a new playbook
+	var buildOffensivePlayBook playbook.PlayBook
+
 	myTeamOffensivePlayBook = playbook.BuildDefaultOffensivePlayBook()
 
 	playbook.SavePlayBookToFile(myTeamOffensivePlayBook)
@@ -115,10 +172,11 @@ func run() {
 	windowState := "paused"
 
 	// Available Window Menus:
-	// - OffensivePlaybook
+	// - RunOffensivePlaybook
 	// - RunPlay
 	// - OffensiveFormations
-	windowMenu := "OffensivePlaybook"
+	// - BuildOffensivePlaybook
+	windowMenu := "RunOffensivePlaybook"
 
 	OffenseFormationIteration := 0
 
@@ -127,6 +185,31 @@ func run() {
 	OffenseRunPlayPlaybookPageNumber := 0
 
 	myTeamOffensePlayBookRun := playbook.BuildDefaultOffensivePlayBook()
+
+	drawSelectFormationIteration := 0
+
+	// Available Build Offensive Playbook menu items:
+	// - Formation
+	// - Route
+	BuildOffensivePlaybookMenuSelection := "Formation"
+
+	var selectedFormation int
+	//var selectedRoute int
+	var selectedPlayerRoute routes.OffensePlayRoute
+
+	//These are the temp player routes to build a page in our playbood
+	var selectedPlayerRoutes routes.OffensePlayRoutes
+	//set all the routes to a default of block
+	for i := 0; i < 7; i++ {
+		selectedPlayerRoutes.Routes = append(selectedPlayerRoutes.Routes, routes.DefineBlockRoute())
+	}
+
+	drawSelectPlayerIteration := 0
+	drawSelectRouteIteration := 0
+	var buildOffensivePlay playbook.OffensivePlay
+
+	allOffensiveFormations := formations.ReturnAllOffensiveTeamFormations()
+	allOffensiveRoutes := routes.ReturnAllOffensePlayRoutes()
 
 	for !win.Closed() {
 
@@ -139,7 +222,7 @@ func run() {
 				myTeamOffensePlayBookRun = playbook.BuildDefaultOffensivePlayBook()
 				iteration = 0
 
-				windowMenu = "OffensivePlaybook"
+				windowMenu = "RunOffensivePlaybook"
 			}
 
 			// restart the play when pressing enter
@@ -175,7 +258,7 @@ func run() {
 				}
 
 				imdOffenseRunPlay.Draw(win)
-				playbook.DrawOffensiveRunPlayMenu(imdOffenseRunPlay, win, myTeamOffensivePlayBook, OffenseRunPlayPlaybookPageNumber)
+				playbook.DrawOffensiveRunPlayMenu(imdOffenseRunPlay, win, myTeamOffensePlayBookRun, OffenseRunPlayPlaybookPageNumber)
 
 				win.Update()
 
@@ -191,7 +274,7 @@ func run() {
 				imdFootballField.Draw(win)
 
 				if iteration == 0 {
-					formations.DrawOffensivePlayers(imdOffenseRunPlay, myTeamOffensivePlayBook.OffensivePlays[OffenseRunPlayPlaybookPageNumber].Formation)
+					formations.DrawOffensivePlayers(imdOffenseRunPlay, myTeamOffensePlayBookRun.OffensivePlays[OffenseRunPlayPlaybookPageNumber].Formation)
 				} else {
 					for i, _ := range myTeamOffensePlayBookRun.OffensivePlays[OffenseRunPlayPlaybookPageNumber].Formation.Players {
 
@@ -200,7 +283,7 @@ func run() {
 					}
 				}
 
-				playbook.DrawOffensiveRunPlayMenu(imdOffenseRunPlay, win, myTeamOffensivePlayBook, OffenseRunPlayPlaybookPageNumber)
+				playbook.DrawOffensiveRunPlayMenu(imdOffenseRunPlay, win, myTeamOffensePlayBookRun, OffenseRunPlayPlaybookPageNumber)
 
 				imdOffenseRunPlay.Draw(win)
 
@@ -215,7 +298,7 @@ func run() {
 				<-frameTick.C
 			}
 
-		} else if windowMenu == "OffensivePlaybook" {
+		} else if windowMenu == "RunOffensivePlaybook" {
 
 			if win.JustPressed(pixelgl.KeyEscape) {
 				windowMenu = "OffensiveFormations"
@@ -252,7 +335,7 @@ func run() {
 		} else if windowMenu == "OffensiveFormations" {
 
 			if win.JustPressed(pixelgl.KeyEscape) {
-				windowMenu = "RunPlay"
+				windowMenu = "BuildOffensivePlaybook"
 			}
 
 			if win.JustPressed(pixelgl.KeyDown) && OffenseFormationIteration > 0 {
@@ -273,6 +356,103 @@ func run() {
 
 			imdFootballField.Draw(win)
 			imdOffensiveFormations.Draw(win)
+			win.Update()
+
+			if frameTick != nil {
+				<-frameTick.C
+			}
+		} else if windowMenu == "BuildOffensivePlaybook" {
+
+			if win.JustPressed(pixelgl.KeyEscape) {
+				windowMenu = "RunPlay"
+			}
+
+			win.Clear(colornames.Darkolivegreen)
+
+			//myTeamOffensivePlayBook
+
+			imdBuildOffensivePlaybook.Clear()
+
+			field.DrawFootballFieldYardNumbers(imdFootballField, win)
+
+			imdFootballField.Draw(win)
+
+			if BuildOffensivePlaybookMenuSelection == "Formation" {
+
+				playbook.DrawBuildOffensivePlaybookMenuSelectFormation(imdBuildOffensivePlaybook, win, drawSelectFormationIteration)
+
+				imdBuildOffensivePlaybook.Draw(win)
+
+				if win.JustPressed(pixelgl.KeyEnter) {
+					selectedFormation = drawSelectFormationIteration
+					buildOffensivePlay.PlayName = "play 1"
+					buildOffensivePlay.Formation = allOffensiveFormations.Formations[selectedFormation]
+					//buildOffensivePlayBook.OffensivePlays = append(buildOffensivePlayBook.OffensivePlays, allOffensiveFormations.Formations[selectedFormation])
+					//buildOffensivePlayBook.OffensivePlays[0].Formation = allOffensiveFormations.Formations[selectedFormation]
+					fmt.Println("The selected formation is: ", selectedFormation)
+					fmt.Println("the build playbook is:")
+					fmt.Println(buildOffensivePlayBook)
+					BuildOffensivePlaybookMenuSelection = "Route"
+				}
+
+				if win.JustPressed(pixelgl.KeyUp) {
+					if drawSelectFormationIteration > 0 {
+						drawSelectFormationIteration += -1
+					}
+				} else if win.JustPressed(pixelgl.KeyDown) {
+					if drawSelectFormationIteration < len(allOffensiveFormations.Formations) {
+						drawSelectFormationIteration += 1
+					}
+				}
+
+			} else if BuildOffensivePlaybookMenuSelection == "Route" {
+
+				playbook.DrawBuildOffensivePlaybookMenuSelectRoute(imdBuildOffensivePlaybook, win, drawSelectFormationIteration, drawSelectRouteIteration, drawSelectPlayerIteration)
+
+				//Draw the routes that have alredy been selected
+				DrawBuildPlaybookMenuSavedPlayerRoutes(imdBuildOffensivePlaybook, win, selectedPlayerRoutes, drawSelectFormationIteration)
+
+				//Draw the currently selected player to select a route
+				DrawSpecificOffensiveFormationHighlightOnePlayer(imdBuildOffensivePlaybook, win, drawSelectFormationIteration, drawSelectRouteIteration, drawSelectPlayerIteration)
+
+				imdBuildOffensivePlaybook.Draw(win)
+
+				if win.JustPressed(pixelgl.KeyEnter) {
+
+					selectedPlayerRoute = allOffensiveRoutes.Routes[drawSelectRouteIteration]
+					selectedPlayerRoutes.Routes[drawSelectPlayerIteration] = selectedPlayerRoute
+					//buildOffensivePlayBook.OffensivePlays[0].PlayName = "Play 1"
+					//buildOffensivePlayBook.OffensivePlays[0].PlayerRoutes[drawSelectPlayerIteration] = allOffensiveRoutes.Routes[drawSelectRouteIteration]
+
+					fmt.Println("The selected player and route is: ", selectedPlayerRoute)
+					fmt.Println("the build playbook is:")
+					fmt.Println(buildOffensivePlayBook)
+				}
+
+				if win.JustPressed(pixelgl.KeyLeft) {
+					if drawSelectPlayerIteration > 0 {
+						drawSelectPlayerIteration += -1
+					}
+				} else if win.JustPressed(pixelgl.KeyRight) {
+					if drawSelectPlayerIteration < 6 {
+						drawSelectPlayerIteration += 1
+					}
+				}
+
+				if win.JustPressed(pixelgl.KeyUp) {
+					if drawSelectRouteIteration > 0 {
+						drawSelectRouteIteration += -1
+					}
+				} else if win.JustPressed(pixelgl.KeyDown) {
+					if drawSelectRouteIteration < len(allOffensiveRoutes.Routes)-1 {
+						drawSelectRouteIteration += 1
+					}
+				}
+
+			} else if BuildOffensivePlaybookMenuSelection == "Done" {
+				playbook.AddPlayBookPage(buildOffensivePlay.PlayName, buildOffensivePlay.Formation, selectedPlayerRoutes.Routes)
+			}
+
 			win.Update()
 
 			if frameTick != nil {

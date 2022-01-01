@@ -533,19 +533,19 @@ func DrawOffensePlayerRunPlay(imd *imdraw.IMDraw, route routes.OffensePlayRoute,
 func DrawSpecificOffensiveFormation(imd *imdraw.IMDraw, win *pixelgl.Window, iteration int) {
 
 	availableOffensiveFormations := ReturnAllOffensiveTeamFormations()
-	currentFormation := availableOffensiveFormations.Formations[iteration]
+	//currentFormation := availableOffensiveFormations.Formations[iteration]
 	//for i, v := range availableOffensiveFormations.Formations {
 	//	if i < 1 {
 
-	DrawOffensivePlayers(imd, currentFormation)
+	DrawOffensivePlayers(imd, availableOffensiveFormations.Formations[iteration])
 
 	atlas := text.NewAtlas(basicfont.Face7x13, text.ASCII)
 	basicTxt := text.New(pixel.V(600, 400), atlas)
 
-	fmt.Fprintln(basicTxt, "Name: "+currentFormation.FormationName)
-	fmt.Fprintln(basicTxt, "Snap Type: "+currentFormation.SnapType)
-	fmt.Fprintln(basicTxt, "Recievers: "+fmt.Sprint(currentFormation.Receivers))
-	fmt.Fprintln(basicTxt, "Running Backs: "+fmt.Sprint(currentFormation.RunningBacks))
+	fmt.Fprintln(basicTxt, "Name: "+availableOffensiveFormations.Formations[iteration].FormationName)
+	fmt.Fprintln(basicTxt, "Snap Type: "+availableOffensiveFormations.Formations[iteration].SnapType)
+	fmt.Fprintln(basicTxt, "Recievers: "+fmt.Sprint(availableOffensiveFormations.Formations[iteration].Receivers))
+	fmt.Fprintln(basicTxt, "Running Backs: "+fmt.Sprint(availableOffensiveFormations.Formations[iteration].RunningBacks))
 
 	basicTxt.Draw(win, pixel.IM)
 
