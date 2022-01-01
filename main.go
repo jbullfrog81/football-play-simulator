@@ -59,12 +59,26 @@ func DrawSpecificOffensiveFormationHighlightOnePlayer(imd *imdraw.IMDraw, win *p
 	DrawOffensivePlayersHighlightOnePlayer(imd, availableOffensiveFormations.Formations[formationIteration], playerHighlight, availableOffensiveRoutes.Routes[routeIteration])
 
 	atlas := text.NewAtlas(basicfont.Face7x13, text.ASCII)
-	basicTxt := text.New(pixel.V(600, 400), atlas)
 
-	fmt.Fprintln(basicTxt, "Name: "+availableOffensiveFormations.Formations[formationIteration].FormationName)
-	fmt.Fprintln(basicTxt, "Snap Type: "+availableOffensiveFormations.Formations[formationIteration].SnapType)
-	fmt.Fprintln(basicTxt, "Recievers: "+fmt.Sprint(availableOffensiveFormations.Formations[formationIteration].Receivers))
-	fmt.Fprintln(basicTxt, "Running Backs: "+fmt.Sprint(availableOffensiveFormations.Formations[formationIteration].RunningBacks))
+	playerTxt := text.New(pixel.V(600, 450), atlas)
+	fmt.Fprintln(playerTxt, "Player Information: ")
+	fmt.Fprintln(playerTxt, "Position - "+availableOffensiveFormations.Formations[formationIteration].Players[playerHighlight].Attributes.Position)
+
+	playerTxt.Draw(win, pixel.IM)
+
+	routeTxt := text.New(pixel.V(600, 400), atlas)
+	fmt.Fprintln(routeTxt, "Route Information: ")
+	fmt.Fprintln(routeTxt, "Route Name - "+availableOffensiveRoutes.Routes[routeIteration].RouteName)
+
+	routeTxt.Draw(win, pixel.IM)
+
+	basicTxt := text.New(pixel.V(600, 200), atlas)
+
+	fmt.Fprintln(basicTxt, "Formation Information: ")
+	fmt.Fprintln(basicTxt, "Name - "+availableOffensiveFormations.Formations[formationIteration].FormationName)
+	fmt.Fprintln(basicTxt, "Snap Type - "+availableOffensiveFormations.Formations[formationIteration].SnapType)
+	fmt.Fprintln(basicTxt, "Recievers - "+fmt.Sprint(availableOffensiveFormations.Formations[formationIteration].Receivers))
+	fmt.Fprintln(basicTxt, "Running Backs - "+fmt.Sprint(availableOffensiveFormations.Formations[formationIteration].RunningBacks))
 
 	basicTxt.Draw(win, pixel.IM)
 

@@ -1,10 +1,11 @@
 package routes
 
 type OffensePlayRoute struct {
-	MinX []float64
-	MinY []float64
-	MaxX []float64
-	MaxY []float64
+	RouteName string
+	MinX      []float64
+	MinY      []float64
+	MaxX      []float64
+	MaxY      []float64
 }
 
 type OffensePlayRoutes struct {
@@ -93,6 +94,7 @@ func DefineBlockRoute() OffensePlayRoute {
 	route.MinY = append(route.MinY, float64(0))
 	route.MaxX = append(route.MaxX, float64(0))
 	route.MaxY = append(route.MaxY, float64(0))
+	route.RouteName = "Block"
 
 	return route
 
@@ -101,6 +103,8 @@ func DefineBlockRoute() OffensePlayRoute {
 func DefineGoRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
+
+	route.RouteName = "Go"
 
 	for i := 0; i < 201; i++ {
 		route.MinX = append(route.MinX, float64(0))
@@ -118,6 +122,8 @@ func DefineGoRoute() OffensePlayRoute {
 func DefineRightSlantThreeYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
+
+	route.RouteName = "3 yd Right Slant"
 
 	//var values OffensePlayRoute
 
@@ -143,6 +149,8 @@ func DefineRightOutFiveYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
 
+	route.RouteName = "5 yd Out - Right Side"
+
 	//var values OffensePlayRoute
 
 	for i := 0; i < 51; i++ {
@@ -166,6 +174,8 @@ func DefineRightOutFiveYardRoute() OffensePlayRoute {
 func DefineRightOutTenYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
+
+	route.RouteName = "10 yd Out - Right Side"
 
 	//var values OffensePlayRoute
 
@@ -191,6 +201,8 @@ func DefineRightInFiveYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
 
+	route.RouteName = "5 yd In - Right Side"
+
 	//var values OffensePlayRoute
 
 	for i := 0; i < 51; i++ {
@@ -214,6 +226,8 @@ func DefineRightInFiveYardRoute() OffensePlayRoute {
 func DefineRightInTenYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
+
+	route.RouteName = "10 yd In - Right Side"
 
 	//var values OffensePlayRoute
 
@@ -239,6 +253,8 @@ func DefineRightPostTenYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
 
+	route.RouteName = "10 yd Post - Right Side"
+
 	//var values OffensePlayRoute
 
 	for i := 0; i < 101; i++ {
@@ -262,6 +278,8 @@ func DefineRightPostTenYardRoute() OffensePlayRoute {
 func DefineRightWhipSevenYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
+
+	route.RouteName = "7 yd Whip - Right Side"
 
 	//var values OffensePlayRoute
 
@@ -301,6 +319,8 @@ func DefineRightWhipFiveYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
 
+	route.RouteName = "5 yd Whip - Right Side"
+
 	//var values OffensePlayRoute
 
 	for i := 0; i < 41; i++ {
@@ -339,6 +359,8 @@ func DefineRightOutAndUpSevenYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
 
+	route.RouteName = "7 yd Out and Up - Right Side"
+
 	//var values OffensePlayRoute
 
 	for i := 0; i < 71; i++ {
@@ -372,6 +394,8 @@ func DefineLeftSlantThreeYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
 
+	route.RouteName = "3 yd Slant - Left Side"
+
 	//var values OffensePlayRoute
 
 	for i := 0; i < 31; i++ {
@@ -395,6 +419,8 @@ func DefineLeftSlantThreeYardRoute() OffensePlayRoute {
 func DefineLeftOutFiveYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
+
+	route.RouteName = "5 yd Out - Left Side"
 
 	//var values OffensePlayRoute
 
@@ -420,6 +446,8 @@ func DefineLeftOutTenYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
 
+	route.RouteName = "10 yd Out - Left Side"
+
 	//var values OffensePlayRoute
 
 	for i := 0; i < 101; i++ {
@@ -443,6 +471,8 @@ func DefineLeftOutTenYardRoute() OffensePlayRoute {
 func DefineLeftInFiveYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
+
+	route.RouteName = "5 yd In - Left Side"
 
 	//var values OffensePlayRoute
 
@@ -468,6 +498,8 @@ func DefineLeftInTenYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
 
+	route.RouteName = "10 yd In - Left Side"
+
 	//var values OffensePlayRoute
 
 	for i := 0; i < 101; i++ {
@@ -492,6 +524,8 @@ func DefineLeftPostTenYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
 
+	route.RouteName = "10 yd Post - Left Side"
+
 	//var values OffensePlayRoute
 
 	for i := 0; i < 101; i++ {
@@ -515,6 +549,8 @@ func DefineLeftPostTenYardRoute() OffensePlayRoute {
 func DefineLeftWhipSevenYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
+
+	route.RouteName = "7 yd Whip - Left Side"
 
 	//var values OffensePlayRoute
 
@@ -554,6 +590,8 @@ func DefineLeftWhipFiveYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
 
+	route.RouteName = "5 yd Whip - Left Side"
+
 	//var values OffensePlayRoute
 
 	for i := 0; i < 41; i++ {
@@ -591,6 +629,8 @@ func DefineLeftWhipFiveYardRoute() OffensePlayRoute {
 func DefineLeftOutAndUpSevenYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
+
+	route.RouteName = "7 yd Out and Up - Left Side"
 
 	//var values OffensePlayRoute
 
