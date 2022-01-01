@@ -93,13 +93,7 @@ func DefineOffensiveTeamFormation(Players []OffensePlayer) (OffensiveTeam Offens
 
 func SetOffensiveTeamFormationShotgunBunchRight() OffenseTeamFormation {
 
-	var leftGuard OffensePlayer
-	var center OffensePlayer
-	var rightGuard OffensePlayer
-	var quarterBack OffensePlayer
-	var receiver1 OffensePlayer
-	var receiver2 OffensePlayer
-	var receiver3 OffensePlayer
+	var leftGuard, center, rightGuard, quarterBack, receiver1, receiver2, receiver3 OffensePlayer
 
 	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Black)
 	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Black)
@@ -140,13 +134,7 @@ func SetOffensiveTeamFormationShotgunBunchRight() OffenseTeamFormation {
 
 func SetOffensiveTeamFormationShotgunBunchLeft() OffenseTeamFormation {
 
-	var leftGuard OffensePlayer
-	var center OffensePlayer
-	var rightGuard OffensePlayer
-	var quarterBack OffensePlayer
-	var receiver1 OffensePlayer
-	var receiver2 OffensePlayer
-	var receiver3 OffensePlayer
+	var leftGuard, center, rightGuard, quarterBack, receiver1, receiver2, receiver3 OffensePlayer
 
 	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Black)
 	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Black)
@@ -187,13 +175,7 @@ func SetOffensiveTeamFormationShotgunBunchLeft() OffenseTeamFormation {
 
 func SetOffensiveTeamFormationShotgunTripsLeft() OffenseTeamFormation {
 
-	var leftGuard OffensePlayer
-	var center OffensePlayer
-	var rightGuard OffensePlayer
-	var quarterBack OffensePlayer
-	var receiver1 OffensePlayer
-	var receiver2 OffensePlayer
-	var receiver3 OffensePlayer
+	var leftGuard, center, rightGuard, quarterBack, receiver1, receiver2, receiver3 OffensePlayer
 
 	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Black)
 	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Black)
@@ -234,13 +216,7 @@ func SetOffensiveTeamFormationShotgunTripsLeft() OffenseTeamFormation {
 
 func SetOffensiveTeamFormationShotgunTripsRight() OffenseTeamFormation {
 
-	var leftGuard OffensePlayer
-	var center OffensePlayer
-	var rightGuard OffensePlayer
-	var quarterBack OffensePlayer
-	var receiver1 OffensePlayer
-	var receiver2 OffensePlayer
-	var receiver3 OffensePlayer
+	var leftGuard, center, rightGuard, quarterBack, receiver1, receiver2, receiver3 OffensePlayer
 
 	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Black)
 	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Black)
@@ -281,13 +257,7 @@ func SetOffensiveTeamFormationShotgunTripsRight() OffenseTeamFormation {
 
 func SetOffensiveTeamFormationShotgunTwinsRightBackRight() OffenseTeamFormation {
 
-	var leftGuard OffensePlayer
-	var center OffensePlayer
-	var rightGuard OffensePlayer
-	var quarterBack OffensePlayer
-	var receiver1 OffensePlayer
-	var receiver2 OffensePlayer
-	var runningBack OffensePlayer
+	var leftGuard, center, rightGuard, quarterBack, receiver1, receiver2, runningBack OffensePlayer
 
 	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Black)
 	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Black)
@@ -328,13 +298,7 @@ func SetOffensiveTeamFormationShotgunTwinsRightBackRight() OffenseTeamFormation 
 
 func SetOffensiveTeamFormationShotgunTwinsRightBackLeft() OffenseTeamFormation {
 
-	var leftGuard OffensePlayer
-	var center OffensePlayer
-	var rightGuard OffensePlayer
-	var quarterBack OffensePlayer
-	var receiver1 OffensePlayer
-	var receiver2 OffensePlayer
-	var runningBack OffensePlayer
+	var leftGuard, center, rightGuard, quarterBack, receiver1, receiver2, runningBack OffensePlayer
 
 	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Black)
 	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Black)
@@ -375,13 +339,7 @@ func SetOffensiveTeamFormationShotgunTwinsRightBackLeft() OffenseTeamFormation {
 
 func SetOffensiveTeamFormationShotgunTwinsLeftBackRight() OffenseTeamFormation {
 
-	var leftGuard OffensePlayer
-	var center OffensePlayer
-	var rightGuard OffensePlayer
-	var quarterBack OffensePlayer
-	var receiver1 OffensePlayer
-	var receiver2 OffensePlayer
-	var runningBack OffensePlayer
+	var leftGuard, center, rightGuard, quarterBack, receiver1, receiver2, runningBack OffensePlayer
 
 	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Black)
 	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Black)
@@ -422,13 +380,7 @@ func SetOffensiveTeamFormationShotgunTwinsLeftBackRight() OffenseTeamFormation {
 
 func SetOffensiveTeamFormationShotgunTwinsLeftBackLeft() OffenseTeamFormation {
 
-	var leftGuard OffensePlayer
-	var center OffensePlayer
-	var rightGuard OffensePlayer
-	var quarterBack OffensePlayer
-	var receiver1 OffensePlayer
-	var receiver2 OffensePlayer
-	var runningBack OffensePlayer
+	var leftGuard, center, rightGuard, quarterBack, receiver1, receiver2, runningBack OffensePlayer
 
 	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Black)
 	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Black)
@@ -469,13 +421,7 @@ func SetOffensiveTeamFormationShotgunTwinsLeftBackLeft() OffenseTeamFormation {
 
 func SetOffensiveTeamFormationShotgunSplitBackRecieverRight() OffenseTeamFormation {
 
-	var leftGuard OffensePlayer
-	var center OffensePlayer
-	var rightGuard OffensePlayer
-	var quarterBack OffensePlayer
-	var receiver1 OffensePlayer
-	var runningBackRight OffensePlayer
-	var runningBackLeft OffensePlayer
+	var leftGuard, center, rightGuard, quarterBack, receiver1, runningBackRight, runningBackLeft OffensePlayer
 
 	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Black)
 	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Black)
@@ -516,13 +462,7 @@ func SetOffensiveTeamFormationShotgunSplitBackRecieverRight() OffenseTeamFormati
 
 func SetOffensiveTeamFormationShotgunSplitBackRecieverLeft() OffenseTeamFormation {
 
-	var leftGuard OffensePlayer
-	var center OffensePlayer
-	var rightGuard OffensePlayer
-	var quarterBack OffensePlayer
-	var receiver1 OffensePlayer
-	var runningBackRight OffensePlayer
-	var runningBackLeft OffensePlayer
+	var leftGuard, center, rightGuard, quarterBack, receiver1, runningBackRight, runningBackLeft OffensePlayer
 
 	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Black)
 	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Black)
@@ -561,7 +501,7 @@ func SetOffensiveTeamFormationShotgunSplitBackRecieverLeft() OffenseTeamFormatio
 
 }
 
-func DrawOffensivePlayers(imd *imdraw.IMDraw, team *OffenseTeamFormation) {
+func DrawOffensivePlayers(imd *imdraw.IMDraw, team OffenseTeamFormation) {
 
 	for _, v := range team.Players {
 		imd.Color = v.Attributes.Color
@@ -569,33 +509,9 @@ func DrawOffensivePlayers(imd *imdraw.IMDraw, team *OffenseTeamFormation) {
 		imd.Circle(v.Attributes.Radius, v.Attributes.Thickness)
 	}
 
-	//imd.Color = team.Player2.Attributes.Color
-	//imd.Push(pixel.V(team.Player2.Coordinates.MinX, team.Player2.Coordinates.MinY))
-	//imd.Circle(team.Player2.Attributes.Radius, team.Player2.Attributes.Thickness)
-	//
-	//imd.Color = team.Player3.Attributes.Color
-	//imd.Push(pixel.V(team.Player3.Coordinates.MinX, team.Player3.Coordinates.MinY))
-	//imd.Circle(team.Player3.Attributes.Radius, team.Player3.Attributes.Thickness)
-	//
-	//imd.Color = team.Player4.Attributes.Color
-	//imd.Push(pixel.V(team.Player4.Coordinates.MinX, team.Player4.Coordinates.MinY))
-	//imd.Circle(team.Player4.Attributes.Radius, team.Player4.Attributes.Thickness)
-	//
-	//imd.Color = team.Player5.Attributes.Color
-	//imd.Push(pixel.V(team.Player5.Coordinates.MinX, team.Player5.Coordinates.MinY))
-	//imd.Circle(team.Player5.Attributes.Radius, team.Player5.Attributes.Thickness)
-	//
-	//imd.Color = team.Player6.Attributes.Color
-	//imd.Push(pixel.V(team.Player6.Coordinates.MinX, team.Player6.Coordinates.MinY))
-	//imd.Circle(team.Player6.Attributes.Radius, team.Player6.Attributes.Thickness)
-	//
-	//imd.Color = team.Player7.Attributes.Color
-	//imd.Push(pixel.V(team.Player7.Coordinates.MinX, team.Player7.Coordinates.MinY))
-	//imd.Circle(team.Player7.Attributes.Radius, team.Player7.Attributes.Thickness)
-
 }
 
-func DrawOffensePlayerRunPlay(imd *imdraw.IMDraw, route *routes.OffensePlayRoute, playerPosition *OffensePlayer, iteration int) {
+func DrawOffensePlayerRunPlay(imd *imdraw.IMDraw, route routes.OffensePlayRoute, playerPosition OffensePlayer, iteration int) OffensePlayer {
 
 	println("starting draw offense run play")
 	if iteration < len(route.MinX) {
@@ -610,6 +526,8 @@ func DrawOffensePlayerRunPlay(imd *imdraw.IMDraw, route *routes.OffensePlayRoute
 	imd.Push(pixel.V(playerPosition.Coordinates.MinX, playerPosition.Coordinates.MinY))
 	imd.Circle(playerPosition.Attributes.Radius, playerPosition.Attributes.Thickness)
 
+	return playerPosition
+
 }
 
 func DrawSpecificOffensiveFormation(imd *imdraw.IMDraw, win *pixelgl.Window, iteration int) {
@@ -619,7 +537,7 @@ func DrawSpecificOffensiveFormation(imd *imdraw.IMDraw, win *pixelgl.Window, ite
 	//for i, v := range availableOffensiveFormations.Formations {
 	//	if i < 1 {
 
-	DrawOffensivePlayers(imd, &currentFormation)
+	DrawOffensivePlayers(imd, currentFormation)
 
 	atlas := text.NewAtlas(basicfont.Face7x13, text.ASCII)
 	basicTxt := text.New(pixel.V(600, 400), atlas)

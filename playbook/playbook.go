@@ -27,28 +27,29 @@ type OffensivePlay struct {
 	PlayerRoutes []routes.OffensePlayRoute
 }
 
-func AddPlayBookPage(playBook *PlayBook, playName string, playFormation formations.OffenseTeamFormation, playRoutes []routes.OffensePlayRoute) {
-
-	var playBookPage OffensivePlay
+func AddPlayBookPage(playName string, playFormation formations.OffenseTeamFormation, playRoutes []routes.OffensePlayRoute) (playBookPage OffensivePlay) {
 
 	playBookPage.PlayName = playName
 	playBookPage.Formation = playFormation
 	playBookPage.PlayerRoutes = playRoutes
 
-	playBook.OffensivePlays = append(playBook.OffensivePlays, playBookPage)
+	//playBook.OffensivePlays = append(playBook.OffensivePlays, playBookPage)
+
+	return playBookPage
 
 }
 
-func SavePlayBookToFile(playBook *PlayBook) {
+func SavePlayBookToFile(playBook PlayBook) {
 
 	file, _ := json.MarshalIndent(playBook, "", " ")
 	_ = ioutil.WriteFile(playBook.PlayBookName+".playbook", file, 0644)
 
 }
 
-func BuildDefaultOffensivePlayBook(defaultPlaybook *PlayBook) {
+func BuildDefaultOffensivePlayBook() PlayBook {
 
 	var setupPlayerRoutes []routes.OffensePlayRoute
+	var defaultPlaybook PlayBook
 
 	//List of all the routes:
 	//-----------------------
@@ -68,7 +69,7 @@ func BuildDefaultOffensivePlayBook(defaultPlaybook *PlayBook) {
 	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineLeftWhipFiveYardRoute())
 	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineLeftPostTenYardRoute())
 
-	AddPlayBookPage(defaultPlaybook, "Bunch Left In Whipper", formations.SetOffensiveTeamFormationShotgunBunchLeft(), setupPlayerRoutes)
+	defaultPlaybook.OffensivePlays = append(defaultPlaybook.OffensivePlays, AddPlayBookPage("Bunch Left In Whipper", formations.SetOffensiveTeamFormationShotgunBunchLeft(), setupPlayerRoutes))
 
 	setupPlayerRoutes = nil
 
@@ -80,7 +81,9 @@ func BuildDefaultOffensivePlayBook(defaultPlaybook *PlayBook) {
 	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineRightWhipFiveYardRoute())
 	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineRightPostTenYardRoute())
 
-	AddPlayBookPage(defaultPlaybook, "Bunch Right In Whipper", formations.SetOffensiveTeamFormationShotgunBunchLeft(), setupPlayerRoutes)
+	defaultPlaybook.OffensivePlays = append(defaultPlaybook.OffensivePlays, AddPlayBookPage("Bunch Right In Whipper", formations.SetOffensiveTeamFormationShotgunBunchLeft(), setupPlayerRoutes))
+
+	return defaultPlaybook
 
 }
 
@@ -98,7 +101,7 @@ func DrawOffensivePlayerPlayRoute(imd *imdraw.IMDraw, playerCoordinates formatio
 
 }
 
-func DrawOffensivePlayBookPage(imd *imdraw.IMDraw, win *pixelgl.Window, pageNumber int, offensivePlayBook *PlayBook) {
+func DrawOffensivePlayBookPage(imd *imdraw.IMDraw, win *pixelgl.Window, pageNumber int, offensivePlayBook PlayBook) {
 
 	for i, v := range offensivePlayBook.OffensivePlays[pageNumber].Formation.Players {
 
@@ -119,11 +122,11 @@ func DrawOffensivePlayBookPage(imd *imdraw.IMDraw, win *pixelgl.Window, pageNumb
 
 	//DrawOffensivePlayerPlayRoute(imd, offensivePlayBook.OffensivePlays[pageNumber].Formation.Player7.Coordinates, offensivePlayBook.OffensivePlays[pageNumber].PlayerRoutes[6])
 
-	formations.DrawOffensivePlayers(imd, &offensivePlayBook.OffensivePlays[pageNumber].Formation)
+	formations.DrawOffensivePlayers(imd, offensivePlayBook.OffensivePlays[pageNumber].Formation)
 
 }
 
-func DrawOffensivePlayBookMenu(imd *imdraw.IMDraw, win *pixelgl.Window, offensivePlayBook *PlayBook, pageNumber int) {
+func DrawOffensivePlayBookMenu(imd *imdraw.IMDraw, win *pixelgl.Window, offensivePlayBook PlayBook, pageNumber int) {
 
 	atlas := text.NewAtlas(basicfont.Face7x13, text.ASCII)
 
@@ -145,7 +148,7 @@ func DrawOffensivePlayBookMenu(imd *imdraw.IMDraw, win *pixelgl.Window, offensiv
 	basicTxt.Draw(win, pixel.IM)
 }
 
-func DrawOffensiveRunPlayMenu(imd *imdraw.IMDraw, win *pixelgl.Window, offensivePlayBook *PlayBook, pageNumber int) {
+func DrawOffensiveRunPlayMenu(imd *imdraw.IMDraw, win *pixelgl.Window, offensivePlayBook PlayBook, pageNumber int) {
 
 	atlas := text.NewAtlas(basicfont.Face7x13, text.ASCII)
 
