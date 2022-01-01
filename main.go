@@ -102,8 +102,6 @@ func run() {
 	//Manual creation of a playbook
 	var myTeamOffensivePlayBook playbook.PlayBook
 
-	myTeamOffensivePlayBook.PlayBookName = "Default"
-
 	myTeamOffensivePlayBook = playbook.BuildDefaultOffensivePlayBook()
 
 	playbook.SavePlayBookToFile(myTeamOffensivePlayBook)

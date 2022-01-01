@@ -51,6 +51,8 @@ func BuildDefaultOffensivePlayBook() PlayBook {
 	var setupPlayerRoutes []routes.OffensePlayRoute
 	var defaultPlaybook PlayBook
 
+	defaultPlaybook.PlayBookName = "Default"
+
 	//List of all the routes:
 	//-----------------------
 	//block = routes.DefineBlockRoute()
