@@ -169,6 +169,7 @@ func run() {
 
 				imdFootballField.Draw(win)
 				field.DrawFootballFieldYardNumbers(imdFootballField, win)
+
 				imdOffenseRunPlay.Draw(win)
 				playbook.DrawOffensiveRunPlayMenu(imdOffenseRunPlay, win, myTeamOffensivePlayBook, OffenseRunPlayPlaybookPageNumber)
 
