@@ -167,8 +167,15 @@ func run() {
 				imdOffenseRunPlay.Clear()
 				imdFootballField.Clear()
 
-				imdFootballField.Draw(win)
+				field.DrawFootballFieldLines(imdFootballField, leftSideLinePixel, rightSideLinePixel)
 				field.DrawFootballFieldYardNumbers(imdFootballField, win)
+				imdFootballField.Draw(win)
+
+				for i, _ := range myTeamOffensePlayBookRun.OffensivePlays[OffenseRunPlayPlaybookPageNumber].Formation.Players {
+
+					formations.DrawOffensePlayerRunPlay(imdOffenseRunPlay, myTeamOffensePlayBookRun.OffensivePlays[OffenseRunPlayPlaybookPageNumber].PlayerRoutes[i], myTeamOffensePlayBookRun.OffensivePlays[OffenseRunPlayPlaybookPageNumber].Formation.Players[i], iteration)
+
+				}
 
 				imdOffenseRunPlay.Draw(win)
 				playbook.DrawOffensiveRunPlayMenu(imdOffenseRunPlay, win, myTeamOffensivePlayBook, OffenseRunPlayPlaybookPageNumber)
