@@ -107,13 +107,12 @@ func run() {
 	playbook.SavePlayBookToFile(myTeamOffensivePlayBook)
 
 	//Use this for moving the players during the play
-
 	iteration := 0
 
 	// Available Window States:
 	// - paused
 	// - running
-	windowState := "running"
+	windowState := "paused"
 
 	// Available Window Menus:
 	// - OffensivePlaybook
