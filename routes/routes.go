@@ -20,6 +20,12 @@ func ReturnAllOffensePlayRoutes() (allRoutes OffensePlayRoutes) {
 	// to generate all of the routes
 	//var sliceOfRoutes := {"","",}
 
+	route = DefineRightOutToSidelineRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineLeftOutToSidelineRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
 	route = DefineBlockRoute()
 	allRoutes.Routes = append(allRoutes.Routes, route)
 
@@ -119,11 +125,37 @@ func DefineGoRoute() OffensePlayRoute {
 
 // Right Side Field Routes
 
+func DefineRightOutToSidelineRoute() OffensePlayRoute {
+
+	var route OffensePlayRoute
+
+	route.RouteName = "Right Out to Side Line"
+
+	//var values OffensePlayRoute
+
+	for i := 0; i < 31; i++ {
+		route.MinX = append(route.MinX, float64(1))
+		route.MinY = append(route.MinY, float64(0))
+		route.MaxX = append(route.MaxX, float64(1))
+		route.MaxY = append(route.MaxY, float64(0))
+	}
+
+	for i := 0; i < 101; i++ {
+		route.MinX = append(route.MinX, float64(1))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(1))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	return route
+
+}
+
 func DefineRightSlantThreeYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
 
-	route.RouteName = "3 yd Right Slant"
+	route.RouteName = "3 yd Slant - Right Side"
 
 	//var values OffensePlayRoute
 
@@ -355,6 +387,39 @@ func DefineRightWhipFiveYardRoute() OffensePlayRoute {
 
 }
 
+func DefineRightOutAndUpFiveYardRoute() OffensePlayRoute {
+
+	var route OffensePlayRoute
+
+	route.RouteName = "5 yd Out and Up - Right Side"
+
+	//var values OffensePlayRoute
+
+	for i := 0; i < 51; i++ {
+		route.MinX = append(route.MinX, float64(0))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(0))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	for i := 0; i < 51; i++ {
+		route.MinX = append(route.MinX, float64(1))
+		route.MinY = append(route.MinY, float64(0))
+		route.MaxX = append(route.MaxX, float64(1))
+		route.MaxY = append(route.MaxY, float64(0))
+	}
+
+	for i := 0; i < 101; i++ {
+		route.MinX = append(route.MinX, float64(0))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(0))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	return route
+
+}
+
 func DefineRightOutAndUpSevenYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
@@ -389,6 +454,32 @@ func DefineRightOutAndUpSevenYardRoute() OffensePlayRoute {
 }
 
 // Left Side Field Routes
+
+func DefineLeftOutToSidelineRoute() OffensePlayRoute {
+
+	var route OffensePlayRoute
+
+	route.RouteName = "Left Out to Side Line"
+
+	//var values OffensePlayRoute
+
+	for i := 0; i < 31; i++ {
+		route.MinX = append(route.MinX, float64(-1))
+		route.MinY = append(route.MinY, float64(0))
+		route.MaxX = append(route.MaxX, float64(-1))
+		route.MaxY = append(route.MaxY, float64(0))
+	}
+
+	for i := 0; i < 101; i++ {
+		route.MinX = append(route.MinX, float64(-1))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(-1))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	return route
+
+}
 
 func DefineLeftSlantThreeYardRoute() OffensePlayRoute {
 
@@ -554,14 +645,14 @@ func DefineLeftWhipSevenYardRoute() OffensePlayRoute {
 
 	//var values OffensePlayRoute
 
-	for i := 0; i < 71; i++ {
+	for i := 0; i < 51; i++ {
 		route.MinX = append(route.MinX, float64(0))
 		route.MinY = append(route.MinY, float64(1))
 		route.MaxX = append(route.MaxX, float64(0))
 		route.MaxY = append(route.MaxY, float64(1))
 	}
 
-	for i := 0; i < 51; i++ {
+	for i := 0; i < 21; i++ {
 		route.MinX = append(route.MinX, float64(1))
 		route.MinY = append(route.MinY, float64(1))
 		route.MaxX = append(route.MaxX, float64(1))
@@ -620,6 +711,39 @@ func DefineLeftWhipFiveYardRoute() OffensePlayRoute {
 		route.MinY = append(route.MinY, float64(0))
 		route.MaxX = append(route.MaxX, float64(-1))
 		route.MaxY = append(route.MaxY, float64(0))
+	}
+
+	return route
+
+}
+
+func DefineLeftOutAndUpFiveYardRoute() OffensePlayRoute {
+
+	var route OffensePlayRoute
+
+	route.RouteName = "5 yd Out and Up - Left Side"
+
+	//var values OffensePlayRoute
+
+	for i := 0; i < 51; i++ {
+		route.MinX = append(route.MinX, float64(0))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(0))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	for i := 0; i < 51; i++ {
+		route.MinX = append(route.MinX, float64(-1))
+		route.MinY = append(route.MinY, float64(0))
+		route.MaxX = append(route.MaxX, float64(-1))
+		route.MaxY = append(route.MaxY, float64(0))
+	}
+
+	for i := 0; i < 101; i++ {
+		route.MinX = append(route.MinX, float64(0))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(0))
+		route.MaxY = append(route.MaxY, float64(1))
 	}
 
 	return route
