@@ -383,8 +383,6 @@ func run() {
 
 			win.Clear(colornames.Darkolivegreen)
 
-			//myTeamOffensivePlayBook
-
 			imdBuildOffensivePlaybook.Clear()
 
 			field.DrawFootballFieldYardNumbers(imdFootballField, win)
@@ -463,8 +461,29 @@ func run() {
 					}
 				}
 
+				if win.JustPressed(pixelgl.KeyTab) {
+					BuildOffensivePlaybookMenuSelection = "Confirmation"
+				}
+
+			} else if BuildOffensivePlaybookMenuSelection == "Confirmation" {
+
+				//TODO build a confirmation screen:
+				// Let the user know to use Enter to confirm adding the Play to the playbook
+				// delete to return to editing the play.
+				if win.JustPressed(pixelgl.KeyEnter) {
+					BuildOffensivePlaybookMenuSelection = "Done"
+				} else if win.JustPressed(pixelgl.KeyDelete) {
+					BuildOffensivePlaybookMenuSelection = "Route"
+				}
+
 			} else if BuildOffensivePlaybookMenuSelection == "Done" {
-				playbook.AddPlayBookPage(buildOffensivePlay.PlayName, buildOffensivePlay.Formation, selectedPlayerRoutes.Routes)
+
+				//TODO build a success screen:
+				// Let the user know the play successfully added to the playbook
+				// save playbook
+				// reset everything to add another play to the playbook
+				buildOffensivePlayBook.OffensivePlays = append(buildOffensivePlayBook.OffensivePlays, playbook.AddPlayBookPage(buildOffensivePlay.PlayName, buildOffensivePlay.Formation, selectedPlayerRoutes.Routes))
+
 			}
 
 			win.Update()
