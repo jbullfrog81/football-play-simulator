@@ -1,5 +1,6 @@
 # football-play-simulator
-Program to simulate American Football plays
+
+Program for 7 on 7 American Flag Football teams to build and simulate their playbooks.
 
 ## Menu
 
@@ -9,8 +10,6 @@ Program to simulate American Football plays
 Cycle through the different menus with ESC key
 
 View Plays in Offensive Playbook -> View Offensive Formations -> Build Offensive Playbook -> Run Offensive Plays in Playbook
-/ \
- |___________________________________________________________________________________________________________|
 
 #### View Plays in Offensive Playbook
 View the plays in the default offensive playbook
