@@ -173,6 +173,8 @@ func run() {
 	// Build a new playbook
 	var buildOffensivePlayBook playbook.PlayBook
 
+	buildOffensivePlayBook.PlayBookName = "Build"
+
 	myTeamOffensivePlayBook = playbook.BuildDefaultOffensivePlayBook()
 
 	playbook.SavePlayBookToFile(myTeamOffensivePlayBook)
@@ -472,9 +474,11 @@ func run() {
 				// delete to return to editing the play.
 				if win.JustPressed(pixelgl.KeyEnter) {
 					BuildOffensivePlaybookMenuSelection = "Done"
-				} else if win.JustPressed(pixelgl.KeyDelete) {
+				} else if win.JustPressed(pixelgl.KeyTab) {
 					BuildOffensivePlaybookMenuSelection = "Route"
 				}
+
+				playbook.DrawBuildOffensivePlaybookMenuDoneConfirmation(imdBuildOffensivePlaybook, win)
 
 			} else if BuildOffensivePlaybookMenuSelection == "Done" {
 
@@ -483,6 +487,17 @@ func run() {
 				// save playbook
 				// reset everything to add another play to the playbook
 				buildOffensivePlayBook.OffensivePlays = append(buildOffensivePlayBook.OffensivePlays, playbook.AddPlayBookPage(buildOffensivePlay.PlayName, buildOffensivePlay.Formation, selectedPlayerRoutes.Routes))
+
+				//Save the playbook to disk
+				playbook.SavePlayBookToFile(buildOffensivePlayBook)
+
+				//reset all the settings for editing/building a new playbook
+				BuildOffensivePlaybookMenuSelection = "Formation"
+				for i := 0; i < 7; i++ {
+					selectedPlayerRoutes.Routes[i] = routes.DefineBlockRoute()
+				}
+				drawSelectPlayerIteration = 0
+				drawSelectRouteIteration = 0
 
 			}
 

@@ -198,3 +198,17 @@ func DrawBuildOffensivePlaybookMenuSelectRoute(imd *imdraw.IMDraw, win *pixelgl.
 	basicTxtMenuSelectFormation.Draw(win, pixel.IM)
 
 }
+
+func DrawBuildOffensivePlaybookMenuDoneConfirmation(imd *imdraw.IMDraw, win *pixelgl.Window) {
+
+	DrawBuildOffensivePlaybookMenu(imd, win)
+
+	atlas := text.NewAtlas(basicfont.Face7x13, text.ASCII)
+	basicTxtMenuSelectFormation := text.New(pixel.V(600, 500), atlas)
+
+	fmt.Fprintln(basicTxtMenuSelectFormation, "Are you sure you're done with your play?")
+	fmt.Fprintln(basicTxtMenuSelectFormation, "Press enter to save")
+	fmt.Fprintln(basicTxtMenuSelectFormation, "Press tab to go back to edit")
+	basicTxtMenuSelectFormation.Draw(win, pixel.IM)
+
+}

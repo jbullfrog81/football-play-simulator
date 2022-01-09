@@ -39,9 +39,12 @@ Flow for building a playbook
     - tab - done with building play; move to confirmation step
 - Third - "Confirmation": confirm the playbook page is done
   - Controls:
-    - enter - confirms newly created playbook is correct and adds page to the playbook
-    - delete - goes back to routes menu
+    - enter - confirms newly created playbook is correct and goes to Done
+    - tab - goes back to routes menu
 - Fourth - "Done": add the page to the playbook
+  - Adds page to the playbook
+  - Saves the playbook to file "Build.playbook
+  - returns back to formation flow
 
 
 #### Run Offensive Plays in Playbook
