@@ -1,10 +1,93 @@
 package routes
 
 type OffensePlayRoute struct {
-	MinX []float64
-	MinY []float64
-	MaxX []float64
-	MaxY []float64
+	RouteName string
+	MinX      []float64
+	MinY      []float64
+	MaxX      []float64
+	MaxY      []float64
+}
+
+type OffensePlayRoutes struct {
+	Routes []OffensePlayRoute
+}
+
+func ReturnAllOffensePlayRoutes() (allRoutes OffensePlayRoutes) {
+
+	var route OffensePlayRoute
+
+	// TODO: figure out how to iterate through a slice of all route functions
+	// to generate all of the routes
+	//var sliceOfRoutes := {"","",}
+
+	route = DefineRightOutToSidelineRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineLeftOutToSidelineRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineBlockRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineGoRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineRightSlantThreeYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineRightOutFiveYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineRightOutTenYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineRightInFiveYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineRightInTenYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineRightPostTenYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineRightWhipSevenYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineRightWhipFiveYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineRightOutAndUpSevenYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineLeftSlantThreeYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineLeftOutFiveYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineLeftOutTenYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineLeftInFiveYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineLeftInTenYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineLeftPostTenYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineLeftWhipSevenYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineLeftWhipFiveYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineLeftOutAndUpSevenYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	return allRoutes
+
 }
 
 // Field Side Agnostic Routes
@@ -17,6 +100,7 @@ func DefineBlockRoute() OffensePlayRoute {
 	route.MinY = append(route.MinY, float64(0))
 	route.MaxX = append(route.MaxX, float64(0))
 	route.MaxY = append(route.MaxY, float64(0))
+	route.RouteName = "Block"
 
 	return route
 
@@ -25,6 +109,8 @@ func DefineBlockRoute() OffensePlayRoute {
 func DefineGoRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
+
+	route.RouteName = "Go"
 
 	for i := 0; i < 201; i++ {
 		route.MinX = append(route.MinX, float64(0))
@@ -39,9 +125,37 @@ func DefineGoRoute() OffensePlayRoute {
 
 // Right Side Field Routes
 
+func DefineRightOutToSidelineRoute() OffensePlayRoute {
+
+	var route OffensePlayRoute
+
+	route.RouteName = "Right Out to Side Line"
+
+	//var values OffensePlayRoute
+
+	for i := 0; i < 31; i++ {
+		route.MinX = append(route.MinX, float64(1))
+		route.MinY = append(route.MinY, float64(0))
+		route.MaxX = append(route.MaxX, float64(1))
+		route.MaxY = append(route.MaxY, float64(0))
+	}
+
+	for i := 0; i < 101; i++ {
+		route.MinX = append(route.MinX, float64(1))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(1))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	return route
+
+}
+
 func DefineRightSlantThreeYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
+
+	route.RouteName = "3 yd Slant - Right Side"
 
 	//var values OffensePlayRoute
 
@@ -67,6 +181,8 @@ func DefineRightOutFiveYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
 
+	route.RouteName = "5 yd Out - Right Side"
+
 	//var values OffensePlayRoute
 
 	for i := 0; i < 51; i++ {
@@ -90,6 +206,8 @@ func DefineRightOutFiveYardRoute() OffensePlayRoute {
 func DefineRightOutTenYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
+
+	route.RouteName = "10 yd Out - Right Side"
 
 	//var values OffensePlayRoute
 
@@ -115,6 +233,8 @@ func DefineRightInFiveYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
 
+	route.RouteName = "5 yd In - Right Side"
+
 	//var values OffensePlayRoute
 
 	for i := 0; i < 51; i++ {
@@ -138,6 +258,8 @@ func DefineRightInFiveYardRoute() OffensePlayRoute {
 func DefineRightInTenYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
+
+	route.RouteName = "10 yd In - Right Side"
 
 	//var values OffensePlayRoute
 
@@ -163,6 +285,8 @@ func DefineRightPostTenYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
 
+	route.RouteName = "10 yd Post - Right Side"
+
 	//var values OffensePlayRoute
 
 	for i := 0; i < 101; i++ {
@@ -187,6 +311,8 @@ func DefineRightWhipSevenYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
 
+	route.RouteName = "7 yd Whip - Right Side"
+
 	//var values OffensePlayRoute
 
 	for i := 0; i < 51; i++ {
@@ -210,6 +336,13 @@ func DefineRightWhipSevenYardRoute() OffensePlayRoute {
 		route.MaxY = append(route.MaxY, float64(0))
 	}
 
+	for i := 0; i < 5; i++ {
+		route.MinX = append(route.MinX, float64(0))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(0))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
 	for i := 0; i < 101; i++ {
 		route.MinX = append(route.MinX, float64(1))
 		route.MinY = append(route.MinY, float64(0))
@@ -224,6 +357,8 @@ func DefineRightWhipSevenYardRoute() OffensePlayRoute {
 func DefineRightWhipFiveYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
+
+	route.RouteName = "5 yd Whip - Right Side"
 
 	//var values OffensePlayRoute
 
@@ -248,6 +383,13 @@ func DefineRightWhipFiveYardRoute() OffensePlayRoute {
 		route.MaxY = append(route.MaxY, float64(0))
 	}
 
+	for i := 0; i < 5; i++ {
+		route.MinX = append(route.MinX, float64(0))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(0))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
 	for i := 0; i < 101; i++ {
 		route.MinX = append(route.MinX, float64(1))
 		route.MinY = append(route.MinY, float64(0))
@@ -259,9 +401,44 @@ func DefineRightWhipFiveYardRoute() OffensePlayRoute {
 
 }
 
+func DefineRightOutAndUpFiveYardRoute() OffensePlayRoute {
+
+	var route OffensePlayRoute
+
+	route.RouteName = "5 yd Out and Up - Right Side"
+
+	//var values OffensePlayRoute
+
+	for i := 0; i < 51; i++ {
+		route.MinX = append(route.MinX, float64(0))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(0))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	for i := 0; i < 51; i++ {
+		route.MinX = append(route.MinX, float64(1))
+		route.MinY = append(route.MinY, float64(0))
+		route.MaxX = append(route.MaxX, float64(1))
+		route.MaxY = append(route.MaxY, float64(0))
+	}
+
+	for i := 0; i < 101; i++ {
+		route.MinX = append(route.MinX, float64(0))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(0))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	return route
+
+}
+
 func DefineRightOutAndUpSevenYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
+
+	route.RouteName = "7 yd Out and Up - Right Side"
 
 	//var values OffensePlayRoute
 
@@ -292,9 +469,37 @@ func DefineRightOutAndUpSevenYardRoute() OffensePlayRoute {
 
 // Left Side Field Routes
 
+func DefineLeftOutToSidelineRoute() OffensePlayRoute {
+
+	var route OffensePlayRoute
+
+	route.RouteName = "Left Out to Side Line"
+
+	//var values OffensePlayRoute
+
+	for i := 0; i < 31; i++ {
+		route.MinX = append(route.MinX, float64(-1))
+		route.MinY = append(route.MinY, float64(0))
+		route.MaxX = append(route.MaxX, float64(-1))
+		route.MaxY = append(route.MaxY, float64(0))
+	}
+
+	for i := 0; i < 101; i++ {
+		route.MinX = append(route.MinX, float64(-1))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(-1))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	return route
+
+}
+
 func DefineLeftSlantThreeYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
+
+	route.RouteName = "3 yd Slant - Left Side"
 
 	//var values OffensePlayRoute
 
@@ -320,6 +525,8 @@ func DefineLeftOutFiveYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
 
+	route.RouteName = "5 yd Out - Left Side"
+
 	//var values OffensePlayRoute
 
 	for i := 0; i < 51; i++ {
@@ -343,6 +550,8 @@ func DefineLeftOutFiveYardRoute() OffensePlayRoute {
 func DefineLeftOutTenYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
+
+	route.RouteName = "10 yd Out - Left Side"
 
 	//var values OffensePlayRoute
 
@@ -368,6 +577,8 @@ func DefineLeftInFiveYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
 
+	route.RouteName = "5 yd In - Left Side"
+
 	//var values OffensePlayRoute
 
 	for i := 0; i < 51; i++ {
@@ -391,6 +602,8 @@ func DefineLeftInFiveYardRoute() OffensePlayRoute {
 func DefineLeftInTenYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
+
+	route.RouteName = "10 yd In - Left Side"
 
 	//var values OffensePlayRoute
 
@@ -416,6 +629,8 @@ func DefineLeftPostTenYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
 
+	route.RouteName = "10 yd Post - Left Side"
+
 	//var values OffensePlayRoute
 
 	for i := 0; i < 101; i++ {
@@ -440,16 +655,18 @@ func DefineLeftWhipSevenYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
 
+	route.RouteName = "7 yd Whip - Left Side"
+
 	//var values OffensePlayRoute
 
-	for i := 0; i < 71; i++ {
+	for i := 0; i < 51; i++ {
 		route.MinX = append(route.MinX, float64(0))
 		route.MinY = append(route.MinY, float64(1))
 		route.MaxX = append(route.MaxX, float64(0))
 		route.MaxY = append(route.MaxY, float64(1))
 	}
 
-	for i := 0; i < 51; i++ {
+	for i := 0; i < 21; i++ {
 		route.MinX = append(route.MinX, float64(1))
 		route.MinY = append(route.MinY, float64(1))
 		route.MaxX = append(route.MaxX, float64(1))
@@ -461,6 +678,13 @@ func DefineLeftWhipSevenYardRoute() OffensePlayRoute {
 		route.MinY = append(route.MinY, float64(0))
 		route.MaxX = append(route.MaxX, float64(1))
 		route.MaxY = append(route.MaxY, float64(0))
+	}
+
+	for i := 0; i < 5; i++ {
+		route.MinX = append(route.MinX, float64(0))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(0))
+		route.MaxY = append(route.MaxY, float64(1))
 	}
 
 	for i := 0; i < 101; i++ {
@@ -477,6 +701,8 @@ func DefineLeftWhipSevenYardRoute() OffensePlayRoute {
 func DefineLeftWhipFiveYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
+
+	route.RouteName = "5 yd Whip - Left Side"
 
 	//var values OffensePlayRoute
 
@@ -501,6 +727,13 @@ func DefineLeftWhipFiveYardRoute() OffensePlayRoute {
 		route.MaxY = append(route.MaxY, float64(0))
 	}
 
+	for i := 0; i < 5; i++ {
+		route.MinX = append(route.MinX, float64(0))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(0))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
 	for i := 0; i < 101; i++ {
 		route.MinX = append(route.MinX, float64(-1))
 		route.MinY = append(route.MinY, float64(0))
@@ -512,9 +745,44 @@ func DefineLeftWhipFiveYardRoute() OffensePlayRoute {
 
 }
 
+func DefineLeftOutAndUpFiveYardRoute() OffensePlayRoute {
+
+	var route OffensePlayRoute
+
+	route.RouteName = "5 yd Out and Up - Left Side"
+
+	//var values OffensePlayRoute
+
+	for i := 0; i < 51; i++ {
+		route.MinX = append(route.MinX, float64(0))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(0))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	for i := 0; i < 51; i++ {
+		route.MinX = append(route.MinX, float64(-1))
+		route.MinY = append(route.MinY, float64(0))
+		route.MaxX = append(route.MaxX, float64(-1))
+		route.MaxY = append(route.MaxY, float64(0))
+	}
+
+	for i := 0; i < 101; i++ {
+		route.MinX = append(route.MinX, float64(0))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(0))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	return route
+
+}
+
 func DefineLeftOutAndUpSevenYardRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
+
+	route.RouteName = "7 yd Out and Up - Left Side"
 
 	//var values OffensePlayRoute
 

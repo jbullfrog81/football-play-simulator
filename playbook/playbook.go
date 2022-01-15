@@ -2,17 +2,19 @@ package playbook
 
 import (
 	"fmt"
+	"image/color"
 	"jbullfrog81/football-play-simulator/formations"
 	"jbullfrog81/football-play-simulator/routes"
 
 	"encoding/json"
 	"io/ioutil"
 
+	"golang.org/x/image/colornames"
+
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/imdraw"
 	"github.com/faiface/pixel/pixelgl"
 	"github.com/faiface/pixel/text"
-	"golang.org/x/image/colornames"
 	"golang.org/x/image/font/basicfont"
 )
 
@@ -89,9 +91,9 @@ func BuildDefaultOffensivePlayBook() PlayBook {
 
 }
 
-func DrawOffensivePlayerPlayRoute(imd *imdraw.IMDraw, playerCoordinates formations.OffensePlayerCoordinates, playerRoutes routes.OffensePlayRoute) {
+func DrawOffensivePlayerPlayRoute(imd *imdraw.IMDraw, playerCoordinates formations.OffensePlayerCoordinates, playerRoutes routes.OffensePlayRoute, routeColor color.RGBA) {
 
-	imd.Color = colornames.Gold
+	imd.Color = routeColor
 
 	for i, _ := range playerRoutes.MinX {
 		playerCoordinates.MinX += playerRoutes.MinX[i]
@@ -107,22 +109,9 @@ func DrawOffensivePlayBookPage(imd *imdraw.IMDraw, win *pixelgl.Window, pageNumb
 
 	for i, v := range offensivePlayBook.OffensivePlays[pageNumber].Formation.Players {
 
-		DrawOffensivePlayerPlayRoute(imd, v.Coordinates, offensivePlayBook.OffensivePlays[pageNumber].PlayerRoutes[i])
+		DrawOffensivePlayerPlayRoute(imd, v.Coordinates, offensivePlayBook.OffensivePlays[pageNumber].PlayerRoutes[i], colornames.Gold)
 
 	}
-	//DrawOffensivePlayerPlayRoute(imd, offensivePlayBook.OffensivePlays[pageNumber].Formation.Player1.Coordinates, offensivePlayBook.OffensivePlays[pageNumber].PlayerRoutes[0])
-
-	//DrawOffensivePlayerPlayRoute(imd, offensivePlayBook.OffensivePlays[pageNumber].Formation.Player2.Coordinates, offensivePlayBook.OffensivePlays[pageNumber].PlayerRoutes[1])
-
-	//DrawOffensivePlayerPlayRoute(imd, offensivePlayBook.OffensivePlays[pageNumber].Formation.Player3.Coordinates, offensivePlayBook.OffensivePlays[pageNumber].PlayerRoutes[2])
-
-	//DrawOffensivePlayerPlayRoute(imd, offensivePlayBook.OffensivePlays[pageNumber].Formation.Player4.Coordinates, offensivePlayBook.OffensivePlays[pageNumber].PlayerRoutes[3])
-
-	//DrawOffensivePlayerPlayRoute(imd, offensivePlayBook.OffensivePlays[pageNumber].Formation.Player5.Coordinates, offensivePlayBook.OffensivePlays[pageNumber].PlayerRoutes[4])
-
-	//DrawOffensivePlayerPlayRoute(imd, offensivePlayBook.OffensivePlays[pageNumber].Formation.Player6.Coordinates, offensivePlayBook.OffensivePlays[pageNumber].PlayerRoutes[5])
-
-	//DrawOffensivePlayerPlayRoute(imd, offensivePlayBook.OffensivePlays[pageNumber].Formation.Player7.Coordinates, offensivePlayBook.OffensivePlays[pageNumber].PlayerRoutes[6])
 
 	formations.DrawOffensivePlayers(imd, offensivePlayBook.OffensivePlays[pageNumber].Formation)
 
@@ -170,4 +159,56 @@ func DrawOffensiveRunPlayMenu(imd *imdraw.IMDraw, win *pixelgl.Window, offensive
 	fmt.Fprintln(basicTxt, "Running Backs: "+fmt.Sprint(offensivePlayBook.OffensivePlays[pageNumber].Formation.RunningBacks))
 
 	basicTxt.Draw(win, pixel.IM)
+}
+
+func DrawBuildOffensivePlaybookMenu(imd *imdraw.IMDraw, win *pixelgl.Window) {
+
+	atlas := text.NewAtlas(basicfont.Face7x13, text.ASCII)
+	basicTxtMenu := text.New(pixel.V(600, 600), atlas)
+
+	fmt.Fprintln(basicTxtMenu, "Build Offensive Playbook Menu:")
+	basicTxtMenu.Draw(win, pixel.IM.Scaled(basicTxtMenu.Orig, 2))
+
+}
+
+func DrawBuildOffensivePlaybookMenuSelectFormation(imd *imdraw.IMDraw, win *pixelgl.Window, formationIteration int) {
+
+	//formationIteration = 0
+
+	DrawBuildOffensivePlaybookMenu(imd, win)
+
+	atlas := text.NewAtlas(basicfont.Face7x13, text.ASCII)
+	basicTxtMenuSelectFormation := text.New(pixel.V(600, 500), atlas)
+
+	fmt.Fprintln(basicTxtMenuSelectFormation, "Select your formation:")
+	basicTxtMenuSelectFormation.Draw(win, pixel.IM)
+
+	formations.DrawSpecificOffensiveFormation(imd, win, formationIteration)
+
+}
+
+func DrawBuildOffensivePlaybookMenuSelectRoute(imd *imdraw.IMDraw, win *pixelgl.Window, formationIteration int, routeIteration int, selectedPlayer int) {
+
+	DrawBuildOffensivePlaybookMenu(imd, win)
+
+	atlas := text.NewAtlas(basicfont.Face7x13, text.ASCII)
+	basicTxtMenuSelectFormation := text.New(pixel.V(600, 500), atlas)
+
+	fmt.Fprintln(basicTxtMenuSelectFormation, "Select your player route:")
+	basicTxtMenuSelectFormation.Draw(win, pixel.IM)
+
+}
+
+func DrawBuildOffensivePlaybookMenuDoneConfirmation(imd *imdraw.IMDraw, win *pixelgl.Window) {
+
+	DrawBuildOffensivePlaybookMenu(imd, win)
+
+	atlas := text.NewAtlas(basicfont.Face7x13, text.ASCII)
+	basicTxtMenuSelectFormation := text.New(pixel.V(600, 500), atlas)
+
+	fmt.Fprintln(basicTxtMenuSelectFormation, "Are you sure you're done with your play?")
+	fmt.Fprintln(basicTxtMenuSelectFormation, "Press enter to save")
+	fmt.Fprintln(basicTxtMenuSelectFormation, "Press tab to go back to edit")
+	basicTxtMenuSelectFormation.Draw(win, pixel.IM)
+
 }
