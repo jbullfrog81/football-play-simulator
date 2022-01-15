@@ -18,6 +18,7 @@ import (
 	"github.com/faiface/pixel/imdraw"
 	"github.com/faiface/pixel/pixelgl"
 	"github.com/faiface/pixel/text"
+	"github.com/gen2brain/dlgs"
 	"golang.org/x/image/colornames"
 	"golang.org/x/image/font/basicfont"
 )
@@ -188,11 +189,15 @@ func run() {
 	windowState := "paused"
 
 	// Available Window Menus:
+	// - MainMenu
 	// - RunOffensivePlaybook
 	// - RunPlay
 	// - OffensiveFormations
 	// - BuildOffensivePlaybook
-	windowMenu := "RunOffensivePlaybook"
+	windowMenu := "MainMenu"
+
+	// This is to hold where the user was prior to going to the main menu
+	windowMenuPrevious := "MainMenu"
 
 	OffenseFormationIteration := 0
 
@@ -229,7 +234,45 @@ func run() {
 
 	for !win.Closed() {
 
-		if windowMenu == "RunPlay" {
+		if windowMenu == "MainMenu" {
+
+			item, okSelected, err := dlgs.List("Main Menu", "Program Options:", []string{"OffensivePlaybook", "OffensiveFormations", "Exit"})
+			if err != nil {
+				panic(err)
+			}
+
+			if !okSelected {
+				windowMenu = windowMenuPrevious
+			} else {
+				fmt.Println("okSelected is:")
+				fmt.Println(okSelected)
+				fmt.Println("Item selected is:")
+				fmt.Println(item)
+				windowMenu = item
+			}
+
+		} else if windowMenu == "Exit" {
+
+			os.Exit(0)
+
+		} else if windowMenu == "OffensivePlaybook" {
+
+			playbookMenuSelection, okSelected, err := dlgs.List("Offensive Playbook menu", "Offensive Playbook Options:", []string{"LoadPlaybook", "CreateNewPlaybook", "UseDefaultPlaybook", "MainMenu"})
+			if err != nil {
+				panic(err)
+			}
+
+			if !okSelected {
+				windowMenu = windowMenuPrevious
+			} else {
+				fmt.Println("okSelected is:")
+				fmt.Println(okSelected)
+				fmt.Println("Item selected is:")
+				fmt.Println(playbookMenuSelection)
+				windowMenu = playbookMenuSelection
+			}
+
+		} else if windowMenu == "RunPlay" {
 
 			if win.JustPressed(pixelgl.KeyEscape) {
 
@@ -237,8 +280,8 @@ func run() {
 				imdOffenseRunPlay.Clear()
 				myTeamOffensePlayBookRun = playbook.BuildDefaultOffensivePlayBook()
 				iteration = 0
-
-				windowMenu = "RunOffensivePlaybook"
+				windowMenuPrevious = "RunPlay"
+				windowMenu = "MainMenu"
 			}
 
 			// restart the play when pressing enter
@@ -317,7 +360,8 @@ func run() {
 		} else if windowMenu == "RunOffensivePlaybook" {
 
 			if win.JustPressed(pixelgl.KeyEscape) {
-				windowMenu = "OffensiveFormations"
+				windowMenuPrevious = "RunOffensivePlaybook"
+				windowMenu = "MainMenu"
 			}
 
 			if win.JustPressed(pixelgl.KeyRight) && OffensePlaybookPageNumber < 1 {
@@ -351,7 +395,8 @@ func run() {
 		} else if windowMenu == "OffensiveFormations" {
 
 			if win.JustPressed(pixelgl.KeyEscape) {
-				windowMenu = "BuildOffensivePlaybook"
+				windowMenuPrevious = "OffensiveFormations"
+				windowMenu = "MainMenu"
 			}
 
 			if win.JustPressed(pixelgl.KeyDown) && OffenseFormationIteration > 0 {
@@ -380,7 +425,8 @@ func run() {
 		} else if windowMenu == "BuildOffensivePlaybook" {
 
 			if win.JustPressed(pixelgl.KeyEscape) {
-				windowMenu = "RunPlay"
+				windowMenuPrevious = "BuildOffensivePlaybook"
+				windowMenu = "MainMenu"
 			}
 
 			win.Clear(colornames.Darkolivegreen)
