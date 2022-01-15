@@ -236,7 +236,7 @@ func run() {
 
 		if windowMenu == "MainMenu" {
 
-			item, okSelected, err := dlgs.List("Main Menu", "Program Options:", []string{"OffensivePlaybook", "OffensiveFormations", "Exit"})
+			item, okSelected, err := dlgs.List("Main Menu", "Program Options:", []string{"OffensivePlaybook", "ViewOffensiveFormations", "ViewOffensiveRoutes", "Exit"})
 			if err != nil {
 				panic(err)
 			}
