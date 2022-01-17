@@ -152,6 +152,7 @@ func run() {
 
 	//imdMenu := imdraw.New(nil)
 	imdOffenseRunPlay := imdraw.New(nil)
+	imdOffensePlaybookLoadedRunPlay := imdraw.New(nil)
 	imdFootballField := imdraw.New(nil)
 	imdOffensiveFormations := imdraw.New(nil)
 	imdOffensivePlayBook := imdraw.New(nil)
@@ -201,6 +202,53 @@ func run() {
 	// - BuildOffensivePlaybook
 	windowMenu := "MainMenu"
 
+	// Generate Main Menu items
+
+	// TODO add the following:
+	// - View Offensive Routes
+	// - Defense
+	mainMenuLookup := map[string]string{
+		"Offensive Playbook":        "OffensivePlaybook",
+		"View Offensive Formations": "ViewOffensiveFormations",
+		"View Offensive Routes":     "View Offensive Routes",
+		"Exit":                      "Exit",
+	}
+
+	var mainMenuOptions []string
+
+	for key, _ := range mainMenuLookup {
+		mainMenuOptions = append(mainMenuOptions, key)
+	}
+
+	// Generate Offensive Playbook Menu items
+	offensivePlaybookMenuLookup := map[string]string{
+		"Load Playbook":        "LoadPlaybook",
+		"Create New Playbook":  "CreateNewPlaybook",
+		"Use Default Playbook": "UseDefaultPlaybook",
+		"Back to Main Menu":    "MainMenu",
+	}
+
+	var offensivePlaybookMenuOptions []string
+
+	for key, _ := range offensivePlaybookMenuLookup {
+		offensivePlaybookMenuOptions = append(offensivePlaybookMenuOptions, key)
+	}
+
+	// Generate Offensive Playbook Loaded Menu items
+	offensivePlaybookLoadedMenuLookup := map[string]string{
+		"Edit Playbook":                   "EditPlaybook",
+		"Run Plays in Playbook":           "LoadedOffensivePlaybookRunPlays",
+		"View Plays in Playbook":          "ViewLoadedOffensivePlaybook",
+		"Back to Offensive Playbook Menu": "OffensivePlaybook",
+		"Back to Main Menu":               "MainMenu",
+	}
+
+	var offensivePlaybookLoadedMenuOptions []string
+
+	for key, _ := range offensivePlaybookLoadedMenuLookup {
+		offensivePlaybookLoadedMenuOptions = append(offensivePlaybookLoadedMenuOptions, key)
+	}
+
 	// This is to hold where the user was prior to going to the main menu
 	windowMenuPrevious := "MainMenu"
 
@@ -208,9 +256,15 @@ func run() {
 
 	OffensePlaybookPageNumber := 0
 
+	OffensePlaybookLoadedPageNumber := 0
+
 	OffenseRunPlayPlaybookPageNumber := 0
 
+	OffensePlaybookLoadedRunPlayPageNumber := 0
+
 	myTeamOffensePlayBookRun := playbook.BuildDefaultOffensivePlayBook()
+
+	var loadedTeamOffensivePlayBookRun playbook.PlayBook
 
 	drawSelectFormationIteration := 0
 
@@ -241,7 +295,7 @@ func run() {
 
 		if windowMenu == "MainMenu" {
 
-			selectedMenuItem, okSelected, err := dlgs.List("Main Menu", "Program Options:", []string{"Offensive Playbook", "View Offensive Formations", "View Offensive Routes", "Exit"})
+			selectedMenuItem, okSelected, err := dlgs.List("Main Menu", "Program Options:", mainMenuOptions)
 			if err != nil {
 				panic(err)
 			}
@@ -253,16 +307,8 @@ func run() {
 				fmt.Println(okSelected)
 				fmt.Println("Menu item selected is:")
 				fmt.Println(selectedMenuItem)
-				if selectedMenuItem == "Offensive Playbook" {
-					windowMenu = "OffensivePlaybook"
-				} else if selectedMenuItem == "View Offensive Formations" {
-					windowMenu = "OffensiveFormations"
-				} else if selectedMenuItem == "Exit" {
-					windowMenu = "Exit"
-				}
-				// TODO add the following:
-				// - View Offensive Routes
-				// - Defense
+
+				windowMenu = mainMenuLookup[selectedMenuItem]
 
 			}
 
@@ -303,15 +349,34 @@ func run() {
 					panic(err)
 				}
 
-				dlgs.MessageBox("File loaded", "The file was successfully loaded")
+				loadedTeamOffensivePlayBookRun = loadedTeamOffensivePlayBook
 
-				windowMenu = "OffensivePlaybook"
+				dlgs.MessageBox("File loaded", "The playbook was successfully loaded")
 
+				windowMenu = "OffensivePlaybookLoaded"
+
+			}
+
+		} else if windowMenu == "OffensivePlaybookLoaded" {
+
+			offensivePlaybookLoadedMenuSelection, okSelected, err := dlgs.List("Offensive Playbook menu", "Offensive Playbook Options:", offensivePlaybookLoadedMenuOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			if !okSelected {
+				windowMenu = windowMenuPrevious
+			} else {
+				fmt.Println("okSelected is:")
+				fmt.Println(okSelected)
+				fmt.Println("Item selected is:")
+				fmt.Println(offensivePlaybookLoadedMenuSelection)
+				windowMenu = offensivePlaybookLoadedMenuLookup[offensivePlaybookLoadedMenuSelection]
 			}
 
 		} else if windowMenu == "OffensivePlaybook" {
 
-			playbookMenuSelection, okSelected, err := dlgs.List("Offensive Playbook menu", "Offensive Playbook Options:", []string{"LoadPlaybook", "CreateNewPlaybook", "UseDefaultPlaybook", "MainMenu"})
+			playbookMenuSelection, okSelected, err := dlgs.List("Offensive Playbook menu", "Offensive Playbook Options:", offensivePlaybookMenuOptions)
 			if err != nil {
 				panic(err)
 			}
@@ -323,7 +388,7 @@ func run() {
 				fmt.Println(okSelected)
 				fmt.Println("Item selected is:")
 				fmt.Println(playbookMenuSelection)
-				windowMenu = playbookMenuSelection
+				windowMenu = offensivePlaybookMenuLookup[playbookMenuSelection]
 			}
 
 		} else if windowMenu == "RunPlay" {
@@ -411,6 +476,103 @@ func run() {
 				<-frameTick.C
 			}
 
+		} else if windowMenu == "LoadedOffensivePlaybookRunPlays" {
+
+			if win.JustPressed(pixelgl.KeyEscape) {
+
+				//Reset the run play formation
+				imdOffensePlaybookLoadedRunPlay.Clear()
+				loadedTeamOffensivePlayBookRun = loadedTeamOffensivePlayBook
+				iteration = 0
+				windowMenuPrevious = "LoadedOffensivePlaybookRunPlays"
+				windowMenu = "OffensivePlaybookLoaded"
+			}
+
+			// restart the play when pressing enter
+			if win.JustPressed(pixelgl.KeyEnter) {
+
+				//reset the run play formation
+				loadedTeamOffensivePlayBookRun = loadedTeamOffensivePlayBook
+				iteration = 0
+			}
+
+			if win.JustPressed(pixelgl.KeySpace) {
+				if windowState == "paused" {
+					windowState = "running"
+				} else {
+					windowState = "paused"
+				}
+			}
+
+			if win.JustPressed(pixelgl.KeyRight) && OffensePlaybookLoadedRunPlayPageNumber < (len(loadedTeamOffensivePlayBook.OffensivePlays)-1) {
+				OffensePlaybookLoadedRunPlayPageNumber += 1
+				iteration = 0
+				loadedTeamOffensivePlayBookRun = loadedTeamOffensivePlayBook
+			}
+
+			if win.JustPressed(pixelgl.KeyLeft) && OffensePlaybookLoadedRunPlayPageNumber > 0 {
+				OffensePlaybookLoadedRunPlayPageNumber -= 1
+				iteration = 0
+				loadedTeamOffensivePlayBookRun = loadedTeamOffensivePlayBook
+			}
+
+			if windowState == "paused" {
+
+				win.Clear(colornames.Darkolivegreen)
+				imdOffensePlaybookLoadedRunPlay.Clear()
+				imdFootballField.Clear()
+
+				field.DrawFootballFieldLines(imdFootballField, leftSideLinePixel, rightSideLinePixel)
+				field.DrawFootballFieldYardNumbers(imdFootballField, win)
+				imdFootballField.Draw(win)
+
+				for i, _ := range loadedTeamOffensivePlayBookRun.OffensivePlays[OffensePlaybookLoadedRunPlayPageNumber].Formation.Players {
+
+					formations.DrawOffensePlayerRunPlay(imdOffensePlaybookLoadedRunPlay, loadedTeamOffensivePlayBookRun.OffensivePlays[OffensePlaybookLoadedRunPlayPageNumber].PlayerRoutes[i], loadedTeamOffensivePlayBookRun.OffensivePlays[OffensePlaybookLoadedRunPlayPageNumber].Formation.Players[i], iteration)
+
+				}
+
+				imdOffensePlaybookLoadedRunPlay.Draw(win)
+				playbook.DrawOffensiveRunPlayMenu(imdOffensePlaybookLoadedRunPlay, win, loadedTeamOffensivePlayBookRun, OffensePlaybookLoadedRunPlayPageNumber)
+
+				win.Update()
+
+			} else {
+
+				win.Clear(colornames.Darkolivegreen)
+
+				imdOffensePlaybookLoadedRunPlay.Clear()
+				imdFootballField.Clear()
+
+				field.DrawFootballFieldLines(imdFootballField, leftSideLinePixel, rightSideLinePixel)
+				field.DrawFootballFieldYardNumbers(imdFootballField, win)
+				imdFootballField.Draw(win)
+
+				if iteration == 0 {
+					formations.DrawOffensivePlayers(imdOffensePlaybookLoadedRunPlay, loadedTeamOffensivePlayBookRun.OffensivePlays[OffensePlaybookLoadedRunPlayPageNumber].Formation)
+				} else {
+					for i, _ := range loadedTeamOffensivePlayBookRun.OffensivePlays[OffensePlaybookLoadedRunPlayPageNumber].Formation.Players {
+
+						loadedTeamOffensivePlayBookRun.OffensivePlays[OffensePlaybookLoadedRunPlayPageNumber].Formation.Players[i] = formations.DrawOffensePlayerRunPlay(imdOffensePlaybookLoadedRunPlay, loadedTeamOffensivePlayBookRun.OffensivePlays[OffensePlaybookLoadedRunPlayPageNumber].PlayerRoutes[i], loadedTeamOffensivePlayBookRun.OffensivePlays[OffensePlaybookLoadedRunPlayPageNumber].Formation.Players[i], iteration)
+
+					}
+				}
+
+				playbook.DrawOffensiveRunPlayMenu(imdOffensePlaybookLoadedRunPlay, win, loadedTeamOffensivePlayBookRun, OffensePlaybookLoadedRunPlayPageNumber)
+
+				imdOffensePlaybookLoadedRunPlay.Draw(win)
+
+				win.Update()
+
+				iteration += 1
+				println("iteration is: ", iteration)
+				println("the windowState is:", windowState)
+			}
+
+			if frameTick != nil {
+				<-frameTick.C
+			}
+
 		} else if windowMenu == "RunOffensivePlaybook" {
 
 			if win.JustPressed(pixelgl.KeyEscape) {
@@ -437,6 +599,42 @@ func run() {
 			playbook.DrawOffensivePlayBookPage(imdOffensivePlayBook, win, OffensePlaybookPageNumber, myTeamOffensivePlayBook)
 
 			playbook.DrawOffensivePlayBookMenu(imdOffensivePlayBook, win, myTeamOffensivePlayBook, OffensePlaybookPageNumber)
+
+			imdOffensivePlayBook.Draw(win)
+
+			win.Update()
+
+			if frameTick != nil {
+				<-frameTick.C
+			}
+
+		} else if windowMenu == "ViewLoadedOffensivePlaybook" {
+
+			if win.JustPressed(pixelgl.KeyEscape) {
+				windowMenuPrevious = "ViewLoadedOffensivePlaybook"
+				windowMenu = "OffensivePlaybookLoaded"
+			}
+
+			// need to utilize the max number of plays instead of 1
+			if win.JustPressed(pixelgl.KeyRight) && OffensePlaybookLoadedPageNumber < (len(loadedTeamOffensivePlayBook.OffensivePlays)-1) {
+				OffensePlaybookLoadedPageNumber += 1
+			}
+
+			if win.JustPressed(pixelgl.KeyLeft) && OffensePlaybookLoadedPageNumber > 0 {
+				OffensePlaybookLoadedPageNumber -= 1
+			}
+
+			win.Clear(colornames.Darkolivegreen)
+
+			imdFootballField.Draw(win)
+
+			field.DrawFootballFieldYardNumbers(imdFootballField, win)
+
+			imdOffensivePlayBook.Clear()
+
+			playbook.DrawOffensivePlayBookPage(imdOffensivePlayBook, win, OffensePlaybookLoadedPageNumber, loadedTeamOffensivePlayBook)
+
+			playbook.DrawOffensivePlayBookMenu(imdOffensivePlayBook, win, loadedTeamOffensivePlayBook, OffensePlaybookLoadedPageNumber)
 
 			imdOffensivePlayBook.Draw(win)
 

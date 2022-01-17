@@ -70,7 +70,7 @@ func ReturnAllOffensiveTeamFormations() (AllFormations AllOffenseTeamFormations)
 	return AllFormations
 }
 
-func DefineOffensivePlayerAttributes(position string, thickness float64, radius float64, color color.Color) (PlayerAttributes OffensePlayerAttributes) {
+func DefineOffensivePlayerAttributes(position string, thickness float64, radius float64, color color.RGBA) (PlayerAttributes OffensePlayerAttributes) {
 	PlayerAttributes.Position = position
 	PlayerAttributes.Thickness = thickness
 	PlayerAttributes.Radius = radius
@@ -513,9 +513,9 @@ func DrawOffensivePlayers(imd *imdraw.IMDraw, team OffenseTeamFormation) {
 
 func DrawOffensePlayerRunPlay(imd *imdraw.IMDraw, route routes.OffensePlayRoute, playerPosition OffensePlayer, iteration int) OffensePlayer {
 
-	println("starting draw offense run play")
+	//println("starting draw offense run play")
 	if iteration < len(route.MinX) {
-		println("inside iteration loop")
+		//println("inside iteration loop")
 		playerPosition.Coordinates.MinX += route.MinX[iteration]
 		playerPosition.Coordinates.MinY += route.MinY[iteration]
 		playerPosition.Coordinates.MaxX += route.MaxX[iteration]
