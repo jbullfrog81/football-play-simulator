@@ -25,7 +25,7 @@ type OffensePlayerAttributes struct {
 	Position  string
 	Thickness float64
 	Radius    float64
-	Color     color.Color
+	Color     color.RGBA
 }
 
 type OffensePlayer struct {

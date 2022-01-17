@@ -1,9 +1,11 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"image"
 	"image/color"
+	"io/ioutil"
 	"jbullfrog81/football-play-simulator/field"
 	"jbullfrog81/football-play-simulator/formations"
 	"jbullfrog81/football-play-simulator/playbook"
@@ -174,6 +176,9 @@ func run() {
 	// Build a new playbook
 	var buildOffensivePlayBook playbook.PlayBook
 
+	//Loaded playbook from file
+	var loadedTeamOffensivePlayBook playbook.PlayBook
+
 	buildOffensivePlayBook.PlayBookName = "Build"
 
 	myTeamOffensivePlayBook = playbook.BuildDefaultOffensivePlayBook()
@@ -236,7 +241,7 @@ func run() {
 
 		if windowMenu == "MainMenu" {
 
-			item, okSelected, err := dlgs.List("Main Menu", "Program Options:", []string{"OffensivePlaybook", "ViewOffensiveFormations", "ViewOffensiveRoutes", "Exit"})
+			selectedMenuItem, okSelected, err := dlgs.List("Main Menu", "Program Options:", []string{"Offensive Playbook", "View Offensive Formations", "View Offensive Routes", "Exit"})
 			if err != nil {
 				panic(err)
 			}
@@ -246,14 +251,63 @@ func run() {
 			} else {
 				fmt.Println("okSelected is:")
 				fmt.Println(okSelected)
-				fmt.Println("Item selected is:")
-				fmt.Println(item)
-				windowMenu = item
+				fmt.Println("Menu item selected is:")
+				fmt.Println(selectedMenuItem)
+				if selectedMenuItem == "Offensive Playbook" {
+					windowMenu = "OffensivePlaybook"
+				} else if selectedMenuItem == "View Offensive Formations" {
+					windowMenu = "OffensiveFormations"
+				} else if selectedMenuItem == "Exit" {
+					windowMenu = "Exit"
+				}
+				// TODO add the following:
+				// - View Offensive Routes
+				// - Defense
+
 			}
 
 		} else if windowMenu == "Exit" {
 
 			os.Exit(0)
+
+		} else if windowMenu == "LoadPlaybook" {
+
+			fileName, selectedOk, err := dlgs.File("Select file", "*.playbook", false)
+			if err != nil {
+				panic(err)
+			}
+
+			if !selectedOk {
+				windowMenu = windowMenuPrevious
+			} else {
+
+				file, err := ioutil.ReadFile(fileName)
+				//file, err := os.Open(fileName)
+				//defer file.Close()
+
+				if err != nil {
+					//log.Fatalf("failed to open file")
+					_, err := dlgs.Info("Info", "Unable to open file")
+					if err != nil {
+						panic(err)
+					}
+				}
+
+				fmt.Println("The filename is:")
+				fmt.Println(fileName)
+				fmt.Println("The selected ok is:")
+				fmt.Println(selectedOk)
+
+				err = json.Unmarshal([]byte(file), &loadedTeamOffensivePlayBook)
+				if err != nil {
+					panic(err)
+				}
+
+				dlgs.MessageBox("File loaded", "The file was successfully loaded")
+
+				windowMenu = "OffensivePlaybook"
+
+			}
 
 		} else if windowMenu == "OffensivePlaybook" {
 
