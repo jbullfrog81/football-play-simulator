@@ -29,6 +29,45 @@ import (
 var (
 	frameTick *time.Ticker
 	fps       float64
+	// TODO add the following:
+	// - View Offensive Routes
+	// - Defense
+	mainMenuLookup = map[string]string{
+		"Offensive Playbook":        "OffensivePlaybook",
+		"View Offensive Formations": "ViewOffensiveFormations",
+		"View Offensive Routes":     "View Offensive Routes",
+		"Exit":                      "Exit",
+	}
+	mainMenuOptions []string
+
+	// Available Window States:
+	// - paused
+	// - running
+	windowState = "paused"
+
+	// Available Window Menus:
+	// - MainMenu
+	// - RunOffensivePlaybook
+	// - RunPlay
+	// - OffensiveFormations
+	// - BuildOffensivePlaybook
+	windowMenu = "MainMenu"
+
+	// This is to hold where the user was prior to going to the main menu
+	windowMenuPrevious = "MainMenu"
+
+	//Manual creation of a playbook
+	myTeamOffensivePlayBook playbook.PlayBook
+
+	// Build a new playbook
+	buildOffensivePlayBook playbook.PlayBook
+
+	//Loaded playbook from file
+	loadedTeamOffensivePlayBook playbook.PlayBook
+
+	loadedTeamOffensivePlayBookRun playbook.PlayBook
+
+	loadedPlaybookFileName string
 )
 
 type offensePlayerPosition struct {
@@ -128,6 +167,74 @@ func loadPicture(path string) (pixel.Picture, error) {
 	return pixel.PictureDataFromImage(img), nil
 }
 
+func mainMenu() (wMenu string) {
+
+	selectedMenuItem, okSelected, err := dlgs.List("Main Menu", "Program Options:", mainMenuOptions)
+
+	if err != nil {
+		panic(err)
+	}
+
+	if !okSelected {
+		return windowMenuPrevious
+	} else {
+		fmt.Println("okSelected is:")
+		fmt.Println(okSelected)
+		fmt.Println("Menu item selected is:")
+		fmt.Println(selectedMenuItem)
+		return mainMenuLookup[selectedMenuItem]
+	}
+}
+
+func loadPlaybookFromFile(fileName string, playbook *playbook.PlayBook) {
+	file, err := ioutil.ReadFile(fileName)
+	//file, err := os.Open(fileName)
+	//defer file.Close()
+
+	if err != nil {
+		//log.Fatalf("failed to open file")
+		_, err := dlgs.Info("Info", "Unable to open file")
+		if err != nil {
+			panic(err)
+		}
+	}
+
+	err = json.Unmarshal([]byte(file), playbook)
+	if err != nil {
+		panic(err)
+	}
+
+	//loadedTeamOffensivePlayBookRun = loadedTeamOffensivePlayBook
+	//util.DeepCopy(loadedTeamOffensivePlayBook, loadedTeamOffensivePlayBookRun)
+
+	dlgs.MessageBox("File loaded", "The playbook was successfully loaded")
+}
+
+func loadPlaybookMenu() (wMenu string, fileName string) {
+
+	fileName, selectedOk, err := dlgs.File("Select file", "*.playbook", false)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println("The filename is:")
+	fmt.Println(fileName)
+	fmt.Println("The selected ok is:")
+	fmt.Println(selectedOk)
+
+	if !selectedOk {
+		return windowMenuPrevious, ""
+	} else {
+
+		loadPlaybookFromFile(fileName, &loadedTeamOffensivePlayBook)
+
+		loadPlaybookFromFile(fileName, &loadedTeamOffensivePlayBookRun)
+
+		return "OffensivePlaybookLoaded", fileName
+
+	}
+}
+
 func run() {
 	cfg := pixelgl.WindowConfig{
 		Title:  "Football Play Simulator",
@@ -171,15 +278,6 @@ func run() {
 
 	field.DrawFootballFieldYardNumbers(imdFootballField, win)
 
-	//Manual creation of a playbook
-	var myTeamOffensivePlayBook playbook.PlayBook
-
-	// Build a new playbook
-	var buildOffensivePlayBook playbook.PlayBook
-
-	//Loaded playbook from file
-	var loadedTeamOffensivePlayBook playbook.PlayBook
-
 	buildOffensivePlayBook.PlayBookName = "Build"
 
 	myTeamOffensivePlayBook = playbook.BuildDefaultOffensivePlayBook()
@@ -189,33 +287,7 @@ func run() {
 	//Use this for moving the players during the play
 	iteration := 0
 
-	// Available Window States:
-	// - paused
-	// - running
-	windowState := "paused"
-
-	// Available Window Menus:
-	// - MainMenu
-	// - RunOffensivePlaybook
-	// - RunPlay
-	// - OffensiveFormations
-	// - BuildOffensivePlaybook
-	windowMenu := "MainMenu"
-
 	// Generate Main Menu items
-
-	// TODO add the following:
-	// - View Offensive Routes
-	// - Defense
-	mainMenuLookup := map[string]string{
-		"Offensive Playbook":        "OffensivePlaybook",
-		"View Offensive Formations": "ViewOffensiveFormations",
-		"View Offensive Routes":     "View Offensive Routes",
-		"Exit":                      "Exit",
-	}
-
-	var mainMenuOptions []string
-
 	for key, _ := range mainMenuLookup {
 		mainMenuOptions = append(mainMenuOptions, key)
 	}
@@ -249,9 +321,6 @@ func run() {
 		offensivePlaybookLoadedMenuOptions = append(offensivePlaybookLoadedMenuOptions, key)
 	}
 
-	// This is to hold where the user was prior to going to the main menu
-	windowMenuPrevious := "MainMenu"
-
 	OffenseFormationIteration := 0
 
 	OffensePlaybookPageNumber := 0
@@ -263,8 +332,6 @@ func run() {
 	OffensePlaybookLoadedRunPlayPageNumber := 0
 
 	myTeamOffensePlayBookRun := playbook.BuildDefaultOffensivePlayBook()
-
-	var loadedTeamOffensivePlayBookRun playbook.PlayBook
 
 	drawSelectFormationIteration := 0
 
@@ -295,22 +362,9 @@ func run() {
 
 		if windowMenu == "MainMenu" {
 
-			selectedMenuItem, okSelected, err := dlgs.List("Main Menu", "Program Options:", mainMenuOptions)
-			if err != nil {
-				panic(err)
-			}
-
-			if !okSelected {
-				windowMenu = windowMenuPrevious
-			} else {
-				fmt.Println("okSelected is:")
-				fmt.Println(okSelected)
-				fmt.Println("Menu item selected is:")
-				fmt.Println(selectedMenuItem)
-
-				windowMenu = mainMenuLookup[selectedMenuItem]
-
-			}
+			windowMenu = mainMenu()
+			fmt.Println("The window menu is:")
+			fmt.Println(windowMenu)
 
 		} else if windowMenu == "Exit" {
 
@@ -318,44 +372,7 @@ func run() {
 
 		} else if windowMenu == "LoadPlaybook" {
 
-			fileName, selectedOk, err := dlgs.File("Select file", "*.playbook", false)
-			if err != nil {
-				panic(err)
-			}
-
-			if !selectedOk {
-				windowMenu = windowMenuPrevious
-			} else {
-
-				file, err := ioutil.ReadFile(fileName)
-				//file, err := os.Open(fileName)
-				//defer file.Close()
-
-				if err != nil {
-					//log.Fatalf("failed to open file")
-					_, err := dlgs.Info("Info", "Unable to open file")
-					if err != nil {
-						panic(err)
-					}
-				}
-
-				fmt.Println("The filename is:")
-				fmt.Println(fileName)
-				fmt.Println("The selected ok is:")
-				fmt.Println(selectedOk)
-
-				err = json.Unmarshal([]byte(file), &loadedTeamOffensivePlayBook)
-				if err != nil {
-					panic(err)
-				}
-
-				loadedTeamOffensivePlayBookRun = loadedTeamOffensivePlayBook
-
-				dlgs.MessageBox("File loaded", "The playbook was successfully loaded")
-
-				windowMenu = "OffensivePlaybookLoaded"
-
-			}
+			windowMenu, loadedPlaybookFileName = loadPlaybookMenu()
 
 		} else if windowMenu == "OffensivePlaybookLoaded" {
 
@@ -481,8 +498,11 @@ func run() {
 			if win.JustPressed(pixelgl.KeyEscape) {
 
 				//Reset the run play formation
+				//- must do a deep copy as there are slices
+				//- we don't want to share pointers
 				imdOffensePlaybookLoadedRunPlay.Clear()
-				loadedTeamOffensivePlayBookRun = loadedTeamOffensivePlayBook
+				loadPlaybookFromFile(loadedPlaybookFileName, &loadedTeamOffensivePlayBookRun)
+				//util.DeepCopy(loadedTeamOffensivePlayBook, loadedTeamOffensivePlayBookRun)
 				iteration = 0
 				windowMenuPrevious = "LoadedOffensivePlaybookRunPlays"
 				windowMenu = "OffensivePlaybookLoaded"
@@ -491,8 +511,11 @@ func run() {
 			// restart the play when pressing enter
 			if win.JustPressed(pixelgl.KeyEnter) {
 
-				//reset the run play formation
-				loadedTeamOffensivePlayBookRun = loadedTeamOffensivePlayBook
+				//Reset the run play formation
+				//- must do a deep copy as there are slices
+				//- we don't want to share pointers
+				//util.DeepCopy(loadedTeamOffensivePlayBook, loadedTeamOffensivePlayBookRun)
+				loadPlaybookFromFile(loadedPlaybookFileName, &loadedTeamOffensivePlayBookRun)
 				iteration = 0
 			}
 
@@ -507,13 +530,13 @@ func run() {
 			if win.JustPressed(pixelgl.KeyRight) && OffensePlaybookLoadedRunPlayPageNumber < (len(loadedTeamOffensivePlayBook.OffensivePlays)-1) {
 				OffensePlaybookLoadedRunPlayPageNumber += 1
 				iteration = 0
-				loadedTeamOffensivePlayBookRun = loadedTeamOffensivePlayBook
+				//loadedTeamOffensivePlayBookRun = loadedTeamOffensivePlayBook
 			}
 
 			if win.JustPressed(pixelgl.KeyLeft) && OffensePlaybookLoadedRunPlayPageNumber > 0 {
 				OffensePlaybookLoadedRunPlayPageNumber -= 1
 				iteration = 0
-				loadedTeamOffensivePlayBookRun = loadedTeamOffensivePlayBook
+				//loadedTeamOffensivePlayBookRun = loadedTeamOffensivePlayBook
 			}
 
 			if windowState == "paused" {
