@@ -35,7 +35,7 @@ var (
 	mainMenuLookup = map[string]string{
 		"Offensive Playbook":        "OffensivePlaybook",
 		"View Offensive Formations": "ViewOffensiveFormations",
-		"View Offensive Routes":     "View Offensive Routes",
+		"View Offensive Routes":     "ViewOffensiveRoutes",
 		"Exit":                      "Exit",
 	}
 	mainMenuOptions []string
@@ -667,10 +667,10 @@ func run() {
 				<-frameTick.C
 			}
 
-		} else if windowMenu == "OffensiveFormations" {
+		} else if windowMenu == "ViewOffensiveFormations" {
 
 			if win.JustPressed(pixelgl.KeyEscape) {
-				windowMenuPrevious = "OffensiveFormations"
+				windowMenuPrevious = "ViewOffensiveFormations"
 				windowMenu = "MainMenu"
 			}
 
