@@ -91,6 +91,29 @@ func DefineOffensiveTeamFormation(Players []OffensePlayer) (OffensiveTeam Offens
 	return OffensiveTeam
 }
 
+func SetOffensiveTeamFormationShowRoutes() OffenseTeamFormation {
+
+	var player OffensePlayer
+
+	player.Attributes = DefineOffensivePlayerAttributes("Player", 2.0, 5.0, colornames.Black)
+
+	player.Coordinates = DefineOffensivePlayerCoordinates(260.0, 145.0, 260.0, 145.0)
+
+	var offensiveTeam OffenseTeamFormation
+
+	offensiveTeam.Players = append(offensiveTeam.Players, player)
+
+	//offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &receiver1, &receiver2, &receiver3)
+
+	offensiveTeam.FormationName = "Show Routes"
+	offensiveTeam.SnapType = "Not Applicable"
+	offensiveTeam.Receivers = 0
+	offensiveTeam.RunningBacks = 0
+
+	return offensiveTeam
+
+}
+
 func SetOffensiveTeamFormationShotgunBunchRight() OffenseTeamFormation {
 
 	var leftGuard, center, rightGuard, quarterBack, receiver1, receiver2, receiver3 OffensePlayer
@@ -530,6 +553,7 @@ func DrawOffensePlayerRunPlay(imd *imdraw.IMDraw, route routes.OffensePlayRoute,
 
 }
 
+// Draw a specific offensive formation from the available offensive formations
 func DrawSpecificOffensiveFormation(imd *imdraw.IMDraw, win *pixelgl.Window, iteration int) {
 
 	availableOffensiveFormations := ReturnAllOffensiveTeamFormations()
@@ -548,6 +572,13 @@ func DrawSpecificOffensiveFormation(imd *imdraw.IMDraw, win *pixelgl.Window, ite
 	fmt.Fprintln(basicTxt, "Running Backs: "+fmt.Sprint(availableOffensiveFormations.Formations[iteration].RunningBacks))
 
 	basicTxt.Draw(win, pixel.IM)
+
+}
+
+// Draw an offensive formation that is provided as an input
+func DrawProvidedOffensiveFormation(imd *imdraw.IMDraw, win *pixelgl.Window, offensiveFormation OffenseTeamFormation) {
+
+	DrawOffensivePlayers(imd, offensiveFormation)
 
 }
 

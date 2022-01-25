@@ -1,5 +1,15 @@
 package routes
 
+import (
+	"fmt"
+
+	"github.com/faiface/pixel"
+	"github.com/faiface/pixel/imdraw"
+	"github.com/faiface/pixel/pixelgl"
+	"github.com/faiface/pixel/text"
+	"golang.org/x/image/font/basicfont"
+)
+
 type OffensePlayRoute struct {
 	RouteName string
 	MinX      []float64
@@ -10,6 +20,24 @@ type OffensePlayRoute struct {
 
 type OffensePlayRoutes struct {
 	Routes []OffensePlayRoute
+}
+
+func DrawOffensiveRoutesMenu(imd *imdraw.IMDraw, win *pixelgl.Window, route OffensePlayRoute) {
+
+	atlas := text.NewAtlas(basicfont.Face7x13, text.ASCII)
+
+	basicTxtMenu := text.New(pixel.V(600, 600), atlas)
+
+	fmt.Fprintln(basicTxtMenu, "Routes Menu:")
+
+	basicTxtMenu.Draw(win, pixel.IM.Scaled(basicTxtMenu.Orig, 2))
+
+	basicTxt := text.New(pixel.V(600, 400), atlas)
+
+	fmt.Fprintln(basicTxt, "Route Name: "+route.RouteName)
+
+	basicTxt.Draw(win, pixel.IM)
+
 }
 
 func ReturnAllOffensePlayRoutes() (allRoutes OffensePlayRoutes) {

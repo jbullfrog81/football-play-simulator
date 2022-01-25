@@ -262,6 +262,7 @@ func run() {
 	imdOffensePlaybookLoadedRunPlay := imdraw.New(nil)
 	imdFootballField := imdraw.New(nil)
 	imdOffensiveFormations := imdraw.New(nil)
+	imdViewOffensiveRoutes := imdraw.New(nil)
 	imdOffensivePlayBook := imdraw.New(nil)
 	imdBuildOffensivePlaybook := imdraw.New(nil)
 
@@ -321,6 +322,8 @@ func run() {
 		offensivePlaybookLoadedMenuOptions = append(offensivePlaybookLoadedMenuOptions, key)
 	}
 
+	ViewOffensiveRoutesIteration := 0
+
 	OffenseFormationIteration := 0
 
 	OffensePlaybookPageNumber := 0
@@ -357,6 +360,8 @@ func run() {
 
 	allOffensiveFormations := formations.ReturnAllOffensiveTeamFormations()
 	allOffensiveRoutes := routes.ReturnAllOffensePlayRoutes()
+	// Used for the view all routes menu
+	singlePlayerOffensiveFormation := formations.SetOffensiveTeamFormationShowRoutes()
 
 	for !win.Closed() {
 
@@ -661,6 +666,38 @@ func run() {
 
 			imdOffensivePlayBook.Draw(win)
 
+			win.Update()
+
+			if frameTick != nil {
+				<-frameTick.C
+			}
+
+		} else if windowMenu == "ViewOffensiveRoutes" {
+
+			if win.JustPressed(pixelgl.KeyEscape) {
+				windowMenuPrevious = "ViewOffensiveRoutes"
+				windowMenu = "MainMenu"
+			}
+
+			if win.JustPressed(pixelgl.KeyLeft) && ViewOffensiveRoutesIteration > 0 {
+				ViewOffensiveRoutesIteration -= 1
+			}
+
+			if win.JustPressed(pixelgl.KeyRight) && ViewOffensiveRoutesIteration < len(allOffensiveRoutes.Routes)-1 {
+				ViewOffensiveRoutesIteration += 1
+			}
+
+			win.Clear(colornames.Darkolivegreen)
+
+			imdViewOffensiveRoutes.Clear()
+			formations.DrawOffensivePlayers(imdViewOffensiveRoutes, singlePlayerOffensiveFormation)
+			playbook.DrawOffensivePlayerPlayRoute(imdViewOffensiveRoutes, singlePlayerOffensiveFormation.Players[0].Coordinates, allOffensiveRoutes.Routes[ViewOffensiveRoutesIteration], colornames.Gold)
+			routes.DrawOffensiveRoutesMenu(imdViewOffensiveRoutes, win, allOffensiveRoutes.Routes[ViewOffensiveRoutesIteration])
+
+			field.DrawFootballFieldYardNumbers(imdFootballField, win)
+
+			imdFootballField.Draw(win)
+			imdViewOffensiveRoutes.Draw(win)
 			win.Update()
 
 			if frameTick != nil {
