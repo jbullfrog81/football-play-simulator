@@ -279,8 +279,6 @@ func run() {
 
 	field.DrawFootballFieldYardNumbers(imdFootballField, win)
 
-	buildOffensivePlayBook.PlayBookName = "Build"
-
 	myTeamOffensivePlayBook = playbook.BuildDefaultOffensivePlayBook()
 
 	playbook.SavePlayBookToFile(myTeamOffensivePlayBook)
@@ -296,7 +294,7 @@ func run() {
 	// Generate Offensive Playbook Menu items
 	offensivePlaybookMenuLookup := map[string]string{
 		"Load Playbook":        "LoadPlaybook",
-		"Create New Playbook":  "CreateNewPlaybook",
+		"Create New Playbook":  "CreateOffensivePlaybook",
 		"Use Default Playbook": "UseDefaultPlaybook",
 		"Back to Main Menu":    "MainMenu",
 	}
@@ -356,7 +354,8 @@ func run() {
 
 	drawSelectPlayerIteration := 0
 	drawSelectRouteIteration := 0
-	var buildOffensivePlay playbook.OffensivePlay
+	//var buildOffensivePlay playbook.OffensivePlay
+	buildOffensivePlay := playbook.ReturnEmptyOffensivePlay()
 
 	allOffensiveFormations := formations.ReturnAllOffensiveTeamFormations()
 	allOffensiveRoutes := routes.ReturnAllOffensePlayRoutes()
@@ -734,11 +733,24 @@ func run() {
 			if frameTick != nil {
 				<-frameTick.C
 			}
-		} else if windowMenu == "BuildOffensivePlaybook" {
+		} else if windowMenu == "CreateOffensivePlaybook" {
 
 			if win.JustPressed(pixelgl.KeyEscape) {
-				windowMenuPrevious = "BuildOffensivePlaybook"
+				windowMenuPrevious = "CreateOffensivePlaybook"
 				windowMenu = "MainMenu"
+			}
+
+			if buildOffensivePlayBook.PlayBookName == "" {
+
+				playbookName, okSelected, err := dlgs.Entry("Enter Playbook Name", "Name of the new playbook:", "default")
+				if err != nil {
+					panic(err)
+				}
+
+				if okSelected {
+					buildOffensivePlayBook.PlayBookName = playbookName
+				}
+
 			}
 
 			win.Clear(colornames.Darkolivegreen)
@@ -757,14 +769,22 @@ func run() {
 
 				if win.JustPressed(pixelgl.KeyEnter) {
 					selectedFormation = drawSelectFormationIteration
-					buildOffensivePlay.PlayName = "play 1"
-					buildOffensivePlay.Formation = allOffensiveFormations.Formations[selectedFormation]
-					//buildOffensivePlayBook.OffensivePlays = append(buildOffensivePlayBook.OffensivePlays, allOffensiveFormations.Formations[selectedFormation])
-					//buildOffensivePlayBook.OffensivePlays[0].Formation = allOffensiveFormations.Formations[selectedFormation]
-					fmt.Println("The selected formation is: ", selectedFormation)
-					fmt.Println("the build playbook is:")
-					fmt.Println(buildOffensivePlayBook)
-					BuildOffensivePlaybookMenuSelection = "Route"
+
+					playName, okSelected, err := dlgs.Entry("Enter Play Name", "Name of the play:", "")
+					if err != nil {
+						panic(err)
+					}
+
+					if okSelected {
+						buildOffensivePlay.PlayName = playName
+						buildOffensivePlay.Formation = allOffensiveFormations.Formations[selectedFormation]
+						//buildOffensivePlayBook.OffensivePlays = append(buildOffensivePlayBook.OffensivePlays, 	allOffensiveFormations.Formations[selectedFormation])
+						//buildOffensivePlayBook.OffensivePlays[0].Formation = allOffensiveFormations.Formations	[selectedFormation]
+						fmt.Println("The selected formation is: ", selectedFormation)
+						fmt.Println("the build playbook is:")
+						fmt.Println(buildOffensivePlayBook)
+						BuildOffensivePlaybookMenuSelection = "Route"
+					}
 				}
 
 				if win.JustPressed(pixelgl.KeyUp) {
@@ -772,7 +792,7 @@ func run() {
 						drawSelectFormationIteration += -1
 					}
 				} else if win.JustPressed(pixelgl.KeyDown) {
-					if drawSelectFormationIteration < len(allOffensiveFormations.Formations) {
+					if drawSelectFormationIteration < len(allOffensiveFormations.Formations)-1 {
 						drawSelectFormationIteration += 1
 					}
 				}
@@ -828,15 +848,27 @@ func run() {
 			} else if BuildOffensivePlaybookMenuSelection == "Confirmation" {
 
 				//TODO build a confirmation screen:
-				// Let the user know to use Enter to confirm adding the Play to the playbook
-				// delete to return to editing the play.
-				if win.JustPressed(pixelgl.KeyEnter) {
+
+				hasConfirmed, err := dlgs.Question("Done creating the play?", "Are you sure you are done creating this play?", true)
+				if err != nil {
+					panic(err)
+				}
+
+				if hasConfirmed {
 					BuildOffensivePlaybookMenuSelection = "Done"
-				} else if win.JustPressed(pixelgl.KeyTab) {
+				} else {
 					BuildOffensivePlaybookMenuSelection = "Route"
 				}
 
-				playbook.DrawBuildOffensivePlaybookMenuDoneConfirmation(imdBuildOffensivePlaybook, win)
+				// Let the user know to use Enter to confirm adding the Play to the playbook
+				// delete to return to editing the play.
+				//if win.JustPressed(pixelgl.KeyEnter) {
+				//	BuildOffensivePlaybookMenuSelection = "Done"
+				//} else if win.JustPressed(pixelgl.KeyTab) {
+				//	BuildOffensivePlaybookMenuSelection = "Route"
+				//}
+
+				//playbook.DrawBuildOffensivePlaybookMenuDoneConfirmation(imdBuildOffensivePlaybook, win)
 
 			} else if BuildOffensivePlaybookMenuSelection == "Done" {
 
@@ -849,13 +881,25 @@ func run() {
 				//Save the playbook to disk
 				playbook.SavePlayBookToFile(buildOffensivePlayBook)
 
-				//reset all the settings for editing/building a new playbook
-				BuildOffensivePlaybookMenuSelection = "Formation"
+				//reset all the settings for editing/building a new play
 				for i := 0; i < 7; i++ {
 					selectedPlayerRoutes.Routes[i] = routes.DefineBlockRoute()
 				}
+				//reset the play back to null
+				buildOffensivePlay = playbook.ReturnEmptyOffensivePlay()
 				drawSelectPlayerIteration = 0
 				drawSelectRouteIteration = 0
+
+				hasConfirmed, err := dlgs.Question("Create another play?", "Do you want to create another play?", true)
+				if err != nil {
+					panic(err)
+				}
+
+				if hasConfirmed {
+					BuildOffensivePlaybookMenuSelection = "Formation"
+				} else {
+					windowMenu = "OffensivePlaybook"
+				}
 
 			}
 

@@ -48,6 +48,10 @@ func SavePlayBookToFile(playBook PlayBook) {
 
 }
 
+func ReturnEmptyOffensivePlay() (blankPlay OffensivePlay) {
+	return blankPlay
+}
+
 func BuildDefaultOffensivePlayBook() PlayBook {
 
 	var setupPlayerRoutes []routes.OffensePlayRoute
