@@ -56,8 +56,8 @@ var (
 	// This is to hold where the user was prior to going to the main menu
 	windowMenuPrevious = "MainMenu"
 
-	//Manual creation of a playbook
-	myTeamOffensivePlayBook playbook.PlayBook
+	//Manual creation of the default playbook
+	defaultOffensivePlayBook playbook.PlayBook
 
 	// Build a new playbook
 	buildOffensivePlayBook playbook.PlayBook
@@ -279,9 +279,9 @@ func run() {
 
 	field.DrawFootballFieldYardNumbers(imdFootballField, win)
 
-	myTeamOffensivePlayBook = playbook.BuildDefaultOffensivePlayBook()
+	defaultOffensivePlayBook = playbook.BuildDefaultOffensivePlayBook()
 
-	playbook.SavePlayBookToFile(myTeamOffensivePlayBook)
+	playbook.SavePlayBookToFile(defaultOffensivePlayBook)
 
 	//Use this for moving the players during the play
 	iteration := 0
@@ -320,6 +320,18 @@ func run() {
 		offensivePlaybookLoadedMenuOptions = append(offensivePlaybookLoadedMenuOptions, key)
 	}
 
+	var offensiveDefaultPlaybookMenuOptions []string
+
+	offensiveDefaultPlaybookMenuLookup := map[string]string{
+		"Run Plays in Default Playbook":  "DefaultOffensivePlaybookRunPlays",
+		"View Plays in Default Playbook": "ViewDefaultOffensivePlaybook",
+		"Back to Main Menu":              "MainMenu",
+	}
+
+	for key, _ := range offensiveDefaultPlaybookMenuLookup {
+		offensiveDefaultPlaybookMenuOptions = append(offensiveDefaultPlaybookMenuOptions, key)
+	}
+
 	ViewOffensiveRoutesIteration := 0
 
 	OffenseFormationIteration := 0
@@ -332,7 +344,7 @@ func run() {
 
 	OffensePlaybookLoadedRunPlayPageNumber := 0
 
-	myTeamOffensePlayBookRun := playbook.BuildDefaultOffensivePlayBook()
+	defaultOffensePlayBookRun := playbook.BuildDefaultOffensivePlayBook()
 
 	drawSelectFormationIteration := 0
 
@@ -412,23 +424,40 @@ func run() {
 				windowMenu = offensivePlaybookMenuLookup[playbookMenuSelection]
 			}
 
-		} else if windowMenu == "RunPlay" {
+		} else if windowMenu == "UseDefaultPlaybook" {
+
+			playbookMenuSelection, okSelected, err := dlgs.List("Default Offensive Playbook menu", "Default Offensive Playbook Options:", offensiveDefaultPlaybookMenuOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			if !okSelected {
+				windowMenu = windowMenuPrevious
+			} else {
+				fmt.Println("okSelected is:")
+				fmt.Println(okSelected)
+				fmt.Println("Item selected is:")
+				fmt.Println(playbookMenuSelection)
+				windowMenu = offensiveDefaultPlaybookMenuLookup[playbookMenuSelection]
+			}
+
+		} else if windowMenu == "DefaultOffensivePlaybookRunPlays" {
 
 			if win.JustPressed(pixelgl.KeyEscape) {
 
 				//Reset the run play formation
 				imdOffenseRunPlay.Clear()
-				myTeamOffensePlayBookRun = playbook.BuildDefaultOffensivePlayBook()
+				defaultOffensePlayBookRun = playbook.BuildDefaultOffensivePlayBook()
 				iteration = 0
-				windowMenuPrevious = "RunPlay"
-				windowMenu = "MainMenu"
+				windowMenuPrevious = "DefaultOffensivePlaybookRunPlays"
+				windowMenu = "UseDefaultPlaybook"
 			}
 
 			// restart the play when pressing enter
 			if win.JustPressed(pixelgl.KeyEnter) {
 
 				//reset the run play formation
-				myTeamOffensePlayBookRun = playbook.BuildDefaultOffensivePlayBook()
+				defaultOffensePlayBookRun = playbook.BuildDefaultOffensivePlayBook()
 				iteration = 0
 			}
 
@@ -438,6 +467,14 @@ func run() {
 				} else {
 					windowState = "paused"
 				}
+			}
+
+			if win.JustPressed(pixelgl.KeyRight) && OffenseRunPlayPlaybookPageNumber < len(defaultOffensivePlayBook.OffensivePlays)-1 {
+				OffenseRunPlayPlaybookPageNumber += 1
+			}
+
+			if win.JustPressed(pixelgl.KeyLeft) && OffenseRunPlayPlaybookPageNumber > 0 {
+				OffenseRunPlayPlaybookPageNumber -= 1
 			}
 
 			if windowState == "paused" {
@@ -450,14 +487,14 @@ func run() {
 				field.DrawFootballFieldYardNumbers(imdFootballField, win)
 				imdFootballField.Draw(win)
 
-				for i, _ := range myTeamOffensePlayBookRun.OffensivePlays[OffenseRunPlayPlaybookPageNumber].Formation.Players {
+				for i, _ := range defaultOffensePlayBookRun.OffensivePlays[OffenseRunPlayPlaybookPageNumber].Formation.Players {
 
-					formations.DrawOffensePlayerRunPlay(imdOffenseRunPlay, myTeamOffensePlayBookRun.OffensivePlays[OffenseRunPlayPlaybookPageNumber].PlayerRoutes[i], myTeamOffensePlayBookRun.OffensivePlays[OffenseRunPlayPlaybookPageNumber].Formation.Players[i], iteration)
+					formations.DrawOffensePlayerRunPlay(imdOffenseRunPlay, defaultOffensePlayBookRun.OffensivePlays[OffenseRunPlayPlaybookPageNumber].PlayerRoutes[i], defaultOffensePlayBookRun.OffensivePlays[OffenseRunPlayPlaybookPageNumber].Formation.Players[i], iteration)
 
 				}
 
 				imdOffenseRunPlay.Draw(win)
-				playbook.DrawOffensiveRunPlayMenu(imdOffenseRunPlay, win, myTeamOffensePlayBookRun, OffenseRunPlayPlaybookPageNumber)
+				playbook.DrawOffensiveRunPlayMenu(imdOffenseRunPlay, win, defaultOffensePlayBookRun, OffenseRunPlayPlaybookPageNumber)
 
 				win.Update()
 
@@ -473,16 +510,16 @@ func run() {
 				imdFootballField.Draw(win)
 
 				if iteration == 0 {
-					formations.DrawOffensivePlayers(imdOffenseRunPlay, myTeamOffensePlayBookRun.OffensivePlays[OffenseRunPlayPlaybookPageNumber].Formation)
+					formations.DrawOffensivePlayers(imdOffenseRunPlay, defaultOffensePlayBookRun.OffensivePlays[OffenseRunPlayPlaybookPageNumber].Formation)
 				} else {
-					for i, _ := range myTeamOffensePlayBookRun.OffensivePlays[OffenseRunPlayPlaybookPageNumber].Formation.Players {
+					for i, _ := range defaultOffensePlayBookRun.OffensivePlays[OffenseRunPlayPlaybookPageNumber].Formation.Players {
 
-						myTeamOffensePlayBookRun.OffensivePlays[OffenseRunPlayPlaybookPageNumber].Formation.Players[i] = formations.DrawOffensePlayerRunPlay(imdOffenseRunPlay, myTeamOffensePlayBookRun.OffensivePlays[OffenseRunPlayPlaybookPageNumber].PlayerRoutes[i], myTeamOffensePlayBookRun.OffensivePlays[OffenseRunPlayPlaybookPageNumber].Formation.Players[i], iteration)
+						defaultOffensePlayBookRun.OffensivePlays[OffenseRunPlayPlaybookPageNumber].Formation.Players[i] = formations.DrawOffensePlayerRunPlay(imdOffenseRunPlay, defaultOffensePlayBookRun.OffensivePlays[OffenseRunPlayPlaybookPageNumber].PlayerRoutes[i], defaultOffensePlayBookRun.OffensivePlays[OffenseRunPlayPlaybookPageNumber].Formation.Players[i], iteration)
 
 					}
 				}
 
-				playbook.DrawOffensiveRunPlayMenu(imdOffenseRunPlay, win, myTeamOffensePlayBookRun, OffenseRunPlayPlaybookPageNumber)
+				playbook.DrawOffensiveRunPlayMenu(imdOffenseRunPlay, win, defaultOffensePlayBookRun, OffenseRunPlayPlaybookPageNumber)
 
 				imdOffenseRunPlay.Draw(win)
 
@@ -600,14 +637,14 @@ func run() {
 				<-frameTick.C
 			}
 
-		} else if windowMenu == "RunOffensivePlaybook" {
+		} else if windowMenu == "ViewDefaultOffensivePlaybook" {
 
 			if win.JustPressed(pixelgl.KeyEscape) {
-				windowMenuPrevious = "RunOffensivePlaybook"
-				windowMenu = "MainMenu"
+				windowMenuPrevious = "ViewDefaultOffensivePlaybook"
+				windowMenu = "UseDefaultPlaybook"
 			}
 
-			if win.JustPressed(pixelgl.KeyRight) && OffensePlaybookPageNumber < 1 {
+			if win.JustPressed(pixelgl.KeyRight) && OffensePlaybookPageNumber < len(defaultOffensivePlayBook.OffensivePlays)-1 {
 				OffensePlaybookPageNumber += 1
 			}
 
@@ -623,9 +660,9 @@ func run() {
 
 			imdOffensivePlayBook.Clear()
 
-			playbook.DrawOffensivePlayBookPage(imdOffensivePlayBook, win, OffensePlaybookPageNumber, myTeamOffensivePlayBook)
+			playbook.DrawOffensivePlayBookPage(imdOffensivePlayBook, win, OffensePlaybookPageNumber, defaultOffensivePlayBook)
 
-			playbook.DrawOffensivePlayBookMenu(imdOffensivePlayBook, win, myTeamOffensivePlayBook, OffensePlaybookPageNumber)
+			playbook.DrawOffensivePlayBookMenu(imdOffensivePlayBook, win, defaultOffensivePlayBook, OffensePlaybookPageNumber)
 
 			imdOffensivePlayBook.Draw(win)
 
