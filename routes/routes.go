@@ -87,6 +87,9 @@ func ReturnAllOffensePlayRoutes() (allRoutes OffensePlayRoutes) {
 	route = DefineRightOutAndUpSevenYardRoute()
 	allRoutes.Routes = append(allRoutes.Routes, route)
 
+	route = DefineRightOutAndUpFiveYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
 	route = DefineLeftSlantThreeYardRoute()
 	allRoutes.Routes = append(allRoutes.Routes, route)
 
@@ -112,6 +115,9 @@ func ReturnAllOffensePlayRoutes() (allRoutes OffensePlayRoutes) {
 	allRoutes.Routes = append(allRoutes.Routes, route)
 
 	route = DefineLeftOutAndUpSevenYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineLeftOutAndUpFiveYardRoute()
 	allRoutes.Routes = append(allRoutes.Routes, route)
 
 	return allRoutes
