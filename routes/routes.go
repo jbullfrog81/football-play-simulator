@@ -90,6 +90,18 @@ func ReturnAllOffensePlayRoutes() (allRoutes OffensePlayRoutes) {
 	route = DefineRightOutAndUpFiveYardRoute()
 	allRoutes.Routes = append(allRoutes.Routes, route)
 
+	route = DefineRightCurlFiveYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineRightCurlTenYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineLeftCurlFiveYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineLeftCurlTenYardRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
 	route = DefineLeftSlantThreeYardRoute()
 	allRoutes.Routes = append(allRoutes.Routes, route)
 
@@ -158,6 +170,58 @@ func DefineGoRoute() OffensePlayRoute {
 }
 
 // Right Side Field Routes
+
+func DefineRightCurlFiveYardRoute() OffensePlayRoute {
+
+	var route OffensePlayRoute
+
+	route.RouteName = "Right 5 yard Curl"
+
+	//var values OffensePlayRoute
+
+	for i := 0; i < 51; i++ {
+		route.MinX = append(route.MinX, float64(0))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(0))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	for i := 0; i < 11; i++ {
+		route.MinX = append(route.MinX, float64(-1))
+		route.MinY = append(route.MinY, float64(-1))
+		route.MaxX = append(route.MaxX, float64(-1))
+		route.MaxY = append(route.MaxY, float64(-1))
+	}
+
+	return route
+
+}
+
+func DefineRightCurlTenYardRoute() OffensePlayRoute {
+
+	var route OffensePlayRoute
+
+	route.RouteName = "Right 10 yard Curl"
+
+	//var values OffensePlayRoute
+
+	for i := 0; i < 101; i++ {
+		route.MinX = append(route.MinX, float64(0))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(0))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	for i := 0; i < 11; i++ {
+		route.MinX = append(route.MinX, float64(-1))
+		route.MinY = append(route.MinY, float64(-1))
+		route.MaxX = append(route.MaxX, float64(-1))
+		route.MaxY = append(route.MaxY, float64(-1))
+	}
+
+	return route
+
+}
 
 func DefineRightOutToSidelineRoute() OffensePlayRoute {
 
@@ -502,6 +566,58 @@ func DefineRightOutAndUpSevenYardRoute() OffensePlayRoute {
 }
 
 // Left Side Field Routes
+
+func DefineLeftCurlFiveYardRoute() OffensePlayRoute {
+
+	var route OffensePlayRoute
+
+	route.RouteName = "Left 5 yard Curl"
+
+	//var values OffensePlayRoute
+
+	for i := 0; i < 51; i++ {
+		route.MinX = append(route.MinX, float64(0))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(0))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	for i := 0; i < 11; i++ {
+		route.MinX = append(route.MinX, float64(1))
+		route.MinY = append(route.MinY, float64(-1))
+		route.MaxX = append(route.MaxX, float64(1))
+		route.MaxY = append(route.MaxY, float64(-1))
+	}
+
+	return route
+
+}
+
+func DefineLeftCurlTenYardRoute() OffensePlayRoute {
+
+	var route OffensePlayRoute
+
+	route.RouteName = "Left 10 yard Curl"
+
+	//var values OffensePlayRoute
+
+	for i := 0; i < 101; i++ {
+		route.MinX = append(route.MinX, float64(0))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(0))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	for i := 0; i < 11; i++ {
+		route.MinX = append(route.MinX, float64(1))
+		route.MinY = append(route.MinY, float64(-1))
+		route.MaxX = append(route.MaxX, float64(1))
+		route.MaxY = append(route.MaxY, float64(-1))
+	}
+
+	return route
+
+}
 
 func DefineLeftOutToSidelineRoute() OffensePlayRoute {
 
