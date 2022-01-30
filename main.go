@@ -266,6 +266,9 @@ func run() {
 	imdOffensivePlayBook := imdraw.New(nil)
 	imdBuildOffensivePlaybook := imdraw.New(nil)
 
+	//imdEditOffensivePlaybook := imdraw.New(nil)
+	imdOffensivePlaybookAddPlays := imdraw.New(nil)
+
 	// The lines on the football field:
 	// 1 pixel = 3.6 inches
 	// 10 pixels = 1 yard
@@ -305,9 +308,9 @@ func run() {
 		offensivePlaybookMenuOptions = append(offensivePlaybookMenuOptions, key)
 	}
 
-	// Generate Offensive Playbook Loaded Menu items
+	// Offensive Playbook Loaded Menu items
 	offensivePlaybookLoadedMenuLookup := map[string]string{
-		"Edit Playbook":                   "EditPlaybook",
+		"Edit Playbook":                   "EditOffensivePlaybook",
 		"Run Plays in Playbook":           "LoadedOffensivePlaybookRunPlays",
 		"View Plays in Playbook":          "ViewLoadedOffensivePlaybook",
 		"Back to Offensive Playbook Menu": "OffensivePlaybook",
@@ -332,6 +335,19 @@ func run() {
 		offensiveDefaultPlaybookMenuOptions = append(offensiveDefaultPlaybookMenuOptions, key)
 	}
 
+	var offensiveEditPlaybookMenuOptions []string
+
+	offensiveEditPlaybookMenuLookup := map[string]string{
+		"Edit Plays in Playbook":          "OffensivePlaybookEditPlays",
+		"Add Plays to Playbook":           "OffensivePlaybookAddPlays",
+		"Back to Offensive Playbook Menu": "OffensivePlaybook",
+		"Back to Main Menu":               "MainMenu",
+	}
+
+	for key, _ := range offensiveEditPlaybookMenuLookup {
+		offensiveEditPlaybookMenuOptions = append(offensiveEditPlaybookMenuOptions, key)
+	}
+
 	ViewOffensiveRoutesIteration := 0
 
 	OffenseFormationIteration := 0
@@ -352,6 +368,10 @@ func run() {
 	// - Formation
 	// - Route
 	BuildOffensivePlaybookMenuSelection := "Formation"
+
+	//OffensivePlaybookEditPlaysMenuSelection := "Formation"
+
+	OffensivePlaybookAddPlaysMenuSelection := "Formation"
 
 	var selectedFormation int
 	//var selectedRoute int
@@ -770,11 +790,189 @@ func run() {
 			if frameTick != nil {
 				<-frameTick.C
 			}
+		} else if windowMenu == "EditOffensivePlaybook" {
+
+			playbookMenuSelection, okSelected, err := dlgs.List("Edit Offensive Playbook menu", "Edit Offensive Playbook Options:", offensiveEditPlaybookMenuOptions)
+			if err != nil {
+				panic(err)
+			}
+
+			if !okSelected {
+				windowMenu = windowMenuPrevious
+			} else {
+				fmt.Println("okSelected is:")
+				fmt.Println(okSelected)
+				fmt.Println("Item selected is:")
+				fmt.Println(playbookMenuSelection)
+				windowMenu = offensiveEditPlaybookMenuLookup[playbookMenuSelection]
+			}
+
+		} else if windowMenu == "OffensivePlaybookAddPlays" {
+
+			//The variables for the playbook
+			// - filename for the playbook: loadedPlaybookFileName
+			// - playbook variable name: loadedTeamOffensivePlayBook
+
+			if win.JustPressed(pixelgl.KeyEscape) {
+				windowMenuPrevious = "OffensivePlaybookAddPlays"
+				windowMenu = "OffensivePlaybook"
+			}
+
+			win.Clear(colornames.Darkolivegreen)
+
+			imdOffensivePlaybookAddPlays.Clear()
+
+			field.DrawFootballFieldYardNumbers(imdFootballField, win)
+
+			imdFootballField.Draw(win)
+
+			if OffensivePlaybookAddPlaysMenuSelection == "Formation" {
+
+				playbook.DrawBuildOffensivePlaybookMenuSelectFormation(imdOffensivePlaybookAddPlays, win, drawSelectFormationIteration)
+
+				imdOffensivePlaybookAddPlays.Draw(win)
+
+				if win.JustPressed(pixelgl.KeyEnter) {
+					selectedFormation = drawSelectFormationIteration
+
+					playName, okSelected, err := dlgs.Entry("Enter Play Name", "Name of the play:", "default")
+					if err != nil {
+						panic(err)
+					}
+
+					if okSelected {
+						buildOffensivePlay.PlayName = playName
+						buildOffensivePlay.Formation = allOffensiveFormations.Formations[selectedFormation]
+						//buildOffensivePlayBook.OffensivePlays = append(buildOffensivePlayBook.OffensivePlays, 	allOffensiveFormations.Formations[selectedFormation])
+						//buildOffensivePlayBook.OffensivePlays[0].Formation = allOffensiveFormations.Formations	[selectedFormation]
+						fmt.Println("The selected formation is: ", selectedFormation)
+						fmt.Println("the build playbook is:")
+						fmt.Println(buildOffensivePlayBook)
+						OffensivePlaybookAddPlaysMenuSelection = "Route"
+					}
+				}
+
+				if win.JustPressed(pixelgl.KeyUp) {
+					if drawSelectFormationIteration > 0 {
+						drawSelectFormationIteration += -1
+					}
+				} else if win.JustPressed(pixelgl.KeyDown) {
+					if drawSelectFormationIteration < len(allOffensiveFormations.Formations)-1 {
+						drawSelectFormationIteration += 1
+					}
+				}
+			} else if OffensivePlaybookAddPlaysMenuSelection == "Route" {
+
+				playbook.DrawBuildOffensivePlaybookMenuSelectRoute(imdOffensivePlaybookAddPlays, win, drawSelectFormationIteration, drawSelectRouteIteration, drawSelectPlayerIteration)
+
+				//Draw the routes that have already been selected
+				DrawBuildPlaybookMenuSavedPlayerRoutes(imdOffensivePlaybookAddPlays, win, selectedPlayerRoutes, drawSelectFormationIteration)
+
+				//Draw the currently selected player to select a route
+				DrawSpecificOffensiveFormationHighlightOnePlayer(imdOffensivePlaybookAddPlays, win, drawSelectFormationIteration, drawSelectRouteIteration, drawSelectPlayerIteration)
+
+				imdOffensivePlaybookAddPlays.Draw(win)
+
+				if win.JustPressed(pixelgl.KeyEnter) {
+
+					selectedPlayerRoute = allOffensiveRoutes.Routes[drawSelectRouteIteration]
+					selectedPlayerRoutes.Routes[drawSelectPlayerIteration] = selectedPlayerRoute
+
+					fmt.Println("The selected player and route is: ", selectedPlayerRoute)
+					fmt.Println("the build playbook is:")
+					fmt.Println(buildOffensivePlayBook)
+				}
+
+				if win.JustPressed(pixelgl.KeyLeft) {
+					if drawSelectPlayerIteration > 0 {
+						drawSelectPlayerIteration += -1
+					}
+				} else if win.JustPressed(pixelgl.KeyRight) {
+					if drawSelectPlayerIteration < 6 {
+						drawSelectPlayerIteration += 1
+					}
+				}
+
+				if win.JustPressed(pixelgl.KeyUp) {
+					if drawSelectRouteIteration > 0 {
+						drawSelectRouteIteration += -1
+					}
+				} else if win.JustPressed(pixelgl.KeyDown) {
+					if drawSelectRouteIteration < len(allOffensiveRoutes.Routes)-1 {
+						drawSelectRouteIteration += 1
+					}
+				}
+
+				if win.JustPressed(pixelgl.KeyTab) {
+					OffensivePlaybookAddPlaysMenuSelection = "Confirmation"
+				}
+
+			} else if OffensivePlaybookAddPlaysMenuSelection == "Confirmation" {
+
+				//TODO build a confirmation screen:
+
+				hasConfirmed, err := dlgs.Question("Done creating the play?", "Are you sure you are done creating this play?", true)
+				if err != nil {
+					panic(err)
+				}
+
+				if hasConfirmed {
+					OffensivePlaybookAddPlaysMenuSelection = "Done"
+				} else {
+					OffensivePlaybookAddPlaysMenuSelection = "Route"
+				}
+
+			} else if OffensivePlaybookAddPlaysMenuSelection == "Done" {
+
+				//TODO build a success screen:
+				// Let the user know the play successfully added to the playbook
+				// save playbook
+				// reset everything to add another play to the playbook
+				loadedTeamOffensivePlayBook.OffensivePlays = append(loadedTeamOffensivePlayBook.OffensivePlays, playbook.AddPlayBookPage(buildOffensivePlay.PlayName, buildOffensivePlay.Formation, selectedPlayerRoutes.Routes))
+
+				//Save the playbook to disk
+				playbook.SavePlayBookToFile(loadedTeamOffensivePlayBook)
+
+				//reset all the settings for editing/building a new play
+				for i := 0; i < 7; i++ {
+					selectedPlayerRoutes.Routes[i] = routes.DefineBlockRoute()
+				}
+				//reset the play back to null
+				buildOffensivePlay = playbook.ReturnEmptyOffensivePlay()
+				drawSelectPlayerIteration = 0
+				drawSelectRouteIteration = 0
+
+				hasConfirmed, err := dlgs.Question("Create another play?", "Do you want to create another play?", true)
+				if err != nil {
+					panic(err)
+				}
+
+				if hasConfirmed {
+					OffensivePlaybookAddPlaysMenuSelection = "Formation"
+				} else {
+					windowMenu = "OffensivePlaybook"
+				}
+
+			}
+
+			win.Update()
+
+			if frameTick != nil {
+				<-frameTick.C
+			}
+
+		} else if windowMenu == "OffensivePlaybookEditPlays" {
+
+			if win.JustPressed(pixelgl.KeyEscape) {
+				windowMenuPrevious = "OffensivePlaybookEditPlays"
+				windowMenu = "OffensivePlaybook"
+			}
+
 		} else if windowMenu == "CreateOffensivePlaybook" {
 
 			if win.JustPressed(pixelgl.KeyEscape) {
 				windowMenuPrevious = "CreateOffensivePlaybook"
-				windowMenu = "MainMenu"
+				windowMenu = "OffensivePlaybook"
 			}
 
 			if buildOffensivePlayBook.PlayBookName == "" {
