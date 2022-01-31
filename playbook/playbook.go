@@ -41,10 +41,14 @@ func AddPlayBookPage(playName string, playFormation formations.OffenseTeamFormat
 
 }
 
-func SavePlayBookToFile(playBook PlayBook) {
+func SavePlayBookToFile(playBook PlayBook, filename string) {
 
 	file, _ := json.MarshalIndent(playBook, "", " ")
-	_ = ioutil.WriteFile(playBook.PlayBookName+".playbook", file, 0644)
+	if filename == "" {
+		_ = ioutil.WriteFile(playBook.PlayBookName+".playbook", file, 0644)
+	} else {
+		_ = ioutil.WriteFile(filename, file, 0644)
+	}
 
 }
 
