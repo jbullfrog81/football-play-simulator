@@ -23,6 +23,8 @@ import (
 	"github.com/gen2brain/dlgs"
 	"golang.org/x/image/colornames"
 	"golang.org/x/image/font/basicfont"
+
+	"github.com/jung-kurt/gofpdf"
 )
 
 //Global variables
@@ -325,9 +327,10 @@ func run() {
 	var offensiveDefaultPlaybookMenuOptions []string
 
 	offensiveDefaultPlaybookMenuLookup := map[string]string{
-		"Run Plays in Default Playbook":  "DefaultOffensivePlaybookRunPlays",
-		"View Plays in Default Playbook": "ViewDefaultOffensivePlaybook",
-		"Back to Main Menu":              "MainMenu",
+		"Run Plays in Default Playbook":           "DefaultOffensivePlaybookRunPlays",
+		"View Plays in Default Playbook":          "ViewDefaultOffensivePlaybook",
+		"Create PDF of Plays in Default Playbook": "PrintDefaultOffensivePlaybook",
+		"Back to Main Menu":                       "MainMenu",
 	}
 
 	for key, _ := range offensiveDefaultPlaybookMenuLookup {
@@ -393,6 +396,11 @@ func run() {
 	// Used for the view all routes menu
 	singlePlayerOffensiveFormation := formations.SetOffensiveTeamFormationShowRoutes()
 
+	pdf := gofpdf.New("P", "pt", "Letter", "")
+	pdf.AddPage()
+
+	testOffensePlayBookPrint := playbook.BuildDefaultOffensivePlayBook()
+
 	for !win.Closed() {
 
 		if windowMenu == "MainMenu" {
@@ -425,6 +433,66 @@ func run() {
 				fmt.Println(offensivePlaybookLoadedMenuSelection)
 				windowMenu = offensivePlaybookLoadedMenuLookup[offensivePlaybookLoadedMenuSelection]
 			}
+
+		} else if windowMenu == "PrintDefaultOffensivePlaybook" {
+
+			xCurrent := 100.0
+			yCurrent := 100.0
+			xNew := 100.0
+			yNew := 100.0
+			//func (f *Fpdf) Line(x1, y1, x2, y2 float64)
+			//Line draws a line between points (x1, y1) and (x2, y2) using the current draw color, line width and cap style.
+			//pdf.Line(40, 210, 60, 210)
+
+			for i, _ := range testOffensePlayBookPrint.OffensivePlays[0].PlayerRoutes[0].MinX {
+				xNew += testOffensePlayBookPrint.OffensivePlays[0].PlayerRoutes[0].MinX[i]
+				yNew += testOffensePlayBookPrint.OffensivePlays[0].PlayerRoutes[0].MinY[i]
+				if i < len(testOffensePlayBookPrint.OffensivePlays[0].PlayerRoutes[0].MinX) {
+					pdf.Line(xCurrent, yCurrent, xNew, yNew)
+				}
+				xCurrent = xNew
+				yCurrent = yNew
+			}
+
+			xCurrent = 300.0
+			yCurrent = 100.0
+			xNew = 300.0
+			yNew = 100.0
+
+			for i, _ := range testOffensePlayBookPrint.OffensivePlays[0].PlayerRoutes[2].MinX {
+				xNew += testOffensePlayBookPrint.OffensivePlays[0].PlayerRoutes[2].MinX[i]
+				yNew += testOffensePlayBookPrint.OffensivePlays[0].PlayerRoutes[2].MinY[i]
+				if i < len(testOffensePlayBookPrint.OffensivePlays[0].PlayerRoutes[2].MinX) {
+					pdf.Line(xCurrent, yCurrent, xNew, yNew)
+				}
+				xCurrent = xNew
+				yCurrent = yNew
+			}
+
+			xCurrent = 400.0
+			yCurrent = 100.0
+			xNew = 400.0
+			yNew = 100.0
+
+			for i, _ := range testOffensePlayBookPrint.OffensivePlays[0].PlayerRoutes[3].MinX {
+				xNew += testOffensePlayBookPrint.OffensivePlays[0].PlayerRoutes[3].MinX[i]
+				yNew += testOffensePlayBookPrint.OffensivePlays[0].PlayerRoutes[3].MinY[i]
+				if i < len(testOffensePlayBookPrint.OffensivePlays[0].PlayerRoutes[3].MinX) {
+					pdf.Line(xCurrent, yCurrent, xNew, yNew)
+				}
+				xCurrent = xNew
+				yCurrent = yNew
+			}
+
+			pdf.DrawPath("D")
+
+			err := pdf.OutputFileAndClose("hello.pdf")
+
+			if err != nil {
+				panic(err)
+			}
+
+			windowMenu = "UseDefaultPlaybook"
 
 		} else if windowMenu == "OffensivePlaybook" {
 
@@ -1057,7 +1125,10 @@ func run() {
 				// Let the user know the play successfully added to the playbook
 				// save playbook
 				// reset everything to add another play to the playbook
-				loadedTeamOffensivePlayBook.OffensivePlays = append(loadedTeamOffensivePlayBook.OffensivePlays, playbook.AddPlayBookPage(buildOffensivePlay.PlayName, buildOffensivePlay.Formation, selectedPlayerRoutes.Routes))
+				//loadedTeamOffensivePlayBook.OffensivePlays = append(loadedTeamOffensivePlayBook.OffensivePlays, playbook.AddPlayBookPage(buildOffensivePlay.PlayName, buildOffensivePlay.Formation, selectedPlayerRoutes.Routes))
+
+				// want to copy a slice to dereference
+				copy(loadedTeamOffensivePlayBook.OffensivePlays[OffensePlaybookPageNumber].PlayerRoutes, selectedPlayerRoutes.Routes)
 
 				//Save the playbook to disk
 				playbook.SavePlayBookToFile(loadedTeamOffensivePlayBook, loadedPlaybookFileName)
@@ -1067,7 +1138,6 @@ func run() {
 					selectedPlayerRoutes.Routes[i] = routes.DefineBlockRoute()
 				}
 				//reset the play back to null
-				buildOffensivePlay = playbook.ReturnEmptyOffensivePlay()
 				drawSelectPlayerIteration = 0
 				drawSelectRouteIteration = 0
 

@@ -16,6 +16,8 @@ import (
 	"github.com/faiface/pixel/pixelgl"
 	"github.com/faiface/pixel/text"
 	"golang.org/x/image/font/basicfont"
+
+	"github.com/jung-kurt/gofpdf"
 )
 
 type PlayBook struct {
@@ -48,6 +50,34 @@ func SavePlayBookToFile(playBook PlayBook, filename string) {
 		_ = ioutil.WriteFile(playBook.PlayBookName+".playbook", file, 0644)
 	} else {
 		_ = ioutil.WriteFile(filename, file, 0644)
+	}
+
+}
+
+func CreatOffensivePlaybookPdf(pdf *gofpdf.Fpdf, offensivePlaybook PlayBook) {
+
+	var xCurrent float64
+	var yCurrent float64
+	var xNew float64
+	var yNew float64
+
+	for playNumber := range offensivePlaybook.OffensivePlays {
+
+		for playerRouteNumber, playerValue := range offensivePlaybook.OffensivePlays[playNumber].Formation.Players {
+
+			xCurrent = playerValue.Coordinates.MinX
+			yCurrent = playerValue.Coordinates.MinY
+
+			for i, _ := range offensivePlaybook.OffensivePlays[playNumber].PlayerRoutes[playerRouteNumber].MinX {
+				xNew += offensivePlaybook.OffensivePlays[playNumber].PlayerRoutes[playerRouteNumber].MinX[i]
+				yNew += offensivePlaybook.OffensivePlays[playNumber].PlayerRoutes[playerRouteNumber].MinY[i]
+				if i < len(offensivePlaybook.OffensivePlays[playNumber].PlayerRoutes[playerRouteNumber].MinX) {
+					pdf.Line(xCurrent, yCurrent, xNew, yNew)
+				}
+				xCurrent = xNew
+				yCurrent = yNew
+			}
+		}
 	}
 
 }
