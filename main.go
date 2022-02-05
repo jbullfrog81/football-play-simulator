@@ -396,6 +396,7 @@ func run() {
 	// Used for the view all routes menu
 	singlePlayerOffensiveFormation := formations.SetOffensiveTeamFormationShowRoutes()
 
+	//pdf := gofpdf.New("P", "pt", "Letter", "")
 	pdf := gofpdf.New("P", "pt", "Letter", "")
 	pdf.AddPage()
 
@@ -436,57 +437,11 @@ func run() {
 
 		} else if windowMenu == "PrintDefaultOffensivePlaybook" {
 
-			xCurrent := 100.0
-			yCurrent := 100.0
-			xNew := 100.0
-			yNew := 100.0
-			//func (f *Fpdf) Line(x1, y1, x2, y2 float64)
-			//Line draws a line between points (x1, y1) and (x2, y2) using the current draw color, line width and cap style.
-			//pdf.Line(40, 210, 60, 210)
-
-			for i, _ := range testOffensePlayBookPrint.OffensivePlays[0].PlayerRoutes[0].MinX {
-				xNew += testOffensePlayBookPrint.OffensivePlays[0].PlayerRoutes[0].MinX[i]
-				yNew += testOffensePlayBookPrint.OffensivePlays[0].PlayerRoutes[0].MinY[i]
-				if i < len(testOffensePlayBookPrint.OffensivePlays[0].PlayerRoutes[0].MinX) {
-					pdf.Line(xCurrent, yCurrent, xNew, yNew)
-				}
-				xCurrent = xNew
-				yCurrent = yNew
-			}
-
-			xCurrent = 300.0
-			yCurrent = 100.0
-			xNew = 300.0
-			yNew = 100.0
-
-			for i, _ := range testOffensePlayBookPrint.OffensivePlays[0].PlayerRoutes[2].MinX {
-				xNew += testOffensePlayBookPrint.OffensivePlays[0].PlayerRoutes[2].MinX[i]
-				yNew += testOffensePlayBookPrint.OffensivePlays[0].PlayerRoutes[2].MinY[i]
-				if i < len(testOffensePlayBookPrint.OffensivePlays[0].PlayerRoutes[2].MinX) {
-					pdf.Line(xCurrent, yCurrent, xNew, yNew)
-				}
-				xCurrent = xNew
-				yCurrent = yNew
-			}
-
-			xCurrent = 400.0
-			yCurrent = 100.0
-			xNew = 400.0
-			yNew = 100.0
-
-			for i, _ := range testOffensePlayBookPrint.OffensivePlays[0].PlayerRoutes[3].MinX {
-				xNew += testOffensePlayBookPrint.OffensivePlays[0].PlayerRoutes[3].MinX[i]
-				yNew += testOffensePlayBookPrint.OffensivePlays[0].PlayerRoutes[3].MinY[i]
-				if i < len(testOffensePlayBookPrint.OffensivePlays[0].PlayerRoutes[3].MinX) {
-					pdf.Line(xCurrent, yCurrent, xNew, yNew)
-				}
-				xCurrent = xNew
-				yCurrent = yNew
-			}
+			playbook.CreateOffensivePlaybookPdf(pdf, testOffensePlayBookPrint)
 
 			pdf.DrawPath("D")
 
-			err := pdf.OutputFileAndClose("hello.pdf")
+			err := pdf.OutputFileAndClose("default-playbook.pdf")
 
 			if err != nil {
 				panic(err)
