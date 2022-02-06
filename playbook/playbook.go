@@ -5,6 +5,7 @@ import (
 	"image/color"
 	"jbullfrog81/football-play-simulator/formations"
 	"jbullfrog81/football-play-simulator/routes"
+	"strconv"
 
 	"encoding/json"
 	"io/ioutil"
@@ -60,6 +61,8 @@ func CreateOffensivePlaybookPdf(pdf *gofpdf.Fpdf, offensivePlaybook PlayBook) {
 	var yCurrent float64
 	var playerCurrentLocationX float64
 	var playerCurrentLocationY float64
+	var playerStartingLocationX float64
+	var playerStartingLocationY float64
 	//var playerNextLocationX float64
 	//var playerNextLocationY float64
 	var footballLocationX float64
@@ -79,7 +82,9 @@ func CreateOffensivePlaybookPdf(pdf *gofpdf.Fpdf, offensivePlaybook PlayBook) {
 
 	scaledRouteTempIteration := 0.0
 
-	footballLocationX = 100.0
+	footballOrigLocationX := 70.0
+	//footballOrigLocationY = 100.0
+	footballLocationX = footballOrigLocationX
 	footballLocationY = 100.0
 
 	var playOutlinesX float64
@@ -94,9 +99,29 @@ func CreateOffensivePlaybookPdf(pdf *gofpdf.Fpdf, offensivePlaybook PlayBook) {
 	playOutlinesHeight = 90
 	playOutlinesWidth = 80
 
+	var playCounterBoxOutlinesHeight float64
+	var playCounterBoxOutlinesWidth float64
+	playCounterBoxOutlinesHeight = 15
+	playCounterBoxOutlinesWidth = 20
+	var playCounterBoxOutlinesX float64
+	var playCounterBoxOutlinesY float64
+	playCounterBoxOutlinesX = playOutlinesX + 30
+	playCounterBoxOutlinesY = playOutlinesY
+
+	//Create the gridlines for the plays and the play numbers
 	for i := 1; i <= 24; i++ {
 
+		//Rect(x, y, w, h float64, styleStr string)
+		//Draw the outside box of the play
 		pdf.Rect(playOutlinesX, playOutlinesY, playOutlinesWidth, playOutlinesHeight, "D")
+		//Draw the outside box for the play number
+		pdf.Rect(playCounterBoxOutlinesX, playCounterBoxOutlinesY, playCounterBoxOutlinesWidth, playCounterBoxOutlinesHeight, "D")
+
+		//Write the play numbers
+		pdf.SetFont("Arial", "B", 11)
+		pdf.Text(playCounterBoxOutlinesX+5, playCounterBoxOutlinesY+11, strconv.Itoa(i))
+
+		//pdf.Text(10, 10, "11234567890")
 
 		playOutlinesX += playOutlinesWidth
 
@@ -105,49 +130,37 @@ func CreateOffensivePlaybookPdf(pdf *gofpdf.Fpdf, offensivePlaybook PlayBook) {
 			playOutlinesX = 30
 		}
 
+		if i%8 == 0 {
+			playOutlinesY += 30
+		}
+
+		playCounterBoxOutlinesX = playOutlinesX + 30
+		playCounterBoxOutlinesY = playOutlinesY
+
 	}
-	//Rect(x, y, w, h float64, styleStr string)
-	//pdf.Rect(10, 10, 400, 200, "D")
-	//pdf.Rect(210, 410, 400, 200, "D")
 
 	for playNumber := range offensivePlaybook.OffensivePlays {
 
 		if (playNumber+1)%4 == 0 {
 			footballLocationY += 200.0
-			footballLocationX = 100.0
+			footballLocationX = footballOrigLocationX
 		} else {
 			if playNumber != 0 {
-				footballLocationX += 100.0
+				footballLocationX += playOutlinesWidth
 			}
 		}
 
 		for playerRouteNumber, playerValue := range offensivePlaybook.OffensivePlays[playNumber].Formation.Players {
-			fmt.Println("The player is:" + playerValue.Attributes.Position)
-			//xCurrent = playerValue.Coordinates.MinX
-			//yCurrent = playerValue.Coordinates.MinY
 
-			playerCurrentLocationX = playerValue.Coordinates.BallOffsetX*scaleFactor + footballLocationX
-			playerCurrentLocationY = playerValue.Coordinates.BallOffsetY*-1*scaleFactor + footballLocationY
+			playerStartingLocationX = playerValue.Coordinates.BallOffsetX*scaleFactor + footballLocationX
+			playerStartingLocationY = playerValue.Coordinates.BallOffsetY*-1*scaleFactor + footballLocationY
+
+			playerCurrentLocationX = playerStartingLocationX
+			playerCurrentLocationY = playerStartingLocationY
 
 			//Being lazy as I don't want to retype as playerCurrentLocationX and playerCurrentLocationY
 			xCurrent = playerCurrentLocationX
 			yCurrent = playerCurrentLocationY
-
-			//Player color - R,G,B inputs for the fill color
-			pdf.SetFillColor(int(playerValue.Attributes.Color.R), int(playerValue.Attributes.Color.G), int(playerValue.Attributes.Color.B))
-
-			//Draw the player as a cirlce with fill no outline (FD for fill and outline)
-			pdf.Circle(playerCurrentLocationX, playerCurrentLocationY, playerCircleRadius, "FD")
-
-			//fmt.Sprintf("The player coordinates are: %f", playerValue.Attributes.Position)
-			//fmt.Sprintf("xCurrent: %f", xCurrent)
-			//fmt.Sprintf("yCurrent: %f", xCurrent)
-			fmt.Println("The player initial coordinates are:")
-			fmt.Println(playerValue.Attributes.Position)
-			fmt.Println("Initial xCurrent:")
-			fmt.Println(xCurrent)
-			fmt.Println("Initial yCurrent:")
-			fmt.Println(yCurrent)
 
 			xNew = xCurrent
 			yNew = yCurrent
@@ -157,6 +170,7 @@ func CreateOffensivePlaybookPdf(pdf *gofpdf.Fpdf, offensivePlaybook PlayBook) {
 			copyRouteX = nil
 			copyRouteY = nil
 
+			//copy the route for scaling later
 			for i, _ := range offensivePlaybook.OffensivePlays[playNumber].PlayerRoutes[playerRouteNumber].MinX {
 				copyRouteX = append(copyRouteX, offensivePlaybook.OffensivePlays[playNumber].PlayerRoutes[playerRouteNumber].MinX[i])
 				// we need to do the * -1 to reverse as pdf's coordinates start at the top left of the page
@@ -164,6 +178,7 @@ func CreateOffensivePlaybookPdf(pdf *gofpdf.Fpdf, offensivePlaybook PlayBook) {
 				copyRouteY = append(copyRouteY, offensivePlaybook.OffensivePlays[playNumber].PlayerRoutes[playerRouteNumber].MinY[i]*-1.0)
 			}
 
+			//scale the route for the PDF document
 			for i, _ := range copyRouteX {
 
 				if i < len(copyRouteX)-1 {
@@ -187,13 +202,8 @@ func CreateOffensivePlaybookPdf(pdf *gofpdf.Fpdf, offensivePlaybook PlayBook) {
 				}
 
 			}
-			fmt.Println("length of original route:")
-			fmt.Println(len(offensivePlaybook.OffensivePlays[playNumber].PlayerRoutes[playerRouteNumber].MinX))
-			fmt.Println("length of copy route:")
-			fmt.Println(len(copyRouteX))
-			fmt.Println("length of scaled route:")
-			fmt.Println(len(scaledRouteX))
 
+			//draw the route for the player
 			for i, _ := range scaledRouteX {
 				xNew += scaledRouteX[i]
 				yNew += scaledRouteY[i]
@@ -203,6 +213,13 @@ func CreateOffensivePlaybookPdf(pdf *gofpdf.Fpdf, offensivePlaybook PlayBook) {
 				xCurrent = xNew
 				yCurrent = yNew
 			}
+
+			//Player color - R,G,B inputs for the fill color
+			pdf.SetFillColor(int(playerValue.Attributes.Color.R), int(playerValue.Attributes.Color.G), int(playerValue.Attributes.Color.B))
+
+			//Draw the player as a cirlce with fill no outline (FD for fill and outline)
+			//do this here so it will be on top of the route
+			pdf.Circle(playerStartingLocationX, playerStartingLocationY, playerCircleRadius, "FD")
 		}
 	}
 }

@@ -134,9 +134,9 @@ func SetOffensiveTeamFormationShotgunBunchRight() OffenseTeamFormation {
 	center.Coordinates = DefineOffensivePlayerCoordinates(260.0, 145.0, 260.0, 145.0)
 	rightGuard.Coordinates = DefineOffensivePlayerCoordinates(280.0, 145.0, 280.0, 145.0)
 	quarterBack.Coordinates = DefineOffensivePlayerCoordinates(260.0, 105.0, 260.0, 105.0)
-	receiver1.Coordinates = DefineOffensivePlayerCoordinates(360.0, 145.0, 360.0, 145.0)
-	receiver2.Coordinates = DefineOffensivePlayerCoordinates(370.0, 130.0, 370.0, 130.0)
-	receiver3.Coordinates = DefineOffensivePlayerCoordinates(380.0, 145.0, 380.0, 145.0)
+	receiver1.Coordinates = DefineOffensivePlayerCoordinates(330.0, 145.0, 330.0, 145.0)
+	receiver2.Coordinates = DefineOffensivePlayerCoordinates(340.0, 130.0, 340.0, 130.0)
+	receiver3.Coordinates = DefineOffensivePlayerCoordinates(350.0, 145.0, 350.0, 145.0)
 
 	var offensiveTeam OffenseTeamFormation
 
@@ -175,9 +175,9 @@ func SetOffensiveTeamFormationShotgunBunchLeft() OffenseTeamFormation {
 	center.Coordinates = DefineOffensivePlayerCoordinates(260.0, 145.0, 260.0, 145.0)
 	rightGuard.Coordinates = DefineOffensivePlayerCoordinates(280.0, 145.0, 280.0, 145.0)
 	quarterBack.Coordinates = DefineOffensivePlayerCoordinates(260.0, 105.0, 260.0, 105.0)
-	receiver1.Coordinates = DefineOffensivePlayerCoordinates(160.0, 145.0, 160.0, 145.0)
-	receiver2.Coordinates = DefineOffensivePlayerCoordinates(150.0, 130.0, 150.0, 130.0)
-	receiver3.Coordinates = DefineOffensivePlayerCoordinates(140.0, 145.0, 140.0, 145.0)
+	receiver1.Coordinates = DefineOffensivePlayerCoordinates(190.0, 145.0, 190.0, 145.0)
+	receiver2.Coordinates = DefineOffensivePlayerCoordinates(180.0, 130.0, 180.0, 130.0)
+	receiver3.Coordinates = DefineOffensivePlayerCoordinates(170.0, 145.0, 170.0, 145.0)
 
 	var offensiveTeam OffenseTeamFormation
 
@@ -216,9 +216,9 @@ func SetOffensiveTeamFormationShotgunTripsLeft() OffenseTeamFormation {
 	center.Coordinates = DefineOffensivePlayerCoordinates(260.0, 145.0, 260.0, 145.0)
 	rightGuard.Coordinates = DefineOffensivePlayerCoordinates(280.0, 145.0, 280.0, 145.0)
 	quarterBack.Coordinates = DefineOffensivePlayerCoordinates(260.0, 105.0, 260.0, 105.0)
-	receiver1.Coordinates = DefineOffensivePlayerCoordinates(160.0, 145.0, 160.0, 145.0)
-	receiver2.Coordinates = DefineOffensivePlayerCoordinates(140.0, 145.0, 140.0, 145.0)
-	receiver3.Coordinates = DefineOffensivePlayerCoordinates(120.0, 145.0, 120.0, 145.0)
+	receiver1.Coordinates = DefineOffensivePlayerCoordinates(190.0, 145.0, 190.0, 145.0)
+	receiver2.Coordinates = DefineOffensivePlayerCoordinates(180.0, 145.0, 180.0, 145.0)
+	receiver3.Coordinates = DefineOffensivePlayerCoordinates(170.0, 145.0, 170.0, 145.0)
 
 	var offensiveTeam OffenseTeamFormation
 
@@ -257,9 +257,9 @@ func SetOffensiveTeamFormationShotgunTripsRight() OffenseTeamFormation {
 	center.Coordinates = DefineOffensivePlayerCoordinates(260.0, 145.0, 260.0, 145.0)
 	rightGuard.Coordinates = DefineOffensivePlayerCoordinates(280.0, 145.0, 280.0, 145.0)
 	quarterBack.Coordinates = DefineOffensivePlayerCoordinates(260.0, 105.0, 260.0, 105.0)
-	receiver1.Coordinates = DefineOffensivePlayerCoordinates(360.0, 145.0, 360.0, 145.0)
-	receiver2.Coordinates = DefineOffensivePlayerCoordinates(380.0, 145.0, 380.0, 145.0)
-	receiver3.Coordinates = DefineOffensivePlayerCoordinates(400.0, 145.0, 400.0, 145.0)
+	receiver1.Coordinates = DefineOffensivePlayerCoordinates(330.0, 145.0, 330.0, 145.0)
+	receiver2.Coordinates = DefineOffensivePlayerCoordinates(340.0, 145.0, 340.0, 145.0)
+	receiver3.Coordinates = DefineOffensivePlayerCoordinates(350.0, 145.0, 350.0, 145.0)
 
 	var offensiveTeam OffenseTeamFormation
 
@@ -299,8 +299,8 @@ func SetOffensiveTeamFormationShotgunTwinsRightBackRight() OffenseTeamFormation 
 	rightGuard.Coordinates = DefineOffensivePlayerCoordinates(280.0, 145.0, 280.0, 145.0)
 	quarterBack.Coordinates = DefineOffensivePlayerCoordinates(260.0, 105.0, 260.0, 105.0)
 	runningBack.Coordinates = DefineOffensivePlayerCoordinates(280.0, 85.0, 280.0, 85.0)
-	receiver1.Coordinates = DefineOffensivePlayerCoordinates(360.0, 145.0, 360.0, 145.0)
-	receiver2.Coordinates = DefineOffensivePlayerCoordinates(380.0, 145.0, 380.0, 145.0)
+	receiver1.Coordinates = DefineOffensivePlayerCoordinates(330.0, 145.0, 330.0, 145.0)
+	receiver2.Coordinates = DefineOffensivePlayerCoordinates(340.0, 145.0, 340.0, 145.0)
 
 	var offensiveTeam OffenseTeamFormation
 
@@ -340,8 +340,8 @@ func SetOffensiveTeamFormationShotgunTwinsRightBackLeft() OffenseTeamFormation {
 	rightGuard.Coordinates = DefineOffensivePlayerCoordinates(280.0, 145.0, 280.0, 145.0)
 	quarterBack.Coordinates = DefineOffensivePlayerCoordinates(260.0, 105.0, 260.0, 105.0)
 	runningBack.Coordinates = DefineOffensivePlayerCoordinates(240.0, 85.0, 280.0, 85.0)
-	receiver1.Coordinates = DefineOffensivePlayerCoordinates(360.0, 145.0, 360.0, 145.0)
-	receiver2.Coordinates = DefineOffensivePlayerCoordinates(380.0, 145.0, 380.0, 145.0)
+	receiver1.Coordinates = DefineOffensivePlayerCoordinates(330.0, 145.0, 330.0, 145.0)
+	receiver2.Coordinates = DefineOffensivePlayerCoordinates(340.0, 145.0, 340.0, 145.0)
 
 	var offensiveTeam OffenseTeamFormation
 
@@ -381,8 +381,8 @@ func SetOffensiveTeamFormationShotgunTwinsLeftBackRight() OffenseTeamFormation {
 	rightGuard.Coordinates = DefineOffensivePlayerCoordinates(280.0, 145.0, 280.0, 145.0)
 	quarterBack.Coordinates = DefineOffensivePlayerCoordinates(260.0, 105.0, 260.0, 105.0)
 	runningBack.Coordinates = DefineOffensivePlayerCoordinates(280.0, 85.0, 280.0, 85.0)
-	receiver1.Coordinates = DefineOffensivePlayerCoordinates(160.0, 145.0, 160.0, 145.0)
-	receiver2.Coordinates = DefineOffensivePlayerCoordinates(180.0, 145.0, 180.0, 145.0)
+	receiver1.Coordinates = DefineOffensivePlayerCoordinates(190.0, 145.0, 190.0, 145.0)
+	receiver2.Coordinates = DefineOffensivePlayerCoordinates(200.0, 145.0, 200.0, 145.0)
 
 	var offensiveTeam OffenseTeamFormation
 
@@ -422,8 +422,8 @@ func SetOffensiveTeamFormationShotgunTwinsLeftBackLeft() OffenseTeamFormation {
 	rightGuard.Coordinates = DefineOffensivePlayerCoordinates(280.0, 145.0, 280.0, 145.0)
 	quarterBack.Coordinates = DefineOffensivePlayerCoordinates(260.0, 105.0, 260.0, 105.0)
 	runningBack.Coordinates = DefineOffensivePlayerCoordinates(240.0, 85.0, 280.0, 85.0)
-	receiver1.Coordinates = DefineOffensivePlayerCoordinates(160.0, 145.0, 160.0, 145.0)
-	receiver2.Coordinates = DefineOffensivePlayerCoordinates(180.0, 145.0, 180.0, 145.0)
+	receiver1.Coordinates = DefineOffensivePlayerCoordinates(200.0, 145.0, 200.0, 145.0)
+	receiver2.Coordinates = DefineOffensivePlayerCoordinates(210.0, 145.0, 210.0, 145.0)
 
 	var offensiveTeam OffenseTeamFormation
 
@@ -464,7 +464,7 @@ func SetOffensiveTeamFormationShotgunSplitBackRecieverRight() OffenseTeamFormati
 	quarterBack.Coordinates = DefineOffensivePlayerCoordinates(260.0, 105.0, 260.0, 105.0)
 	runningBackLeft.Coordinates = DefineOffensivePlayerCoordinates(240.0, 85.0, 240.0, 85.0)
 	runningBackRight.Coordinates = DefineOffensivePlayerCoordinates(280.0, 85.0, 280.0, 85.0)
-	receiver1.Coordinates = DefineOffensivePlayerCoordinates(360.0, 145.0, 360.0, 145.0)
+	receiver1.Coordinates = DefineOffensivePlayerCoordinates(330.0, 145.0, 330.0, 145.0)
 
 	var offensiveTeam OffenseTeamFormation
 
@@ -505,7 +505,7 @@ func SetOffensiveTeamFormationShotgunSplitBackRecieverLeft() OffenseTeamFormatio
 	quarterBack.Coordinates = DefineOffensivePlayerCoordinates(260.0, 105.0, 260.0, 105.0)
 	runningBackLeft.Coordinates = DefineOffensivePlayerCoordinates(240.0, 85.0, 240.0, 85.0)
 	runningBackRight.Coordinates = DefineOffensivePlayerCoordinates(280.0, 85.0, 280.0, 85.0)
-	receiver1.Coordinates = DefineOffensivePlayerCoordinates(160.0, 145.0, 160.0, 145.0)
+	receiver1.Coordinates = DefineOffensivePlayerCoordinates(190.0, 145.0, 190.0, 145.0)
 
 	var offensiveTeam OffenseTeamFormation
 

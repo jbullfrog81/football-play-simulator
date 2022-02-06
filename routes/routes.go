@@ -158,7 +158,7 @@ func DefineGoRoute() OffensePlayRoute {
 
 	route.RouteName = "Go"
 
-	for i := 0; i < 201; i++ {
+	for i := 0; i < 151; i++ {
 		route.MinX = append(route.MinX, float64(0))
 		route.MinY = append(route.MinY, float64(1))
 		route.MaxX = append(route.MaxX, float64(0))
@@ -394,7 +394,7 @@ func DefineRightPostTenYardRoute() OffensePlayRoute {
 		route.MaxY = append(route.MaxY, float64(1))
 	}
 
-	for i := 0; i < 101; i++ {
+	for i := 0; i < 51; i++ {
 		route.MinX = append(route.MinX, float64(-1))
 		route.MinY = append(route.MinY, float64(1))
 		route.MaxX = append(route.MaxX, float64(-1))
@@ -790,7 +790,7 @@ func DefineLeftPostTenYardRoute() OffensePlayRoute {
 		route.MaxY = append(route.MaxY, float64(1))
 	}
 
-	for i := 0; i < 101; i++ {
+	for i := 0; i < 51; i++ {
 		route.MinX = append(route.MinX, float64(1))
 		route.MinY = append(route.MinY, float64(1))
 		route.MaxX = append(route.MaxX, float64(1))
