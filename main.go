@@ -311,9 +311,10 @@ func run() {
 
 	// Offensive Playbook Loaded Menu items
 	offensivePlaybookLoadedMenuLookup := map[string]string{
-		"Edit Playbook":                   "EditOffensivePlaybook",
+		"Edit Playbook":                   "EditLoadedOffensivePlaybook",
 		"Run Plays in Playbook":           "LoadedOffensivePlaybookRunPlays",
 		"View Plays in Playbook":          "ViewLoadedOffensivePlaybook",
+		"Create PDF of Playbook":          "CreatePdfLoadedOffensivePlaybook",
 		"Back to Offensive Playbook Menu": "OffensivePlaybook",
 		"Back to Main Menu":               "MainMenu",
 	}
@@ -329,7 +330,7 @@ func run() {
 	offensiveDefaultPlaybookMenuLookup := map[string]string{
 		"Run Plays in Default Playbook":           "DefaultOffensivePlaybookRunPlays",
 		"View Plays in Default Playbook":          "ViewDefaultOffensivePlaybook",
-		"Create PDF of Plays in Default Playbook": "PrintDefaultOffensivePlaybook",
+		"Create PDF of Plays in Default Playbook": "CreatePdfDefaultOffensivePlaybook",
 		"Back to Main Menu":                       "MainMenu",
 	}
 
@@ -435,7 +436,7 @@ func run() {
 				windowMenu = offensivePlaybookLoadedMenuLookup[offensivePlaybookLoadedMenuSelection]
 			}
 
-		} else if windowMenu == "PrintDefaultOffensivePlaybook" {
+		} else if windowMenu == "CreatePdfDefaultOffensivePlaybook" {
 
 			playbook.CreateOffensivePlaybookPdf(pdf, testOffensePlayBookPrint)
 
@@ -448,6 +449,27 @@ func run() {
 			}
 
 			windowMenu = "UseDefaultPlaybook"
+
+		} else if windowMenu == "CreatePdfLoadedOffensivePlaybook" {
+
+			pdfName, okSelected, err := dlgs.Entry("Save Playbook as PDF", "Name of the pdf file:", "default")
+
+			if err != nil {
+				panic(err)
+			}
+			if okSelected {
+				playbook.CreateOffensivePlaybookPdf(pdf, loadedTeamOffensivePlayBook)
+
+				pdf.DrawPath("D")
+
+				err := pdf.OutputFileAndClose(pdfName + ".pdf")
+
+				if err != nil {
+					panic(err)
+				}
+			}
+
+			windowMenu = "OffensivePlaybookLoaded"
 
 		} else if windowMenu == "OffensivePlaybook" {
 
@@ -812,7 +834,7 @@ func run() {
 			if frameTick != nil {
 				<-frameTick.C
 			}
-		} else if windowMenu == "EditOffensivePlaybook" {
+		} else if windowMenu == "EditLoadedOffensivePlaybook" {
 
 			playbookMenuSelection, okSelected, err := dlgs.List("Edit Offensive Playbook menu", "Edit Offensive Playbook Options:", offensiveEditPlaybookMenuOptions)
 			if err != nil {
@@ -836,8 +858,8 @@ func run() {
 			// - playbook variable name: loadedTeamOffensivePlayBook
 
 			if win.JustPressed(pixelgl.KeyEscape) {
-				windowMenuPrevious = "OffensivePlaybookAddPlays"
-				windowMenu = "OffensivePlaybook"
+				windowMenuPrevious = "EditLoadedOffensivePlaybook"
+				windowMenu = "offensivePlaybookLoaded"
 			}
 
 			win.Clear(colornames.Darkolivegreen)
@@ -972,7 +994,7 @@ func run() {
 				if hasConfirmed {
 					OffensivePlaybookAddPlaysMenuSelection = "Formation"
 				} else {
-					windowMenu = "OffensivePlaybook"
+					windowMenu = "offensivePlaybookLoaded"
 				}
 
 			}
@@ -992,7 +1014,7 @@ func run() {
 
 			if win.JustPressed(pixelgl.KeyEscape) {
 				windowMenuPrevious = "OffensivePlaybookEditPlays"
-				windowMenu = "OffensivePlaybook"
+				windowMenu = "offensivePlaybook"
 			}
 
 			win.Clear(colornames.Darkolivegreen)
@@ -1104,7 +1126,7 @@ func run() {
 				if hasConfirmed {
 					OffensivePlaybookEditPlaysMenuSelection = "Formation"
 				} else {
-					windowMenu = "OffensivePlaybook"
+					windowMenu = "offensivePlaybook"
 				}
 
 			}

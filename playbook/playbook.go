@@ -247,25 +247,25 @@ func BuildDefaultOffensivePlayBook() PlayBook {
 
 	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineGoRoute())
 	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineBlockRoute())
-	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineLeftOutFiveYardRoute())
+	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineRightOutFiveYardRoute())
 	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineBlockRoute())
-	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineLeftOutAndUpSevenYardRoute())
+	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineLeftOutTenYardRoute())
 	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineLeftWhipFiveYardRoute())
-	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineLeftPostTenYardRoute())
+	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineLeftInFiveYardRoute())
 
 	defaultPlaybook.OffensivePlays = append(defaultPlaybook.OffensivePlays, AddPlayBookPage("Bunch Left In Whipper", formations.SetOffensiveTeamFormationShotgunBunchLeft(), setupPlayerRoutes))
 
 	setupPlayerRoutes = nil
 
-	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineGoRoute())
+	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineLeftInTenYardRoute())
 	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineBlockRoute())
 	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineRightOutFiveYardRoute())
 	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineBlockRoute())
-	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineRightOutAndUpSevenYardRoute())
-	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineRightWhipFiveYardRoute())
-	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineRightPostTenYardRoute())
+	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineLeftOutTenYardRoute())
+	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineLeftWhipFiveYardRoute())
+	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineGoRoute())
 
-	defaultPlaybook.OffensivePlays = append(defaultPlaybook.OffensivePlays, AddPlayBookPage("Bunch Right In Whipper", formations.SetOffensiveTeamFormationShotgunBunchLeft(), setupPlayerRoutes))
+	defaultPlaybook.OffensivePlays = append(defaultPlaybook.OffensivePlays, AddPlayBookPage("Bunch Left Whipper", formations.SetOffensiveTeamFormationShotgunBunchLeft(), setupPlayerRoutes))
 
 	return defaultPlaybook
 
