@@ -84,8 +84,8 @@ func CreateOffensivePlaybookPdf(pdf *gofpdf.Fpdf, offensivePlaybook PlayBook) {
 
 	footballOrigLocationX := 70.0
 	//footballOrigLocationY = 100.0
-	footballLocationX = footballOrigLocationX
-	footballLocationY = 100.0
+	//footballLocationX = footballOrigLocationX
+	//footballLocationY = 90.0
 
 	var playOutlinesX float64
 	var playOutlinesY float64
@@ -140,13 +140,25 @@ func CreateOffensivePlaybookPdf(pdf *gofpdf.Fpdf, offensivePlaybook PlayBook) {
 	}
 
 	for playNumber := range offensivePlaybook.OffensivePlays {
-
-		if (playNumber+1)%4 == 0 {
-			footballLocationY += 200.0
+		fmt.Println("The play number is:")
+		fmt.Println(playNumber)
+		fmt.Println("The footballLocationY is:")
+		fmt.Println(footballLocationY)
+		if playNumber == 0 {
 			footballLocationX = footballOrigLocationX
+			footballLocationY = 90.0
+		} else if playNumber%4 == 0 {
+			footballLocationY += 100.0
+			footballLocationX = footballOrigLocationX
+			fmt.Println("The footballLocationY is:")
+			fmt.Println(footballLocationY)
+			fmt.Println("The footballLocationX is:")
+			fmt.Println(footballLocationX)
 		} else {
 			if playNumber != 0 {
 				footballLocationX += playOutlinesWidth
+				fmt.Println("The footballLocationX is:")
+				fmt.Println(footballLocationX)
 			}
 		}
 
@@ -207,7 +219,8 @@ func CreateOffensivePlaybookPdf(pdf *gofpdf.Fpdf, offensivePlaybook PlayBook) {
 			for i, _ := range scaledRouteX {
 				xNew += scaledRouteX[i]
 				yNew += scaledRouteY[i]
-				if i < len(scaledRouteX) {
+				//this will ensure that the playroute doesn't print outside the play boxes
+				if i < len(scaledRouteX) && (xNew < footballLocationX+(playOutlinesWidth/2) && xNew > footballLocationX-(playOutlinesWidth/2)) && (yNew < footballLocationY+(playOutlinesHeight/2) && yNew > footballLocationY-(playOutlinesHeight/2)) {
 					pdf.Line(xCurrent, yCurrent, xNew, yNew)
 				}
 				xCurrent = xNew
@@ -367,8 +380,8 @@ func DrawBuildOffensivePlaybookMenuSelectFormation(imd *imdraw.IMDraw, win *pixe
 
 }
 
-func DrawBuildOffensivePlaybookMenuSelectRoute(imd *imdraw.IMDraw, win *pixelgl.Window, formationIteration int, routeIteration int, selectedPlayer int) {
-
+//func DrawBuildOffensivePlaybookMenuSelectRoute(imd *imdraw.IMDraw, win *pixelgl.Window, formationIteration int, routeIteration int, selectedPlayer int) {
+func DrawBuildOffensivePlaybookMenuSelectRoute(imd *imdraw.IMDraw, win *pixelgl.Window) {
 	DrawBuildOffensivePlaybookMenu(imd, win)
 
 	atlas := text.NewAtlas(basicfont.Face7x13, text.ASCII)

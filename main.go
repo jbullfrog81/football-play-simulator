@@ -92,6 +92,17 @@ func DrawBuildPlaybookMenuSavedPlayerRoutes(imd *imdraw.IMDraw, win *pixelgl.Win
 	imd.Draw(win)
 }
 
+//draw the saved player routes when editing a play in a playbook
+func DrawEditPlaybookMenuSavedPlayerRoutes(imd *imdraw.IMDraw, win *pixelgl.Window, savedRoutes routes.OffensePlayRoutes, offensiveFormation formations.OffenseTeamFormation) {
+	//availableOffensiveFormations := formations.ReturnAllOffensiveTeamFormations()
+
+	for i, _ := range savedRoutes.Routes {
+		playbook.DrawOffensivePlayerPlayRoute(imd, offensiveFormation.Players[i].Coordinates, savedRoutes.Routes[i], colornames.Gold)
+	}
+
+	imd.Draw(win)
+}
+
 func DrawSpecificOffensiveFormationHighlightOnePlayer(imd *imdraw.IMDraw, win *pixelgl.Window, formationIteration int, routeIteration int, playerHighlight int) {
 
 	availableOffensiveFormations := formations.ReturnAllOffensiveTeamFormations()
@@ -123,6 +134,44 @@ func DrawSpecificOffensiveFormationHighlightOnePlayer(imd *imdraw.IMDraw, win *p
 	fmt.Fprintln(basicTxt, "Snap Type - "+availableOffensiveFormations.Formations[formationIteration].SnapType)
 	fmt.Fprintln(basicTxt, "Recievers - "+fmt.Sprint(availableOffensiveFormations.Formations[formationIteration].Receivers))
 	fmt.Fprintln(basicTxt, "Running Backs - "+fmt.Sprint(availableOffensiveFormations.Formations[formationIteration].RunningBacks))
+
+	basicTxt.Draw(win, pixel.IM)
+
+}
+
+//this function is to draw an offensive formation and highligh a single player where the
+// formation is provided
+func DrawOffensiveFormationHighlightOnePlayer(imd *imdraw.IMDraw, win *pixelgl.Window, offensiveFormation formations.OffenseTeamFormation, routeIteration int, playerHighlight int) {
+
+	//availableOffensiveFormations := formations.ReturnAllOffensiveTeamFormations()
+	availableOffensiveRoutes := routes.ReturnAllOffensePlayRoutes()
+	//currentFormation := availableOffensiveFormations.Formations[iteration]
+	//for i, v := range availableOffensiveFormations.Formations {
+	//	if i < 1 {
+
+	DrawOffensivePlayersHighlightOnePlayer(imd, offensiveFormation, playerHighlight, availableOffensiveRoutes.Routes[routeIteration])
+
+	atlas := text.NewAtlas(basicfont.Face7x13, text.ASCII)
+
+	playerTxt := text.New(pixel.V(600, 450), atlas)
+	fmt.Fprintln(playerTxt, "Player Information: ")
+	fmt.Fprintln(playerTxt, "Position - "+offensiveFormation.Players[playerHighlight].Attributes.Position)
+
+	playerTxt.Draw(win, pixel.IM)
+
+	routeTxt := text.New(pixel.V(600, 400), atlas)
+	fmt.Fprintln(routeTxt, "Route Information: ")
+	fmt.Fprintln(routeTxt, "Route Name - "+availableOffensiveRoutes.Routes[routeIteration].RouteName)
+
+	routeTxt.Draw(win, pixel.IM)
+
+	basicTxt := text.New(pixel.V(600, 200), atlas)
+
+	fmt.Fprintln(basicTxt, "Formation Information: ")
+	fmt.Fprintln(basicTxt, "Name - "+offensiveFormation.FormationName)
+	fmt.Fprintln(basicTxt, "Snap Type - "+offensiveFormation.SnapType)
+	fmt.Fprintln(basicTxt, "Recievers - "+fmt.Sprint(offensiveFormation.Receivers))
+	fmt.Fprintln(basicTxt, "Running Backs - "+fmt.Sprint(offensiveFormation.RunningBacks))
 
 	basicTxt.Draw(win, pixel.IM)
 
@@ -385,6 +434,17 @@ func run() {
 	//set all the routes to a default of block
 	for i := 0; i < 7; i++ {
 		selectedPlayerRoutes.Routes = append(selectedPlayerRoutes.Routes, routes.DefineBlockRoute())
+	}
+
+	//temp player route to edit a page in a loaded playbood
+	var editPlaybookSelectedPlayerRoute routes.OffensePlayRoute
+
+	editPlaybookSelectedPlayerRoute = routes.DefineBlockRoute()
+	//These are the temp player routes to edit a page in a loaded playbood
+	var editPlaybookSelectedPlayerRoutes routes.OffensePlayRoutes
+	//set all the routes to a default of block
+	for i := 0; i < 7; i++ {
+		editPlaybookSelectedPlayerRoutes.Routes = append(editPlaybookSelectedPlayerRoutes.Routes, routes.DefineBlockRoute())
 	}
 
 	drawSelectPlayerIteration := 0
@@ -858,8 +918,8 @@ func run() {
 			// - playbook variable name: loadedTeamOffensivePlayBook
 
 			if win.JustPressed(pixelgl.KeyEscape) {
-				windowMenuPrevious = "EditLoadedOffensivePlaybook"
-				windowMenu = "offensivePlaybookLoaded"
+				windowMenuPrevious = "OffensivePlaybookAddPlays"
+				windowMenu = "OffensivePlaybook"
 			}
 
 			win.Clear(colornames.Darkolivegreen)
@@ -907,7 +967,9 @@ func run() {
 				}
 			} else if OffensivePlaybookAddPlaysMenuSelection == "Route" {
 
-				playbook.DrawBuildOffensivePlaybookMenuSelectRoute(imdOffensivePlaybookAddPlays, win, drawSelectFormationIteration, drawSelectRouteIteration, drawSelectPlayerIteration)
+				//playbook.DrawBuildOffensivePlaybookMenuSelectRoute(imdOffensivePlaybookAddPlays, win, drawSelectFormationIteration, drawSelectRouteIteration, drawSelectPlayerIteration)
+
+				playbook.DrawBuildOffensivePlaybookMenuSelectRoute(imdOffensivePlaybookAddPlays, win)
 
 				//Draw the routes that have already been selected
 				DrawBuildPlaybookMenuSavedPlayerRoutes(imdOffensivePlaybookAddPlays, win, selectedPlayerRoutes, drawSelectFormationIteration)
@@ -994,7 +1056,7 @@ func run() {
 				if hasConfirmed {
 					OffensivePlaybookAddPlaysMenuSelection = "Formation"
 				} else {
-					windowMenu = "offensivePlaybookLoaded"
+					windowMenu = "OffensivePlaybook"
 				}
 
 			}
@@ -1014,7 +1076,7 @@ func run() {
 
 			if win.JustPressed(pixelgl.KeyEscape) {
 				windowMenuPrevious = "OffensivePlaybookEditPlays"
-				windowMenu = "offensivePlaybook"
+				windowMenu = "offensivePlaybookLoaded"
 			}
 
 			win.Clear(colornames.Darkolivegreen)
@@ -1037,25 +1099,30 @@ func run() {
 
 				if win.JustPressed(pixelgl.KeyEnter) {
 					OffensivePlaybookEditPlaysMenuSelection = "Route"
+					copy(editPlaybookSelectedPlayerRoutes.Routes, loadedTeamOffensivePlayBook.OffensivePlays[OffensePlaybookPageNumber].PlayerRoutes)
 				}
 
 			}
 
 			if OffensivePlaybookEditPlaysMenuSelection == "Route" {
-				playbook.DrawBuildOffensivePlaybookMenuSelectRoute(imdOffensivePlaybookEditPlays, win, drawSelectFormationIteration, drawSelectRouteIteration, drawSelectPlayerIteration)
+				//playbook.DrawBuildOffensivePlaybookMenuSelectRoute(imdOffensivePlaybookEditPlays, win, drawSelectFormationIteration, drawSelectRouteIteration, drawSelectPlayerIteration)
+
+				imdOffensivePlaybookEditPlays.Clear()
+
+				playbook.DrawBuildOffensivePlaybookMenuSelectRoute(imdOffensivePlaybookEditPlays, win)
 
 				//Draw the routes that have already been selected
-				DrawBuildPlaybookMenuSavedPlayerRoutes(imdOffensivePlaybookEditPlays, win, selectedPlayerRoutes, drawSelectFormationIteration)
+				DrawEditPlaybookMenuSavedPlayerRoutes(imdOffensivePlaybookEditPlays, win, editPlaybookSelectedPlayerRoutes, loadedTeamOffensivePlayBook.OffensivePlays[OffensePlaybookPageNumber].Formation)
 
 				//Draw the currently selected player to select a route
-				DrawSpecificOffensiveFormationHighlightOnePlayer(imdOffensivePlaybookEditPlays, win, drawSelectFormationIteration, drawSelectRouteIteration, drawSelectPlayerIteration)
+				DrawOffensiveFormationHighlightOnePlayer(imdOffensivePlaybookEditPlays, win, loadedTeamOffensivePlayBook.OffensivePlays[OffensePlaybookPageNumber].Formation, drawSelectRouteIteration, drawSelectPlayerIteration)
 
 				if win.JustPressed(pixelgl.KeyEnter) {
 
-					selectedPlayerRoute = allOffensiveRoutes.Routes[drawSelectRouteIteration]
-					selectedPlayerRoutes.Routes[drawSelectPlayerIteration] = selectedPlayerRoute
+					editPlaybookSelectedPlayerRoute = allOffensiveRoutes.Routes[drawSelectRouteIteration]
+					editPlaybookSelectedPlayerRoutes.Routes[drawSelectPlayerIteration] = editPlaybookSelectedPlayerRoute
 
-					fmt.Println("The selected player and route is: ", selectedPlayerRoute)
+					fmt.Println("The selected player and route is: ", editPlaybookSelectedPlayerRoute)
 					fmt.Println("the build playbook is:")
 					fmt.Println(buildOffensivePlayBook)
 				}
@@ -1105,14 +1172,16 @@ func run() {
 				//loadedTeamOffensivePlayBook.OffensivePlays = append(loadedTeamOffensivePlayBook.OffensivePlays, playbook.AddPlayBookPage(buildOffensivePlay.PlayName, buildOffensivePlay.Formation, selectedPlayerRoutes.Routes))
 
 				// want to copy a slice to dereference
-				copy(loadedTeamOffensivePlayBook.OffensivePlays[OffensePlaybookPageNumber].PlayerRoutes, selectedPlayerRoutes.Routes)
+
+				copy(loadedTeamOffensivePlayBook.OffensivePlays[OffensePlaybookPageNumber].PlayerRoutes, editPlaybookSelectedPlayerRoutes.Routes)
 
 				//Save the playbook to disk
 				playbook.SavePlayBookToFile(loadedTeamOffensivePlayBook, loadedPlaybookFileName)
 
-				//reset all the settings for editing/building a new play
+				//reset all the settings for editing a play
+				editPlaybookSelectedPlayerRoute = routes.DefineBlockRoute()
 				for i := 0; i < 7; i++ {
-					selectedPlayerRoutes.Routes[i] = routes.DefineBlockRoute()
+					editPlaybookSelectedPlayerRoutes.Routes[i] = routes.DefineBlockRoute()
 				}
 				//reset the play back to null
 				drawSelectPlayerIteration = 0
@@ -1126,7 +1195,7 @@ func run() {
 				if hasConfirmed {
 					OffensivePlaybookEditPlaysMenuSelection = "Formation"
 				} else {
-					windowMenu = "offensivePlaybook"
+					windowMenu = "offensivePlaybookLoaded"
 				}
 
 			}
@@ -1209,7 +1278,8 @@ func run() {
 
 			} else if BuildOffensivePlaybookMenuSelection == "Route" {
 
-				playbook.DrawBuildOffensivePlaybookMenuSelectRoute(imdBuildOffensivePlaybook, win, drawSelectFormationIteration, drawSelectRouteIteration, drawSelectPlayerIteration)
+				//playbook.DrawBuildOffensivePlaybookMenuSelectRoute(imdBuildOffensivePlaybook, win, drawSelectFormationIteration, drawSelectRouteIteration, drawSelectPlayerIteration)
+				playbook.DrawBuildOffensivePlaybookMenuSelectRoute(imdOffensivePlaybookAddPlays, win)
 
 				//Draw the routes that have alredy been selected
 				DrawBuildPlaybookMenuSavedPlayerRoutes(imdBuildOffensivePlaybook, win, selectedPlayerRoutes, drawSelectFormationIteration)
