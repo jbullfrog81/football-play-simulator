@@ -16,3 +16,4 @@ vendor/
 
 # Playbook files created by the program
 *.playbook
+*.pdf

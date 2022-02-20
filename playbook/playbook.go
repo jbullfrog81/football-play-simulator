@@ -5,6 +5,7 @@ import (
 	"image/color"
 	"jbullfrog81/football-play-simulator/formations"
 	"jbullfrog81/football-play-simulator/routes"
+	"strconv"
 
 	"encoding/json"
 	"io/ioutil"
@@ -16,6 +17,8 @@ import (
 	"github.com/faiface/pixel/pixelgl"
 	"github.com/faiface/pixel/text"
 	"golang.org/x/image/font/basicfont"
+
+	"github.com/jung-kurt/gofpdf"
 )
 
 type PlayBook struct {
@@ -41,11 +44,191 @@ func AddPlayBookPage(playName string, playFormation formations.OffenseTeamFormat
 
 }
 
-func SavePlayBookToFile(playBook PlayBook) {
+func SavePlayBookToFile(playBook PlayBook, filename string) {
 
 	file, _ := json.MarshalIndent(playBook, "", " ")
-	_ = ioutil.WriteFile(playBook.PlayBookName+".playbook", file, 0644)
+	if filename == "" {
+		_ = ioutil.WriteFile(playBook.PlayBookName+".playbook", file, 0644)
+	} else {
+		_ = ioutil.WriteFile(filename, file, 0644)
+	}
 
+}
+
+func CreateOffensivePlaybookPdf(pdf *gofpdf.Fpdf, offensivePlaybook PlayBook) {
+
+	var xCurrent float64
+	var yCurrent float64
+	var playerCurrentLocationX float64
+	var playerCurrentLocationY float64
+	var playerStartingLocationX float64
+	var playerStartingLocationY float64
+	//var playerNextLocationX float64
+	//var playerNextLocationY float64
+	var footballLocationX float64
+	var footballLocationY float64
+	var xNew float64
+	var yNew float64
+	var copyRouteX []float64
+	var copyRouteY []float64
+	var scaledRouteX []float64
+	var scaledRouteY []float64
+	//var scaledRouteTempIteration int
+
+	//how much should we scale down
+	scaleFactor := .35
+
+	playerCircleRadius := 3.0
+
+	scaledRouteTempIteration := 0.0
+
+	footballOrigLocationX := 70.0
+	//footballOrigLocationY = 100.0
+	//footballLocationX = footballOrigLocationX
+	//footballLocationY = 90.0
+
+	var playOutlinesX float64
+	var playOutlinesY float64
+
+	playOutlinesX = 30
+	playOutlinesY = 30
+
+	var playOutlinesHeight float64
+	var playOutlinesWidth float64
+
+	playOutlinesHeight = 90
+	playOutlinesWidth = 80
+
+	var playCounterBoxOutlinesHeight float64
+	var playCounterBoxOutlinesWidth float64
+	playCounterBoxOutlinesHeight = 15
+	playCounterBoxOutlinesWidth = 20
+	var playCounterBoxOutlinesX float64
+	var playCounterBoxOutlinesY float64
+	playCounterBoxOutlinesX = playOutlinesX + 30
+	playCounterBoxOutlinesY = playOutlinesY
+
+	//Create the gridlines for the plays and the play numbers
+	for i := 1; i <= 24; i++ {
+
+		//Rect(x, y, w, h float64, styleStr string)
+		//Draw the outside box of the play
+		pdf.Rect(playOutlinesX, playOutlinesY, playOutlinesWidth, playOutlinesHeight, "D")
+		//Draw the outside box for the play number
+		pdf.Rect(playCounterBoxOutlinesX, playCounterBoxOutlinesY, playCounterBoxOutlinesWidth, playCounterBoxOutlinesHeight, "D")
+
+		//Write the play numbers
+		pdf.SetFont("Arial", "B", 11)
+		pdf.Text(playCounterBoxOutlinesX+5, playCounterBoxOutlinesY+11, strconv.Itoa(i))
+
+		//pdf.Text(10, 10, "11234567890")
+
+		playOutlinesX += playOutlinesWidth
+
+		if i%4 == 0 {
+			playOutlinesY += playOutlinesHeight
+			playOutlinesX = 30
+		}
+
+		if i%8 == 0 {
+			playOutlinesY += 30
+		}
+
+		playCounterBoxOutlinesX = playOutlinesX + 30
+		playCounterBoxOutlinesY = playOutlinesY
+
+	}
+
+	for playNumber := range offensivePlaybook.OffensivePlays {
+		if playNumber == 0 {
+			footballLocationX = footballOrigLocationX
+			footballLocationY = 90.0
+		} else if playNumber%4 == 0 {
+			footballLocationY += 100.0
+			footballLocationX = footballOrigLocationX
+		} else {
+			if playNumber != 0 {
+				footballLocationX += playOutlinesWidth
+			}
+		}
+
+		for playerRouteNumber, playerValue := range offensivePlaybook.OffensivePlays[playNumber].Formation.Players {
+
+			playerStartingLocationX = playerValue.Coordinates.BallOffsetX*scaleFactor + footballLocationX
+			playerStartingLocationY = playerValue.Coordinates.BallOffsetY*-1*scaleFactor + footballLocationY
+
+			playerCurrentLocationX = playerStartingLocationX
+			playerCurrentLocationY = playerStartingLocationY
+
+			//Being lazy as I don't want to retype as playerCurrentLocationX and playerCurrentLocationY
+			xCurrent = playerCurrentLocationX
+			yCurrent = playerCurrentLocationY
+
+			xNew = xCurrent
+			yNew = yCurrent
+
+			scaledRouteX = nil
+			scaledRouteY = nil
+			copyRouteX = nil
+			copyRouteY = nil
+
+			//copy the route for scaling later
+			for i, _ := range offensivePlaybook.OffensivePlays[playNumber].PlayerRoutes[playerRouteNumber].MinX {
+				copyRouteX = append(copyRouteX, offensivePlaybook.OffensivePlays[playNumber].PlayerRoutes[playerRouteNumber].MinX[i])
+				// we need to do the * -1 to reverse as pdf's coordinates start at the top left of the page
+				// instead of the bottom left of the page
+				copyRouteY = append(copyRouteY, offensivePlaybook.OffensivePlays[playNumber].PlayerRoutes[playerRouteNumber].MinY[i]*-1.0)
+			}
+
+			//scale the route for the PDF document
+			for i, _ := range copyRouteX {
+
+				if i < len(copyRouteX)-1 {
+					if copyRouteX[i] == copyRouteX[i+1] && copyRouteY[i] == copyRouteY[i+1] {
+						scaledRouteTempIteration += 1
+					} else {
+						scaledRouteTempIteration = scaledRouteTempIteration * scaleFactor
+						for iter := 0.0; iter < scaledRouteTempIteration; iter += 1 {
+							scaledRouteX = append(scaledRouteX, copyRouteX[i])
+							scaledRouteY = append(scaledRouteY, copyRouteY[i])
+						}
+						scaledRouteTempIteration = 0
+					}
+				} else {
+					scaledRouteTempIteration = scaledRouteTempIteration * scaleFactor
+					for iter := 0.0; iter < scaledRouteTempIteration; iter += 1 {
+						scaledRouteX = append(scaledRouteX, copyRouteX[i])
+						scaledRouteY = append(scaledRouteY, copyRouteY[i])
+					}
+					scaledRouteTempIteration = 0
+				}
+
+			}
+
+			//draw the route for the player
+			for i, _ := range scaledRouteX {
+				xNew += scaledRouteX[i]
+				yNew += scaledRouteY[i]
+				//this will ensure that the playroute doesn't print outside the play boxes
+				if i < len(scaledRouteX) && (xNew < footballLocationX+(playOutlinesWidth/2) && xNew > footballLocationX-(playOutlinesWidth/2)) && (yNew < footballLocationY+(playOutlinesHeight/2) && yNew > footballLocationY-(playOutlinesHeight/2)) {
+					pdf.Line(xCurrent, yCurrent, xNew, yNew)
+				}
+				xCurrent = xNew
+				yCurrent = yNew
+			}
+
+			//Player color - R,G,B inputs for the fill color
+			pdf.SetFillColor(int(playerValue.Attributes.Color.R), int(playerValue.Attributes.Color.G), int(playerValue.Attributes.Color.B))
+
+			//Draw the player as a cirlce with fill no outline (FD for fill and outline)
+			//do this here so it will be on top of the route
+			pdf.Circle(playerStartingLocationX, playerStartingLocationY, playerCircleRadius, "FD")
+		}
+	}
+}
+
+func ReturnEmptyOffensivePlay() (blankPlay OffensivePlay) {
+	return blankPlay
 }
 
 func BuildDefaultOffensivePlayBook() PlayBook {
@@ -67,25 +250,25 @@ func BuildDefaultOffensivePlayBook() PlayBook {
 
 	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineGoRoute())
 	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineBlockRoute())
-	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineLeftOutFiveYardRoute())
+	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineRightOutFiveYardRoute())
 	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineBlockRoute())
-	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineLeftOutAndUpSevenYardRoute())
+	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineLeftOutTenYardRoute())
 	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineLeftWhipFiveYardRoute())
-	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineLeftPostTenYardRoute())
+	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineLeftInFiveYardRoute())
 
 	defaultPlaybook.OffensivePlays = append(defaultPlaybook.OffensivePlays, AddPlayBookPage("Bunch Left In Whipper", formations.SetOffensiveTeamFormationShotgunBunchLeft(), setupPlayerRoutes))
 
 	setupPlayerRoutes = nil
 
-	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineGoRoute())
+	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineLeftInTenYardRoute())
 	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineBlockRoute())
 	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineRightOutFiveYardRoute())
 	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineBlockRoute())
-	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineRightOutAndUpSevenYardRoute())
-	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineRightWhipFiveYardRoute())
-	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineRightPostTenYardRoute())
+	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineLeftOutTenYardRoute())
+	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineLeftWhipFiveYardRoute())
+	setupPlayerRoutes = append(setupPlayerRoutes, routes.DefineGoRoute())
 
-	defaultPlaybook.OffensivePlays = append(defaultPlaybook.OffensivePlays, AddPlayBookPage("Bunch Right In Whipper", formations.SetOffensiveTeamFormationShotgunBunchLeft(), setupPlayerRoutes))
+	defaultPlaybook.OffensivePlays = append(defaultPlaybook.OffensivePlays, AddPlayBookPage("Bunch Left Whipper", formations.SetOffensiveTeamFormationShotgunBunchLeft(), setupPlayerRoutes))
 
 	return defaultPlaybook
 
@@ -187,8 +370,8 @@ func DrawBuildOffensivePlaybookMenuSelectFormation(imd *imdraw.IMDraw, win *pixe
 
 }
 
-func DrawBuildOffensivePlaybookMenuSelectRoute(imd *imdraw.IMDraw, win *pixelgl.Window, formationIteration int, routeIteration int, selectedPlayer int) {
-
+//func DrawBuildOffensivePlaybookMenuSelectRoute(imd *imdraw.IMDraw, win *pixelgl.Window, formationIteration int, routeIteration int, selectedPlayer int) {
+func DrawBuildOffensivePlaybookMenuSelectRoute(imd *imdraw.IMDraw, win *pixelgl.Window) {
 	DrawBuildOffensivePlaybookMenu(imd, win)
 
 	atlas := text.NewAtlas(basicfont.Face7x13, text.ASCII)

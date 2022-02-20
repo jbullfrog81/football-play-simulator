@@ -21,7 +21,27 @@ View all of the built in offensive formations
 - Controls
   - left / right: cycles through all of the offensive formations
 
-#### Build Offensive Playbook
+#### Offensive Playbook
+There are several different options for the Offensive Playbook Menu:
+- Use Default Playbook
+- Load Offensive Playbook
+- Create Offensive Playbook
+
+##### Use Default Playbook
+This will load the default playbook and allow the user to view and run the plays.
+
+##### Load Offensive Playbook
+This will allow the user to load a playbook from file then do the following:
+- Edit the playbook
+  - Add plays to the playbook
+  - Edit the plays of the playbook
+- View plays in the playbook
+- Run plays in the playbook
+- Create PDF of Playbook
+  - Generates a PDF of all the plays in group of 8
+    - Useful for printing off the playbook to fit into 3 play panel compartment wristband
+
+##### Create Offensive Playbook
 Build an offensive playbook by first selecting your offensive formation then the route for each player.
 
 Flow for building a playbook
