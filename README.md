@@ -37,6 +37,9 @@ This will allow the user to load a playbook from file then do the following:
   - Edit the plays of the playbook
 - View plays in the playbook
 - Run plays in the playbook
+- Create PDF of Playbook
+  - Generates a PDF of all the plays in group of 8
+    - Useful for printing off the playbook to fit into 3 play panel compartment wristband
 
 ##### Create Offensive Playbook
 Build an offensive playbook by first selecting your offensive formation then the route for each player.
