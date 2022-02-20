@@ -140,25 +140,15 @@ func CreateOffensivePlaybookPdf(pdf *gofpdf.Fpdf, offensivePlaybook PlayBook) {
 	}
 
 	for playNumber := range offensivePlaybook.OffensivePlays {
-		fmt.Println("The play number is:")
-		fmt.Println(playNumber)
-		fmt.Println("The footballLocationY is:")
-		fmt.Println(footballLocationY)
 		if playNumber == 0 {
 			footballLocationX = footballOrigLocationX
 			footballLocationY = 90.0
 		} else if playNumber%4 == 0 {
 			footballLocationY += 100.0
 			footballLocationX = footballOrigLocationX
-			fmt.Println("The footballLocationY is:")
-			fmt.Println(footballLocationY)
-			fmt.Println("The footballLocationX is:")
-			fmt.Println(footballLocationX)
 		} else {
 			if playNumber != 0 {
 				footballLocationX += playOutlinesWidth
-				fmt.Println("The footballLocationX is:")
-				fmt.Println(footballLocationX)
 			}
 		}
 

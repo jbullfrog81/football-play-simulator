@@ -82,6 +82,23 @@ type offensePlayerPosition struct {
 	color     color.Color
 }
 
+//this function will copy a playbook by marshalling to JSON
+//and back. Needed as deep copy isn't easy in Golang.
+func copyPlaybook(srcPlaybook playbook.PlayBook) (dstPlaybook playbook.PlayBook) {
+
+	origJSON, err := json.Marshal(srcPlaybook)
+	if err != nil {
+		panic(err)
+	}
+
+	err = json.Unmarshal(origJSON, &dstPlaybook)
+	if err != nil {
+		panic(err)
+	}
+
+	return dstPlaybook
+}
+
 func DrawBuildPlaybookMenuSavedPlayerRoutes(imd *imdraw.IMDraw, win *pixelgl.Window, savedRoutes routes.OffensePlayRoutes, formationIteration int) {
 	availableOffensiveFormations := formations.ReturnAllOffensiveTeamFormations()
 
@@ -229,10 +246,6 @@ func mainMenu() (wMenu string) {
 	if !okSelected {
 		return windowMenuPrevious
 	} else {
-		fmt.Println("okSelected is:")
-		fmt.Println(okSelected)
-		fmt.Println("Menu item selected is:")
-		fmt.Println(selectedMenuItem)
 		return mainMenuLookup[selectedMenuItem]
 	}
 }
@@ -255,9 +268,6 @@ func loadPlaybookFromFile(fileName string, playbook *playbook.PlayBook) {
 		panic(err)
 	}
 
-	//loadedTeamOffensivePlayBookRun = loadedTeamOffensivePlayBook
-	//util.DeepCopy(loadedTeamOffensivePlayBook, loadedTeamOffensivePlayBookRun)
-
 	dlgs.MessageBox("File loaded", "The playbook was successfully loaded")
 }
 
@@ -268,18 +278,11 @@ func loadPlaybookMenu() (wMenu string, fileName string) {
 		panic(err)
 	}
 
-	fmt.Println("The filename is:")
-	fmt.Println(fileName)
-	fmt.Println("The selected ok is:")
-	fmt.Println(selectedOk)
-
 	if !selectedOk {
 		return windowMenuPrevious, ""
 	} else {
 
 		loadPlaybookFromFile(fileName, &loadedTeamOffensivePlayBook)
-
-		loadPlaybookFromFile(fileName, &loadedTeamOffensivePlayBookRun)
 
 		return "OffensivePlaybookLoaded", fileName
 
@@ -468,8 +471,6 @@ func run() {
 		if windowMenu == "MainMenu" {
 
 			windowMenu = mainMenu()
-			fmt.Println("The window menu is:")
-			fmt.Println(windowMenu)
 
 		} else if windowMenu == "Exit" {
 
@@ -478,6 +479,8 @@ func run() {
 		} else if windowMenu == "LoadPlaybook" {
 
 			windowMenu, loadedPlaybookFileName = loadPlaybookMenu()
+
+			loadedTeamOffensivePlayBookRun = copyPlaybook(loadedTeamOffensivePlayBook)
 
 		} else if windowMenu == "OffensivePlaybookLoaded" {
 
@@ -489,10 +492,6 @@ func run() {
 			if !okSelected {
 				windowMenu = windowMenuPrevious
 			} else {
-				fmt.Println("okSelected is:")
-				fmt.Println(okSelected)
-				fmt.Println("Item selected is:")
-				fmt.Println(offensivePlaybookLoadedMenuSelection)
 				windowMenu = offensivePlaybookLoadedMenuLookup[offensivePlaybookLoadedMenuSelection]
 			}
 
@@ -541,10 +540,6 @@ func run() {
 			if !okSelected {
 				windowMenu = windowMenuPrevious
 			} else {
-				fmt.Println("okSelected is:")
-				fmt.Println(okSelected)
-				fmt.Println("Item selected is:")
-				fmt.Println(playbookMenuSelection)
 				windowMenu = offensivePlaybookMenuLookup[playbookMenuSelection]
 			}
 
@@ -558,10 +553,6 @@ func run() {
 			if !okSelected {
 				windowMenu = windowMenuPrevious
 			} else {
-				fmt.Println("okSelected is:")
-				fmt.Println(okSelected)
-				fmt.Println("Item selected is:")
-				fmt.Println(playbookMenuSelection)
 				windowMenu = offensiveDefaultPlaybookMenuLookup[playbookMenuSelection]
 			}
 
@@ -666,7 +657,8 @@ func run() {
 				//- must do a deep copy as there are slices
 				//- we don't want to share pointers
 				imdOffensePlaybookLoadedRunPlay.Clear()
-				loadPlaybookFromFile(loadedPlaybookFileName, &loadedTeamOffensivePlayBookRun)
+				loadedTeamOffensivePlayBookRun = copyPlaybook(loadedTeamOffensivePlayBook)
+				//loadPlaybookFromFile(loadedPlaybookFileName, &loadedTeamOffensivePlayBookRun)
 				//util.DeepCopy(loadedTeamOffensivePlayBook, loadedTeamOffensivePlayBookRun)
 				iteration = 0
 				windowMenuPrevious = "LoadedOffensivePlaybookRunPlays"
@@ -679,8 +671,15 @@ func run() {
 				//Reset the run play formation
 				//- must do a deep copy as there are slices
 				//- we don't want to share pointers
+				// TODO create this into a util
+				loadedTeamOffensivePlayBookRun = copyPlaybook(loadedTeamOffensivePlayBook)
+				//loadedTeamOffensivePlayBookRun.OffensivePlays = nil
+				//copy(loadedTeamOffensivePlayBookRun.OffensivePlays, loadedTeamOffensivePlayBook.OffensivePlays)
+				//loadedTeamOffensivePlayBookRun.OffensivePlays = loadedTeamOffensivePlayBook.OffensivePlays
+				//loadedTeamOffensivePlayBookRun.PlayBookName = loadedTeamOffensivePlayBook.PlayBookName
+				//copy(loadedTeamOffensivePlayBookRun, loadedTeamOffensivePlayBook)
 				//util.DeepCopy(loadedTeamOffensivePlayBook, loadedTeamOffensivePlayBookRun)
-				loadPlaybookFromFile(loadedPlaybookFileName, &loadedTeamOffensivePlayBookRun)
+				//loadPlaybookFromFile(loadedPlaybookFileName, &loadedTeamOffensivePlayBookRun)
 				iteration = 0
 			}
 
@@ -753,8 +752,8 @@ func run() {
 				win.Update()
 
 				iteration += 1
-				println("iteration is: ", iteration)
-				println("the windowState is:", windowState)
+				//println("iteration is: ", iteration)
+				//println("the windowState is:", windowState)
 			}
 
 			if frameTick != nil {
@@ -904,10 +903,6 @@ func run() {
 			if !okSelected {
 				windowMenu = windowMenuPrevious
 			} else {
-				fmt.Println("okSelected is:")
-				fmt.Println(okSelected)
-				fmt.Println("Item selected is:")
-				fmt.Println(playbookMenuSelection)
 				windowMenu = offensiveEditPlaybookMenuLookup[playbookMenuSelection]
 			}
 
@@ -947,11 +942,6 @@ func run() {
 					if okSelected {
 						buildOffensivePlay.PlayName = playName
 						buildOffensivePlay.Formation = allOffensiveFormations.Formations[selectedFormation]
-						//buildOffensivePlayBook.OffensivePlays = append(buildOffensivePlayBook.OffensivePlays, 	allOffensiveFormations.Formations[selectedFormation])
-						//buildOffensivePlayBook.OffensivePlays[0].Formation = allOffensiveFormations.Formations	[selectedFormation]
-						fmt.Println("The selected formation is: ", selectedFormation)
-						fmt.Println("the build playbook is:")
-						fmt.Println(buildOffensivePlayBook)
 						OffensivePlaybookAddPlaysMenuSelection = "Route"
 					}
 				}
@@ -984,9 +974,6 @@ func run() {
 					selectedPlayerRoute = allOffensiveRoutes.Routes[drawSelectRouteIteration]
 					selectedPlayerRoutes.Routes[drawSelectPlayerIteration] = selectedPlayerRoute
 
-					fmt.Println("The selected player and route is: ", selectedPlayerRoute)
-					fmt.Println("the build playbook is:")
-					fmt.Println(buildOffensivePlayBook)
 				}
 
 				if win.JustPressed(pixelgl.KeyLeft) {
@@ -1122,9 +1109,6 @@ func run() {
 					editPlaybookSelectedPlayerRoute = allOffensiveRoutes.Routes[drawSelectRouteIteration]
 					editPlaybookSelectedPlayerRoutes.Routes[drawSelectPlayerIteration] = editPlaybookSelectedPlayerRoute
 
-					fmt.Println("The selected player and route is: ", editPlaybookSelectedPlayerRoute)
-					fmt.Println("the build playbook is:")
-					fmt.Println(buildOffensivePlayBook)
 				}
 
 				if win.JustPressed(pixelgl.KeyLeft) {
@@ -1257,11 +1241,6 @@ func run() {
 					if okSelected {
 						buildOffensivePlay.PlayName = playName
 						buildOffensivePlay.Formation = allOffensiveFormations.Formations[selectedFormation]
-						//buildOffensivePlayBook.OffensivePlays = append(buildOffensivePlayBook.OffensivePlays, 	allOffensiveFormations.Formations[selectedFormation])
-						//buildOffensivePlayBook.OffensivePlays[0].Formation = allOffensiveFormations.Formations	[selectedFormation]
-						fmt.Println("The selected formation is: ", selectedFormation)
-						fmt.Println("the build playbook is:")
-						fmt.Println(buildOffensivePlayBook)
 						BuildOffensivePlaybookMenuSelection = "Route"
 					}
 				}
@@ -1293,12 +1272,7 @@ func run() {
 
 					selectedPlayerRoute = allOffensiveRoutes.Routes[drawSelectRouteIteration]
 					selectedPlayerRoutes.Routes[drawSelectPlayerIteration] = selectedPlayerRoute
-					//buildOffensivePlayBook.OffensivePlays[0].PlayName = "Play 1"
-					//buildOffensivePlayBook.OffensivePlays[0].PlayerRoutes[drawSelectPlayerIteration] = allOffensiveRoutes.Routes[drawSelectRouteIteration]
 
-					fmt.Println("The selected player and route is: ", selectedPlayerRoute)
-					fmt.Println("the build playbook is:")
-					fmt.Println(buildOffensivePlayBook)
 				}
 
 				if win.JustPressed(pixelgl.KeyLeft) {
