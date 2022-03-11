@@ -143,8 +143,11 @@ func CreateOffensivePlaybookPdf(pdf *gofpdf.Fpdf, offensivePlaybook PlayBook) {
 		if playNumber == 0 {
 			footballLocationX = footballOrigLocationX
 			footballLocationY = 90.0
+		} else if playNumber%8 == 0 {
+			footballLocationY += 120.0
+			footballLocationX = footballOrigLocationX
 		} else if playNumber%4 == 0 {
-			footballLocationY += 100.0
+			footballLocationY += 90.0
 			footballLocationX = footballOrigLocationX
 		} else {
 			if playNumber != 0 {
