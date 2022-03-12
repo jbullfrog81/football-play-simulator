@@ -208,16 +208,17 @@ func CreateOffensivePlaybookPdf(pdf *gofpdf.Fpdf, offensivePlaybook PlayBook) {
 
 			}
 
+			// set the width of the route line for easier viewing
+			pdf.SetLineWidth(1)
+			// set the color of the route for the player
+			pdf.SetDrawColor(int(playerValue.Attributes.Color.R), int(playerValue.Attributes.Color.G), int(playerValue.Attributes.Color.B))
+
 			//draw the route for the player
 			for i, _ := range scaledRouteX {
 				xNew += scaledRouteX[i]
 				yNew += scaledRouteY[i]
 				//this will ensure that the playroute doesn't print outside the play boxes
 				if i < len(scaledRouteX) && (xNew < footballLocationX+(playOutlinesWidth/2) && xNew > footballLocationX-(playOutlinesWidth/2)) && (yNew < footballLocationY+(playOutlinesHeight/2) && yNew > footballLocationY-(playOutlinesHeight/2)) {
-					// set the width of the route line for easier viewing
-					pdf.SetLineWidth(1)
-					// set the color of the route for the player
-					pdf.SetDrawColor(int(playerValue.Attributes.Color.R), int(playerValue.Attributes.Color.G), int(playerValue.Attributes.Color.B))
 					// draw the route for the player
 					pdf.Line(xCurrent, yCurrent, xNew, yNew)
 				}
