@@ -122,9 +122,9 @@ func SetOffensiveTeamFormationShotgunBunchRight() OffenseTeamFormation {
 
 	var leftGuard, center, rightGuard, quarterBack, receiver1, receiver2, receiver3 OffensePlayer
 
-	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Grey)
-	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Yellow)
-	rightGuard.Attributes = DefineOffensivePlayerAttributes("Right Guard", 2.0, 5.0, colornames.Grey)
+	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Orange)
+	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Lightskyblue)
+	rightGuard.Attributes = DefineOffensivePlayerAttributes("Right Guard", 2.0, 5.0, colornames.Orange)
 	quarterBack.Attributes = DefineOffensivePlayerAttributes("Quarterback", 2.0, 5.0, colornames.Black)
 	receiver1.Attributes = DefineOffensivePlayerAttributes("Wide Receiver", 2.0, 5.0, colornames.Green)
 	receiver2.Attributes = DefineOffensivePlayerAttributes("Wide Receiver", 2.0, 5.0, colornames.Red)
@@ -163,9 +163,9 @@ func SetOffensiveTeamFormationShotgunBunchLeft() OffenseTeamFormation {
 
 	var leftGuard, center, rightGuard, quarterBack, receiver1, receiver2, receiver3 OffensePlayer
 
-	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Grey)
-	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Yellow)
-	rightGuard.Attributes = DefineOffensivePlayerAttributes("Right Guard", 2.0, 5.0, colornames.Grey)
+	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Orange)
+	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Lightskyblue)
+	rightGuard.Attributes = DefineOffensivePlayerAttributes("Right Guard", 2.0, 5.0, colornames.Orange)
 	quarterBack.Attributes = DefineOffensivePlayerAttributes("Quarterback", 2.0, 5.0, colornames.Black)
 	receiver1.Attributes = DefineOffensivePlayerAttributes("Wide Receiver", 2.0, 5.0, colornames.Green)
 	receiver2.Attributes = DefineOffensivePlayerAttributes("Wide Receiver", 2.0, 5.0, colornames.Red)
@@ -204,9 +204,9 @@ func SetOffensiveTeamFormationShotgunTripsLeft() OffenseTeamFormation {
 
 	var leftGuard, center, rightGuard, quarterBack, receiver1, receiver2, receiver3 OffensePlayer
 
-	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Grey)
-	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Yellow)
-	rightGuard.Attributes = DefineOffensivePlayerAttributes("Right Guard", 2.0, 5.0, colornames.Grey)
+	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Orange)
+	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Lightskyblue)
+	rightGuard.Attributes = DefineOffensivePlayerAttributes("Right Guard", 2.0, 5.0, colornames.Orange)
 	quarterBack.Attributes = DefineOffensivePlayerAttributes("Quarterback", 2.0, 5.0, colornames.Black)
 	receiver1.Attributes = DefineOffensivePlayerAttributes("Wide Receiver", 2.0, 5.0, colornames.Green)
 	receiver2.Attributes = DefineOffensivePlayerAttributes("Wide Receiver", 2.0, 5.0, colornames.Red)
@@ -245,9 +245,9 @@ func SetOffensiveTeamFormationShotgunTripsRight() OffenseTeamFormation {
 
 	var leftGuard, center, rightGuard, quarterBack, receiver1, receiver2, receiver3 OffensePlayer
 
-	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Grey)
-	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Yellow)
-	rightGuard.Attributes = DefineOffensivePlayerAttributes("Right Guard", 2.0, 5.0, colornames.Grey)
+	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Orange)
+	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Lightskyblue)
+	rightGuard.Attributes = DefineOffensivePlayerAttributes("Right Guard", 2.0, 5.0, colornames.Orange)
 	quarterBack.Attributes = DefineOffensivePlayerAttributes("Quarterback", 2.0, 5.0, colornames.Black)
 	receiver1.Attributes = DefineOffensivePlayerAttributes("Wide Receiver", 2.0, 5.0, colornames.Green)
 	receiver2.Attributes = DefineOffensivePlayerAttributes("Wide Receiver", 2.0, 5.0, colornames.Red)
@@ -286,9 +286,9 @@ func SetOffensiveTeamFormationShotgunTwinsRightBackRight() OffenseTeamFormation 
 
 	var leftGuard, center, rightGuard, quarterBack, receiver1, receiver2, runningBack OffensePlayer
 
-	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Grey)
-	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Yellow)
-	rightGuard.Attributes = DefineOffensivePlayerAttributes("Right Guard", 2.0, 5.0, colornames.Grey)
+	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Orange)
+	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Lightskyblue)
+	rightGuard.Attributes = DefineOffensivePlayerAttributes("Right Guard", 2.0, 5.0, colornames.Orange)
 	quarterBack.Attributes = DefineOffensivePlayerAttributes("Quarterback", 2.0, 5.0, colornames.Black)
 	runningBack.Attributes = DefineOffensivePlayerAttributes("Running Back", 2.0, 5.0, colornames.Red)
 	receiver1.Attributes = DefineOffensivePlayerAttributes("Wide Receiver", 2.0, 5.0, colornames.Green)
@@ -327,9 +327,9 @@ func SetOffensiveTeamFormationShotgunTwinsRightBackLeft() OffenseTeamFormation {
 
 	var leftGuard, center, rightGuard, quarterBack, receiver1, receiver2, runningBack OffensePlayer
 
-	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Grey)
-	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Yellow)
-	rightGuard.Attributes = DefineOffensivePlayerAttributes("Right Guard", 2.0, 5.0, colornames.Grey)
+	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Orange)
+	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Lightskyblue)
+	rightGuard.Attributes = DefineOffensivePlayerAttributes("Right Guard", 2.0, 5.0, colornames.Orange)
 	quarterBack.Attributes = DefineOffensivePlayerAttributes("Quarterback", 2.0, 5.0, colornames.Black)
 	runningBack.Attributes = DefineOffensivePlayerAttributes("Running Back", 2.0, 5.0, colornames.Red)
 	receiver1.Attributes = DefineOffensivePlayerAttributes("Wide Receiver", 2.0, 5.0, colornames.Green)
@@ -368,9 +368,9 @@ func SetOffensiveTeamFormationShotgunTwinsLeftBackRight() OffenseTeamFormation {
 
 	var leftGuard, center, rightGuard, quarterBack, receiver1, receiver2, runningBack OffensePlayer
 
-	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Grey)
-	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Yellow)
-	rightGuard.Attributes = DefineOffensivePlayerAttributes("Right Guard", 2.0, 5.0, colornames.Grey)
+	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Orange)
+	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Lightskyblue)
+	rightGuard.Attributes = DefineOffensivePlayerAttributes("Right Guard", 2.0, 5.0, colornames.Orange)
 	quarterBack.Attributes = DefineOffensivePlayerAttributes("Quarterback", 2.0, 5.0, colornames.Black)
 	runningBack.Attributes = DefineOffensivePlayerAttributes("Running Back", 2.0, 5.0, colornames.Red)
 	receiver1.Attributes = DefineOffensivePlayerAttributes("Wide Receiver", 2.0, 5.0, colornames.Green)
@@ -409,9 +409,9 @@ func SetOffensiveTeamFormationShotgunTwinsLeftBackLeft() OffenseTeamFormation {
 
 	var leftGuard, center, rightGuard, quarterBack, receiver1, receiver2, runningBack OffensePlayer
 
-	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Grey)
-	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Yellow)
-	rightGuard.Attributes = DefineOffensivePlayerAttributes("Right Guard", 2.0, 5.0, colornames.Grey)
+	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Orange)
+	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Lightskyblue)
+	rightGuard.Attributes = DefineOffensivePlayerAttributes("Right Guard", 2.0, 5.0, colornames.Orange)
 	quarterBack.Attributes = DefineOffensivePlayerAttributes("Quarterback", 2.0, 5.0, colornames.Black)
 	runningBack.Attributes = DefineOffensivePlayerAttributes("Running Back", 2.0, 5.0, colornames.Red)
 	receiver1.Attributes = DefineOffensivePlayerAttributes("Wide Receiver", 2.0, 5.0, colornames.Green)
@@ -450,9 +450,9 @@ func SetOffensiveTeamFormationShotgunSplitBackRecieverRight() OffenseTeamFormati
 
 	var leftGuard, center, rightGuard, quarterBack, receiver1, runningBackRight, runningBackLeft OffensePlayer
 
-	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Grey)
-	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Yellow)
-	rightGuard.Attributes = DefineOffensivePlayerAttributes("Right Guard", 2.0, 5.0, colornames.Grey)
+	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Orange)
+	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Lightskyblue)
+	rightGuard.Attributes = DefineOffensivePlayerAttributes("Right Guard", 2.0, 5.0, colornames.Orange)
 	quarterBack.Attributes = DefineOffensivePlayerAttributes("Quarterback", 2.0, 5.0, colornames.Black)
 	runningBackLeft.Attributes = DefineOffensivePlayerAttributes("Running Back", 2.0, 5.0, colornames.Red)
 	runningBackRight.Attributes = DefineOffensivePlayerAttributes("Running Back", 2.0, 5.0, colornames.Blue)
@@ -491,9 +491,9 @@ func SetOffensiveTeamFormationShotgunSplitBackRecieverLeft() OffenseTeamFormatio
 
 	var leftGuard, center, rightGuard, quarterBack, receiver1, runningBackRight, runningBackLeft OffensePlayer
 
-	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Grey)
-	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Yellow)
-	rightGuard.Attributes = DefineOffensivePlayerAttributes("Right Guard", 2.0, 5.0, colornames.Grey)
+	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Orange)
+	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Lightskyblue)
+	rightGuard.Attributes = DefineOffensivePlayerAttributes("Right Guard", 2.0, 5.0, colornames.Orange)
 	quarterBack.Attributes = DefineOffensivePlayerAttributes("Quarterback", 2.0, 5.0, colornames.Black)
 	runningBackLeft.Attributes = DefineOffensivePlayerAttributes("Running Back", 2.0, 5.0, colornames.Red)
 	runningBackRight.Attributes = DefineOffensivePlayerAttributes("Running Back", 2.0, 5.0, colornames.Blue)
