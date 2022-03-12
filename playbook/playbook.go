@@ -214,6 +214,7 @@ func CreateOffensivePlaybookPdf(pdf *gofpdf.Fpdf, offensivePlaybook PlayBook) {
 				yNew += scaledRouteY[i]
 				//this will ensure that the playroute doesn't print outside the play boxes
 				if i < len(scaledRouteX) && (xNew < footballLocationX+(playOutlinesWidth/2) && xNew > footballLocationX-(playOutlinesWidth/2)) && (yNew < footballLocationY+(playOutlinesHeight/2) && yNew > footballLocationY-(playOutlinesHeight/2)) {
+					pdf.SetDrawColor(int(playerValue.Attributes.Color.R), int(playerValue.Attributes.Color.G), int(playerValue.Attributes.Color.B))
 					pdf.Line(xCurrent, yCurrent, xNew, yNew)
 				}
 				xCurrent = xNew
