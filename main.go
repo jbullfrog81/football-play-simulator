@@ -1063,7 +1063,7 @@ func run() {
 
 			if win.JustPressed(pixelgl.KeyEscape) {
 				windowMenuPrevious = "OffensivePlaybookEditPlays"
-				windowMenu = "offensivePlaybookLoaded"
+				windowMenu = "OffensivePlaybookLoaded"
 			}
 
 			win.Clear(colornames.Darkolivegreen)
@@ -1179,7 +1179,7 @@ func run() {
 				if hasConfirmed {
 					OffensivePlaybookEditPlaysMenuSelection = "SelectPlay"
 				} else {
-					windowMenu = "offensivePlaybookLoaded"
+					windowMenu = "OffensivePlaybookLoaded"
 					OffensivePlaybookEditPlaysMenuSelection = "SelectPlay"
 				}
 
