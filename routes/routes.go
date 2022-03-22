@@ -48,13 +48,43 @@ func ReturnAllOffensePlayRoutes() (allRoutes OffensePlayRoutes) {
 	// to generate all of the routes
 	//var sliceOfRoutes := {"","",}
 
+	route = DefineNoneRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineBlockRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineBlockLongRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineBlockLeftRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineBlockLongLeftRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineBlockVeryLongLeftRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineBlockRightRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineBlockLongRightRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineBlockVeryLongRightRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
 	route = DefineRightOutToSidelineRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineRightOutUpSidelineRoute()
 	allRoutes.Routes = append(allRoutes.Routes, route)
 
 	route = DefineLeftOutToSidelineRoute()
 	allRoutes.Routes = append(allRoutes.Routes, route)
 
-	route = DefineBlockRoute()
+	route = DefineLeftOutUpSidelineRoute()
 	allRoutes.Routes = append(allRoutes.Routes, route)
 
 	route = DefineGoRoute()
@@ -96,6 +126,21 @@ func ReturnAllOffensePlayRoutes() (allRoutes OffensePlayRoutes) {
 	route = DefineRightCurlTenYardRoute()
 	allRoutes.Routes = append(allRoutes.Routes, route)
 
+	route = DefineRightFlatRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineRightQuickFlatRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineRightQuickRunRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineRightReceiverReverseRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineRightReceiverShortReverseRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
 	route = DefineLeftCurlFiveYardRoute()
 	allRoutes.Routes = append(allRoutes.Routes, route)
 
@@ -132,13 +177,28 @@ func ReturnAllOffensePlayRoutes() (allRoutes OffensePlayRoutes) {
 	route = DefineLeftOutAndUpFiveYardRoute()
 	allRoutes.Routes = append(allRoutes.Routes, route)
 
+	route = DefineLeftFlatRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineLeftQuickFlatRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineLeftQuickRunRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineLeftReceiverReverseRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
+	route = DefineLeftReceiverShortReverseRoute()
+	allRoutes.Routes = append(allRoutes.Routes, route)
+
 	return allRoutes
 
 }
 
 // Field Side Agnostic Routes
 
-func DefineBlockRoute() OffensePlayRoute {
+func DefineNoneRoute() OffensePlayRoute {
 
 	var route OffensePlayRoute
 
@@ -146,7 +206,255 @@ func DefineBlockRoute() OffensePlayRoute {
 	route.MinY = append(route.MinY, float64(0))
 	route.MaxX = append(route.MaxX, float64(0))
 	route.MaxY = append(route.MaxY, float64(0))
+	route.RouteName = "None"
+
+	return route
+
+}
+
+func DefineBlockRoute() OffensePlayRoute {
+
+	var route OffensePlayRoute
+
+	for i := 0; i < 11; i++ {
+		route.MinX = append(route.MinX, float64(0))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(0))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	for i := 0; i < 5; i++ {
+		route.MinX = append(route.MinX, float64(-1))
+		route.MinY = append(route.MinY, float64(0))
+		route.MaxX = append(route.MaxX, float64(-1))
+		route.MaxY = append(route.MaxY, float64(0))
+	}
+
+	for i := 0; i < 10; i++ {
+		route.MinX = append(route.MinX, float64(1))
+		route.MinY = append(route.MinY, float64(0))
+		route.MaxX = append(route.MaxX, float64(1))
+		route.MaxY = append(route.MaxY, float64(0))
+	}
+
 	route.RouteName = "Block"
+
+	return route
+
+}
+
+func DefineBlockLongRoute() OffensePlayRoute {
+
+	var route OffensePlayRoute
+
+	for i := 0; i < 41; i++ {
+		route.MinX = append(route.MinX, float64(0))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(0))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	for i := 0; i < 5; i++ {
+		route.MinX = append(route.MinX, float64(-1))
+		route.MinY = append(route.MinY, float64(0))
+		route.MaxX = append(route.MaxX, float64(-1))
+		route.MaxY = append(route.MaxY, float64(0))
+	}
+
+	for i := 0; i < 10; i++ {
+		route.MinX = append(route.MinX, float64(1))
+		route.MinY = append(route.MinY, float64(0))
+		route.MaxX = append(route.MaxX, float64(1))
+		route.MaxY = append(route.MaxY, float64(0))
+	}
+
+	route.RouteName = "BlockLong"
+
+	return route
+
+}
+
+func DefineBlockRightRoute() OffensePlayRoute {
+
+	var route OffensePlayRoute
+
+	for i := 0; i < 11; i++ {
+		route.MinX = append(route.MinX, float64(1))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(1))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	for i := 0; i < 5; i++ {
+		route.MinX = append(route.MinX, float64(-1))
+		route.MinY = append(route.MinY, float64(0))
+		route.MaxX = append(route.MaxX, float64(-1))
+		route.MaxY = append(route.MaxY, float64(0))
+	}
+
+	for i := 0; i < 10; i++ {
+		route.MinX = append(route.MinX, float64(1))
+		route.MinY = append(route.MinY, float64(0))
+		route.MaxX = append(route.MaxX, float64(1))
+		route.MaxY = append(route.MaxY, float64(0))
+	}
+
+	route.RouteName = "BlockRight"
+
+	return route
+
+}
+
+func DefineBlockLeftRoute() OffensePlayRoute {
+
+	var route OffensePlayRoute
+
+	for i := 0; i < 11; i++ {
+		route.MinX = append(route.MinX, float64(-1))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(-1))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	for i := 0; i < 5; i++ {
+		route.MinX = append(route.MinX, float64(-1))
+		route.MinY = append(route.MinY, float64(0))
+		route.MaxX = append(route.MaxX, float64(-1))
+		route.MaxY = append(route.MaxY, float64(0))
+	}
+
+	for i := 0; i < 10; i++ {
+		route.MinX = append(route.MinX, float64(1))
+		route.MinY = append(route.MinY, float64(0))
+		route.MaxX = append(route.MaxX, float64(1))
+		route.MaxY = append(route.MaxY, float64(0))
+	}
+
+	route.RouteName = "BlockLeft"
+
+	return route
+
+}
+
+func DefineBlockLongRightRoute() OffensePlayRoute {
+
+	var route OffensePlayRoute
+
+	for i := 0; i < 41; i++ {
+		route.MinX = append(route.MinX, float64(1))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(1))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	for i := 0; i < 5; i++ {
+		route.MinX = append(route.MinX, float64(-1))
+		route.MinY = append(route.MinY, float64(0))
+		route.MaxX = append(route.MaxX, float64(-1))
+		route.MaxY = append(route.MaxY, float64(0))
+	}
+
+	for i := 0; i < 10; i++ {
+		route.MinX = append(route.MinX, float64(1))
+		route.MinY = append(route.MinY, float64(0))
+		route.MaxX = append(route.MaxX, float64(1))
+		route.MaxY = append(route.MaxY, float64(0))
+	}
+
+	route.RouteName = "BlockLongRight"
+
+	return route
+
+}
+
+func DefineBlockVeryLongRightRoute() OffensePlayRoute {
+
+	var route OffensePlayRoute
+
+	for i := 0; i < 81; i++ {
+		route.MinX = append(route.MinX, float64(1))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(1))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	for i := 0; i < 5; i++ {
+		route.MinX = append(route.MinX, float64(-1))
+		route.MinY = append(route.MinY, float64(0))
+		route.MaxX = append(route.MaxX, float64(-1))
+		route.MaxY = append(route.MaxY, float64(0))
+	}
+
+	for i := 0; i < 10; i++ {
+		route.MinX = append(route.MinX, float64(1))
+		route.MinY = append(route.MinY, float64(0))
+		route.MaxX = append(route.MaxX, float64(1))
+		route.MaxY = append(route.MaxY, float64(0))
+	}
+
+	route.RouteName = "BlockVeryLongRight"
+
+	return route
+
+}
+
+func DefineBlockLongLeftRoute() OffensePlayRoute {
+
+	var route OffensePlayRoute
+
+	for i := 0; i < 41; i++ {
+		route.MinX = append(route.MinX, float64(-1))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(-1))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	for i := 0; i < 5; i++ {
+		route.MinX = append(route.MinX, float64(-1))
+		route.MinY = append(route.MinY, float64(0))
+		route.MaxX = append(route.MaxX, float64(-1))
+		route.MaxY = append(route.MaxY, float64(0))
+	}
+
+	for i := 0; i < 10; i++ {
+		route.MinX = append(route.MinX, float64(1))
+		route.MinY = append(route.MinY, float64(0))
+		route.MaxX = append(route.MaxX, float64(1))
+		route.MaxY = append(route.MaxY, float64(0))
+	}
+
+	route.RouteName = "BlockVeryLongLeft"
+
+	return route
+
+}
+
+func DefineBlockVeryLongLeftRoute() OffensePlayRoute {
+
+	var route OffensePlayRoute
+
+	for i := 0; i < 81; i++ {
+		route.MinX = append(route.MinX, float64(-1))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(-1))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	for i := 0; i < 5; i++ {
+		route.MinX = append(route.MinX, float64(-1))
+		route.MinY = append(route.MinY, float64(0))
+		route.MaxX = append(route.MaxX, float64(-1))
+		route.MaxY = append(route.MaxY, float64(0))
+	}
+
+	for i := 0; i < 10; i++ {
+		route.MinX = append(route.MinX, float64(1))
+		route.MinY = append(route.MinY, float64(0))
+		route.MaxX = append(route.MaxX, float64(1))
+		route.MaxY = append(route.MaxY, float64(0))
+	}
+
+	route.RouteName = "BlockLongLeft"
 
 	return route
 
@@ -242,6 +550,168 @@ func DefineRightOutToSidelineRoute() OffensePlayRoute {
 		route.MinX = append(route.MinX, float64(1))
 		route.MinY = append(route.MinY, float64(1))
 		route.MaxX = append(route.MaxX, float64(1))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	return route
+
+}
+
+func DefineRightOutUpSidelineRoute() OffensePlayRoute {
+
+	var route OffensePlayRoute
+
+	route.RouteName = "Right Out Up Side Line"
+
+	for i := 0; i < 31; i++ {
+		route.MinX = append(route.MinX, float64(1))
+		route.MinY = append(route.MinY, float64(0))
+		route.MaxX = append(route.MaxX, float64(1))
+		route.MaxY = append(route.MaxY, float64(0))
+	}
+
+	for i := 0; i < 101; i++ {
+		route.MinX = append(route.MinX, float64(0))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(0))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	return route
+
+}
+
+func DefineRightFlatRoute() OffensePlayRoute {
+
+	var route OffensePlayRoute
+
+	route.RouteName = "Right Flat"
+
+	//var values OffensePlayRoute
+
+	for i := 0; i < 81; i++ {
+		route.MinX = append(route.MinX, float64(1))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(1))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	for i := 0; i < 21; i++ {
+		route.MinX = append(route.MinX, float64(1))
+		route.MinY = append(route.MinY, float64(0))
+		route.MaxX = append(route.MaxX, float64(1))
+		route.MaxY = append(route.MaxY, float64(0))
+	}
+
+	return route
+
+}
+
+func DefineRightQuickFlatRoute() OffensePlayRoute {
+
+	var route OffensePlayRoute
+
+	route.RouteName = "Right Quick Flat"
+
+	//var values OffensePlayRoute
+
+	for i := 0; i < 61; i++ {
+		route.MinX = append(route.MinX, float64(1))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(1))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	for i := 0; i < 11; i++ {
+		route.MinX = append(route.MinX, float64(1))
+		route.MinY = append(route.MinY, float64(0))
+		route.MaxX = append(route.MaxX, float64(1))
+		route.MaxY = append(route.MaxY, float64(0))
+	}
+
+	return route
+
+}
+
+func DefineRightQuickRunRoute() OffensePlayRoute {
+
+	var route OffensePlayRoute
+
+	route.RouteName = "Right Quick Run"
+
+	for i := 0; i < 21; i++ {
+		route.MinX = append(route.MinX, float64(1))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(1))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	for i := 0; i < 61; i++ {
+		route.MinX = append(route.MinX, float64(0))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(0))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	return route
+
+}
+
+func DefineRightReceiverReverseRoute() OffensePlayRoute {
+
+	var route OffensePlayRoute
+
+	route.RouteName = "Right Receiver Reverse Route"
+
+	for i := 0; i < 61; i++ {
+		route.MinX = append(route.MinX, float64(-1))
+		route.MinY = append(route.MinY, float64(-1))
+		route.MaxX = append(route.MaxX, float64(-1))
+		route.MaxY = append(route.MaxY, float64(-1))
+	}
+
+	for i := 0; i < 21; i++ {
+		route.MinX = append(route.MinX, float64(-1))
+		route.MinY = append(route.MinY, float64(0))
+		route.MaxX = append(route.MaxX, float64(-1))
+		route.MaxY = append(route.MaxY, float64(0))
+	}
+
+	for i := 0; i < 61; i++ {
+		route.MinX = append(route.MinX, float64(-1))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(-1))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	return route
+
+}
+
+func DefineRightReceiverShortReverseRoute() OffensePlayRoute {
+
+	var route OffensePlayRoute
+
+	route.RouteName = "Right Receiver Short Reverse Route"
+
+	for i := 0; i < 31; i++ {
+		route.MinX = append(route.MinX, float64(-1))
+		route.MinY = append(route.MinY, float64(-1))
+		route.MaxX = append(route.MaxX, float64(-1))
+		route.MaxY = append(route.MaxY, float64(-1))
+	}
+
+	for i := 0; i < 31; i++ {
+		route.MinX = append(route.MinX, float64(-1))
+		route.MinY = append(route.MinY, float64(0))
+		route.MaxX = append(route.MaxX, float64(-1))
+		route.MaxY = append(route.MaxY, float64(0))
+	}
+
+	for i := 0; i < 31; i++ {
+		route.MinX = append(route.MinX, float64(-1))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(-1))
 		route.MaxY = append(route.MaxY, float64(1))
 	}
 
@@ -638,6 +1108,168 @@ func DefineLeftOutToSidelineRoute() OffensePlayRoute {
 		route.MinX = append(route.MinX, float64(-1))
 		route.MinY = append(route.MinY, float64(1))
 		route.MaxX = append(route.MaxX, float64(-1))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	return route
+
+}
+
+func DefineLeftOutUpSidelineRoute() OffensePlayRoute {
+
+	var route OffensePlayRoute
+
+	route.RouteName = "Left Out Up Side Line"
+
+	for i := 0; i < 31; i++ {
+		route.MinX = append(route.MinX, float64(-1))
+		route.MinY = append(route.MinY, float64(0))
+		route.MaxX = append(route.MaxX, float64(-1))
+		route.MaxY = append(route.MaxY, float64(0))
+	}
+
+	for i := 0; i < 101; i++ {
+		route.MinX = append(route.MinX, float64(0))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(0))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	return route
+
+}
+
+func DefineLeftFlatRoute() OffensePlayRoute {
+
+	var route OffensePlayRoute
+
+	route.RouteName = "Left Flat"
+
+	//var values OffensePlayRoute
+
+	for i := 0; i < 81; i++ {
+		route.MinX = append(route.MinX, float64(-1))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(-1))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	for i := 0; i < 21; i++ {
+		route.MinX = append(route.MinX, float64(-1))
+		route.MinY = append(route.MinY, float64(0))
+		route.MaxX = append(route.MaxX, float64(-1))
+		route.MaxY = append(route.MaxY, float64(0))
+	}
+
+	return route
+
+}
+
+func DefineLeftQuickFlatRoute() OffensePlayRoute {
+
+	var route OffensePlayRoute
+
+	route.RouteName = "Left Quick Flat"
+
+	//var values OffensePlayRoute
+
+	for i := 0; i < 61; i++ {
+		route.MinX = append(route.MinX, float64(-1))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(-1))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	for i := 0; i < 11; i++ {
+		route.MinX = append(route.MinX, float64(-1))
+		route.MinY = append(route.MinY, float64(0))
+		route.MaxX = append(route.MaxX, float64(-1))
+		route.MaxY = append(route.MaxY, float64(0))
+	}
+
+	return route
+
+}
+
+func DefineLeftQuickRunRoute() OffensePlayRoute {
+
+	var route OffensePlayRoute
+
+	route.RouteName = "Left Quick Run"
+
+	for i := 0; i < 21; i++ {
+		route.MinX = append(route.MinX, float64(-1))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(-1))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	for i := 0; i < 61; i++ {
+		route.MinX = append(route.MinX, float64(0))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(0))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	return route
+
+}
+
+func DefineLeftReceiverReverseRoute() OffensePlayRoute {
+
+	var route OffensePlayRoute
+
+	route.RouteName = "Left Receiver Reverse Route"
+
+	for i := 0; i < 61; i++ {
+		route.MinX = append(route.MinX, float64(1))
+		route.MinY = append(route.MinY, float64(-1))
+		route.MaxX = append(route.MaxX, float64(1))
+		route.MaxY = append(route.MaxY, float64(-1))
+	}
+
+	for i := 0; i < 21; i++ {
+		route.MinX = append(route.MinX, float64(1))
+		route.MinY = append(route.MinY, float64(0))
+		route.MaxX = append(route.MaxX, float64(1))
+		route.MaxY = append(route.MaxY, float64(0))
+	}
+
+	for i := 0; i < 61; i++ {
+		route.MinX = append(route.MinX, float64(1))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(1))
+		route.MaxY = append(route.MaxY, float64(1))
+	}
+
+	return route
+
+}
+
+func DefineLeftReceiverShortReverseRoute() OffensePlayRoute {
+
+	var route OffensePlayRoute
+
+	route.RouteName = "Left Receiver Short Reverse Route"
+
+	for i := 0; i < 31; i++ {
+		route.MinX = append(route.MinX, float64(1))
+		route.MinY = append(route.MinY, float64(-1))
+		route.MaxX = append(route.MaxX, float64(1))
+		route.MaxY = append(route.MaxY, float64(-1))
+	}
+
+	for i := 0; i < 31; i++ {
+		route.MinX = append(route.MinX, float64(1))
+		route.MinY = append(route.MinY, float64(0))
+		route.MaxX = append(route.MaxX, float64(1))
+		route.MaxY = append(route.MaxY, float64(0))
+	}
+
+	for i := 0; i < 31; i++ {
+		route.MinX = append(route.MinX, float64(1))
+		route.MinY = append(route.MinY, float64(1))
+		route.MaxX = append(route.MaxX, float64(1))
 		route.MaxY = append(route.MaxY, float64(1))
 	}
 

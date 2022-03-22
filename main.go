@@ -434,20 +434,20 @@ func run() {
 
 	//These are the temp player routes to build a page in our playbood
 	var selectedPlayerRoutes routes.OffensePlayRoutes
-	//set all the routes to a default of block
+	//set all the routes to a default of None
 	for i := 0; i < 7; i++ {
-		selectedPlayerRoutes.Routes = append(selectedPlayerRoutes.Routes, routes.DefineBlockRoute())
+		selectedPlayerRoutes.Routes = append(selectedPlayerRoutes.Routes, routes.DefineNoneRoute())
 	}
 
 	//temp player route to edit a page in a loaded playbood
 	var editPlaybookSelectedPlayerRoute routes.OffensePlayRoute
 
-	editPlaybookSelectedPlayerRoute = routes.DefineBlockRoute()
+	editPlaybookSelectedPlayerRoute = routes.DefineNoneRoute()
 	//These are the temp player routes to edit a page in a loaded playbood
 	var editPlaybookSelectedPlayerRoutes routes.OffensePlayRoutes
-	//set all the routes to a default of block
+	//set all the routes to a default of None
 	for i := 0; i < 7; i++ {
-		editPlaybookSelectedPlayerRoutes.Routes = append(editPlaybookSelectedPlayerRoutes.Routes, routes.DefineBlockRoute())
+		editPlaybookSelectedPlayerRoutes.Routes = append(editPlaybookSelectedPlayerRoutes.Routes, routes.DefineNoneRoute())
 	}
 
 	drawSelectPlayerIteration := 0
@@ -1028,7 +1028,7 @@ func run() {
 
 				//reset all the settings for editing/building a new play
 				for i := 0; i < 7; i++ {
-					selectedPlayerRoutes.Routes[i] = routes.DefineBlockRoute()
+					selectedPlayerRoutes.Routes[i] = routes.DefineNoneRoute()
 				}
 				//reset the play back to null
 				buildOffensivePlay = playbook.ReturnEmptyOffensivePlay()
@@ -1063,7 +1063,7 @@ func run() {
 
 			if win.JustPressed(pixelgl.KeyEscape) {
 				windowMenuPrevious = "OffensivePlaybookEditPlays"
-				windowMenu = "offensivePlaybookLoaded"
+				windowMenu = "OffensivePlaybookLoaded"
 			}
 
 			win.Clear(colornames.Darkolivegreen)
@@ -1163,9 +1163,9 @@ func run() {
 				playbook.SavePlayBookToFile(loadedTeamOffensivePlayBook, loadedPlaybookFileName)
 
 				//reset all the settings for editing a play
-				editPlaybookSelectedPlayerRoute = routes.DefineBlockRoute()
+				editPlaybookSelectedPlayerRoute = routes.DefineNoneRoute()
 				for i := 0; i < 7; i++ {
-					editPlaybookSelectedPlayerRoutes.Routes[i] = routes.DefineBlockRoute()
+					editPlaybookSelectedPlayerRoutes.Routes[i] = routes.DefineNoneRoute()
 				}
 				//reset the play back to null
 				drawSelectPlayerIteration = 0
@@ -1179,7 +1179,7 @@ func run() {
 				if hasConfirmed {
 					OffensivePlaybookEditPlaysMenuSelection = "SelectPlay"
 				} else {
-					windowMenu = "offensivePlaybookLoaded"
+					windowMenu = "OffensivePlaybookLoaded"
 					OffensivePlaybookEditPlaysMenuSelection = "SelectPlay"
 				}
 
@@ -1338,7 +1338,7 @@ func run() {
 
 				//reset all the settings for editing/building a new play
 				for i := 0; i < 7; i++ {
-					selectedPlayerRoutes.Routes[i] = routes.DefineBlockRoute()
+					selectedPlayerRoutes.Routes[i] = routes.DefineNoneRoute()
 				}
 				//reset the play back to null
 				buildOffensivePlay = playbook.ReturnEmptyOffensivePlay()
