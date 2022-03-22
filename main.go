@@ -38,6 +38,7 @@ var (
 		"Offensive Playbook":        "OffensivePlaybook",
 		"View Offensive Formations": "ViewOffensiveFormations",
 		"View Offensive Routes":     "ViewOffensiveRoutes",
+		"View Defensive Formations": "ViewDefensiveFormations",
 		"Exit":                      "Exit",
 	}
 	mainMenuOptions []string
@@ -316,6 +317,7 @@ func run() {
 	imdOffensePlaybookLoadedRunPlay := imdraw.New(nil)
 	imdFootballField := imdraw.New(nil)
 	imdOffensiveFormations := imdraw.New(nil)
+	imdDefensiveFormations := imdraw.New(nil)
 	imdViewOffensiveRoutes := imdraw.New(nil)
 	imdOffensivePlayBook := imdraw.New(nil)
 	imdBuildOffensivePlaybook := imdraw.New(nil)
@@ -406,6 +408,8 @@ func run() {
 	ViewOffensiveRoutesIteration := 0
 
 	OffenseFormationIteration := 0
+
+	DefenseFormationIteration := 0
 
 	OffensePlaybookPageNumber := 0
 
@@ -857,6 +861,37 @@ func run() {
 
 			imdFootballField.Draw(win)
 			imdViewOffensiveRoutes.Draw(win)
+			win.Update()
+
+			if frameTick != nil {
+				<-frameTick.C
+			}
+
+		} else if windowMenu == "ViewDefensiveFormations" {
+
+			if win.JustPressed(pixelgl.KeyEscape) {
+				windowMenuPrevious = "ViewDefensiveFormations"
+				windowMenu = "MainMenu"
+			}
+
+			if win.JustPressed(pixelgl.KeyDown) && DefenseFormationIteration > 0 {
+				DefenseFormationIteration -= 1
+			}
+
+			if win.JustPressed(pixelgl.KeyUp) && DefenseFormationIteration < 1 {
+				DefenseFormationIteration += 1
+			}
+
+			win.Clear(colornames.Darkolivegreen)
+
+			imdDefensiveFormations.Clear()
+			formations.DrawSpecificDefensiveFormation(imdDefensiveFormations, win, DefenseFormationIteration)
+			formations.DrawDefensiveFormatonsMenu(imdDefensiveFormations, win)
+
+			field.DrawFootballFieldYardNumbers(imdFootballField, win)
+
+			imdFootballField.Draw(win)
+			imdDefensiveFormations.Draw(win)
 			win.Update()
 
 			if frameTick != nil {

@@ -39,6 +39,10 @@ type AllOffenseTeamFormations struct {
 	Formations []OffenseTeamFormation
 }
 
+type AllDefenseTeamFormations struct {
+	Formations []DefenseTeamFormation
+}
+
 type OffenseTeamFormation struct {
 	Players       []OffensePlayer
 	FormationName string
@@ -47,7 +51,44 @@ type OffenseTeamFormation struct {
 	RunningBacks  int
 }
 
+type DefensePlayerCoordinates struct {
+	MinX        float64
+	MinY        float64
+	MaxX        float64
+	MaxY        float64
+	BallOffsetX float64
+	BallOffsetY float64
+}
+
+type DefensePlayerAttributes struct {
+	Position  string
+	Thickness float64
+	Radius    float64
+	Color     color.RGBA
+}
+
+type DefensePlayer struct {
+	Coordinates DefensePlayerCoordinates
+	Attributes  DefensePlayerAttributes
+}
+
+type DefenseTeamFormation struct {
+	Players       []DefensePlayer
+	FormationName string
+}
+
 func DefineOffensivePlayerCoordinates(minX float64, minY float64, maxX float64, maxY float64) (playerCoordinates OffensePlayerCoordinates) {
+	playerCoordinates.MinX = minX
+	playerCoordinates.MinY = minY
+	playerCoordinates.MaxX = maxX
+	playerCoordinates.MaxY = maxY
+	playerCoordinates.BallOffsetX = minX - 260.0
+	playerCoordinates.BallOffsetY = minY - 145.0
+
+	return playerCoordinates
+}
+
+func DefineDefensivePlayerCoordinates(minX float64, minY float64, maxX float64, maxY float64) (playerCoordinates DefensePlayerCoordinates) {
 	playerCoordinates.MinX = minX
 	playerCoordinates.MinY = minY
 	playerCoordinates.MaxX = maxX
@@ -74,7 +115,24 @@ func ReturnAllOffensiveTeamFormations() (AllFormations AllOffenseTeamFormations)
 	return AllFormations
 }
 
+func ReturnAllDefensiveTeamFormations() (AllFormations AllDefenseTeamFormations) {
+
+	AllFormations.Formations = append(AllFormations.Formations, SetDefensiveTeamFormationZoneThreeFour())
+	AllFormations.Formations = append(AllFormations.Formations, SetDefensiveTeamFormationZoneThreeThree())
+
+	return AllFormations
+}
+
 func DefineOffensivePlayerAttributes(position string, thickness float64, radius float64, color color.RGBA) (PlayerAttributes OffensePlayerAttributes) {
+	PlayerAttributes.Position = position
+	PlayerAttributes.Thickness = thickness
+	PlayerAttributes.Radius = radius
+	PlayerAttributes.Color = color
+
+	return PlayerAttributes
+}
+
+func DefineDefensivePlayerAttributes(position string, thickness float64, radius float64, color color.RGBA) (PlayerAttributes DefensePlayerAttributes) {
 	PlayerAttributes.Position = position
 	PlayerAttributes.Thickness = thickness
 	PlayerAttributes.Radius = radius
@@ -88,11 +146,23 @@ func DefineOffensivePlayer(playerAttributes *OffensePlayerAttributes, playerCoor
 	player.Attributes = *playerAttributes
 }
 
+func DefineDefensivePlayer(playerAttributes *DefensePlayerAttributes, playerCoordinates *DefensePlayerCoordinates, player *DefensePlayer) {
+	player.Coordinates = *playerCoordinates
+	player.Attributes = *playerAttributes
+}
+
 func DefineOffensiveTeamFormation(Players []OffensePlayer) (OffensiveTeam OffenseTeamFormation) {
 
 	OffensiveTeam.Players = Players
 
 	return OffensiveTeam
+}
+
+func DefineDefensiveTeamFormation(Players []DefensePlayer) (DefensiveTeam DefenseTeamFormation) {
+
+	DefensiveTeam.Players = Players
+
+	return DefensiveTeam
 }
 
 func SetOffensiveTeamFormationShowRoutes() OffenseTeamFormation {
@@ -107,14 +177,84 @@ func SetOffensiveTeamFormationShowRoutes() OffenseTeamFormation {
 
 	offensiveTeam.Players = append(offensiveTeam.Players, player)
 
-	//offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &receiver1, &receiver2, &receiver3)
-
 	offensiveTeam.FormationName = "Show Routes"
 	offensiveTeam.SnapType = "Not Applicable"
 	offensiveTeam.Receivers = 0
 	offensiveTeam.RunningBacks = 0
 
 	return offensiveTeam
+
+}
+
+func SetDefensiveTeamFormationZoneThreeFour() DefenseTeamFormation {
+
+	var leftGuard, noseguard, rightGuard, linebacker1, linebacker2, cornerback1, cornerback2 DefensePlayer
+
+	leftGuard.Attributes = DefineDefensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Orange)
+	noseguard.Attributes = DefineDefensivePlayerAttributes("Nose Guard", 2.0, 5.0, colornames.Lightskyblue)
+	rightGuard.Attributes = DefineDefensivePlayerAttributes("Right Guard", 2.0, 5.0, colornames.Orange)
+	linebacker1.Attributes = DefineDefensivePlayerAttributes("Middle Linebacker", 2.0, 5.0, colornames.Black)
+	linebacker2.Attributes = DefineDefensivePlayerAttributes("Middle Linebacker", 2.0, 5.0, colornames.Forestgreen)
+	cornerback1.Attributes = DefineDefensivePlayerAttributes("Left Corner", 2.0, 5.0, colornames.Red)
+	cornerback2.Attributes = DefineDefensivePlayerAttributes("Right Corner", 2.0, 5.0, colornames.Blue)
+
+	leftGuard.Coordinates = DefineDefensivePlayerCoordinates(200.0, 155.0, 200.0, 165.0)
+	noseguard.Coordinates = DefineDefensivePlayerCoordinates(260.0, 155.0, 260.0, 165.0)
+	rightGuard.Coordinates = DefineDefensivePlayerCoordinates(320.0, 155.0, 320.0, 165.0)
+	linebacker1.Coordinates = DefineDefensivePlayerCoordinates(240.0, 205.0, 240.0, 205.0)
+	linebacker2.Coordinates = DefineDefensivePlayerCoordinates(280.0, 205.0, 280.0, 205.0)
+	cornerback1.Coordinates = DefineDefensivePlayerCoordinates(180.0, 205.0, 180.0, 205.0)
+	cornerback2.Coordinates = DefineDefensivePlayerCoordinates(350.0, 205.0, 350.0, 205.0)
+
+	var defensiveTeam DefenseTeamFormation
+
+	defensiveTeam.Players = append(defensiveTeam.Players, leftGuard)
+	defensiveTeam.Players = append(defensiveTeam.Players, noseguard)
+	defensiveTeam.Players = append(defensiveTeam.Players, rightGuard)
+	defensiveTeam.Players = append(defensiveTeam.Players, linebacker1)
+	defensiveTeam.Players = append(defensiveTeam.Players, linebacker2)
+	defensiveTeam.Players = append(defensiveTeam.Players, cornerback1)
+	defensiveTeam.Players = append(defensiveTeam.Players, cornerback2)
+
+	defensiveTeam.FormationName = "Zone - Three Four"
+
+	return defensiveTeam
+
+}
+
+func SetDefensiveTeamFormationZoneThreeThree() DefenseTeamFormation {
+
+	var leftGuard, noseguard, rightGuard, linebacker, safety, cornerback1, cornerback2 DefensePlayer
+
+	leftGuard.Attributes = DefineDefensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Orange)
+	noseguard.Attributes = DefineDefensivePlayerAttributes("Nose Guard", 2.0, 5.0, colornames.Lightskyblue)
+	rightGuard.Attributes = DefineDefensivePlayerAttributes("Right Guard", 2.0, 5.0, colornames.Orange)
+	linebacker.Attributes = DefineDefensivePlayerAttributes("Middle Linebacker", 2.0, 5.0, colornames.Black)
+	safety.Attributes = DefineDefensivePlayerAttributes("Safety", 2.0, 5.0, colornames.Forestgreen)
+	cornerback1.Attributes = DefineDefensivePlayerAttributes("Left Corner", 2.0, 5.0, colornames.Red)
+	cornerback2.Attributes = DefineDefensivePlayerAttributes("Right Corner", 2.0, 5.0, colornames.Blue)
+
+	leftGuard.Coordinates = DefineDefensivePlayerCoordinates(200.0, 155.0, 200.0, 165.0)
+	noseguard.Coordinates = DefineDefensivePlayerCoordinates(260.0, 155.0, 260.0, 165.0)
+	rightGuard.Coordinates = DefineDefensivePlayerCoordinates(320.0, 155.0, 320.0, 165.0)
+	linebacker.Coordinates = DefineDefensivePlayerCoordinates(260.0, 205.0, 260.0, 205.0)
+	safety.Coordinates = DefineDefensivePlayerCoordinates(260.0, 225.0, 260.0, 225.0)
+	cornerback1.Coordinates = DefineDefensivePlayerCoordinates(180.0, 205.0, 180.0, 205.0)
+	cornerback2.Coordinates = DefineDefensivePlayerCoordinates(350.0, 205.0, 350.0, 205.0)
+
+	var defensiveTeam DefenseTeamFormation
+
+	defensiveTeam.Players = append(defensiveTeam.Players, leftGuard)
+	defensiveTeam.Players = append(defensiveTeam.Players, noseguard)
+	defensiveTeam.Players = append(defensiveTeam.Players, rightGuard)
+	defensiveTeam.Players = append(defensiveTeam.Players, linebacker)
+	defensiveTeam.Players = append(defensiveTeam.Players, safety)
+	defensiveTeam.Players = append(defensiveTeam.Players, cornerback1)
+	defensiveTeam.Players = append(defensiveTeam.Players, cornerback2)
+
+	defensiveTeam.FormationName = "Zone - Three Three"
+
+	return defensiveTeam
 
 }
 
@@ -538,6 +678,16 @@ func DrawOffensivePlayers(imd *imdraw.IMDraw, team OffenseTeamFormation) {
 
 }
 
+func DrawDefensivePlayers(imd *imdraw.IMDraw, team DefenseTeamFormation) {
+
+	for _, v := range team.Players {
+		imd.Color = v.Attributes.Color
+		imd.Push(pixel.V(v.Coordinates.MinX, v.Coordinates.MinY))
+		imd.Circle(v.Attributes.Radius, v.Attributes.Thickness)
+	}
+
+}
+
 func DrawOffensePlayerRunPlay(imd *imdraw.IMDraw, route routes.OffensePlayRoute, playerPosition OffensePlayer, iteration int) OffensePlayer {
 
 	//println("starting draw offense run play")
@@ -579,6 +729,21 @@ func DrawSpecificOffensiveFormation(imd *imdraw.IMDraw, win *pixelgl.Window, ite
 
 }
 
+func DrawSpecificDefensiveFormation(imd *imdraw.IMDraw, win *pixelgl.Window, iteration int) {
+
+	availableDefensiveFormations := ReturnAllDefensiveTeamFormations()
+
+	DrawDefensivePlayers(imd, availableDefensiveFormations.Formations[iteration])
+
+	atlas := text.NewAtlas(basicfont.Face7x13, text.ASCII)
+	basicTxt := text.New(pixel.V(600, 400), atlas)
+
+	fmt.Fprintln(basicTxt, "Name: "+availableDefensiveFormations.Formations[iteration].FormationName)
+
+	basicTxt.Draw(win, pixel.IM)
+
+}
+
 // Draw an offensive formation that is provided as an input
 func DrawProvidedOffensiveFormation(imd *imdraw.IMDraw, win *pixelgl.Window, offensiveFormation OffenseTeamFormation) {
 
@@ -587,6 +752,18 @@ func DrawProvidedOffensiveFormation(imd *imdraw.IMDraw, win *pixelgl.Window, off
 }
 
 func DrawOffensiveFormatonsMenu(imd *imdraw.IMDraw, win *pixelgl.Window) {
+
+	atlas := text.NewAtlas(basicfont.Face7x13, text.ASCII)
+
+	basicTxtMenu := text.New(pixel.V(600, 600), atlas)
+
+	fmt.Fprintln(basicTxtMenu, "Formations Menu:")
+
+	basicTxtMenu.Draw(win, pixel.IM.Scaled(basicTxtMenu.Orig, 2))
+
+}
+
+func DrawDefensiveFormatonsMenu(imd *imdraw.IMDraw, win *pixelgl.Window) {
 
 	atlas := text.NewAtlas(basicfont.Face7x13, text.ASCII)
 
