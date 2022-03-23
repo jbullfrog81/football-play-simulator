@@ -24,12 +24,18 @@ import (
 type PlayBook struct {
 	PlayBookName   string
 	OffensivePlays []OffensivePlay
+	DefensivePlays []DefensivePlay
 }
 
 type OffensivePlay struct {
 	PlayName     string
 	Formation    formations.OffenseTeamFormation
 	PlayerRoutes []routes.OffensePlayRoute
+}
+
+type DefensivePlay struct {
+	PlayName  string
+	Formation formations.DefenseTeamFormation
 }
 
 func AddPlayBookPage(playName string, playFormation formations.OffenseTeamFormation, playRoutes []routes.OffensePlayRoute) (playBookPage OffensivePlay) {
@@ -39,6 +45,15 @@ func AddPlayBookPage(playName string, playFormation formations.OffenseTeamFormat
 	playBookPage.PlayerRoutes = playRoutes
 
 	//playBook.OffensivePlays = append(playBook.OffensivePlays, playBookPage)
+
+	return playBookPage
+
+}
+
+func AddDefensivePlayBookPage(playName string, playFormation formations.DefenseTeamFormation) (playBookPage DefensivePlay) {
+
+	playBookPage.PlayName = playName
+	playBookPage.Formation = playFormation
 
 	return playBookPage
 
@@ -240,6 +255,10 @@ func ReturnEmptyOffensivePlay() (blankPlay OffensivePlay) {
 	return blankPlay
 }
 
+func ReturnEmptyDefensivePlay() (blankPlay DefensivePlay) {
+	return blankPlay
+}
+
 func BuildDefaultOffensivePlayBook() PlayBook {
 
 	var setupPlayerRoutes []routes.OffensePlayRoute
@@ -363,6 +382,16 @@ func DrawBuildOffensivePlaybookMenu(imd *imdraw.IMDraw, win *pixelgl.Window) {
 
 }
 
+func DrawBuildDefensivePlaybookMenu(imd *imdraw.IMDraw, win *pixelgl.Window) {
+
+	atlas := text.NewAtlas(basicfont.Face7x13, text.ASCII)
+	basicTxtMenu := text.New(pixel.V(600, 600), atlas)
+
+	fmt.Fprintln(basicTxtMenu, "Build Defensive Playbook Menu:")
+	basicTxtMenu.Draw(win, pixel.IM.Scaled(basicTxtMenu.Orig, 2))
+
+}
+
 func DrawBuildOffensivePlaybookMenuSelectFormation(imd *imdraw.IMDraw, win *pixelgl.Window, formationIteration int) {
 
 	//formationIteration = 0
@@ -376,6 +405,20 @@ func DrawBuildOffensivePlaybookMenuSelectFormation(imd *imdraw.IMDraw, win *pixe
 	basicTxtMenuSelectFormation.Draw(win, pixel.IM)
 
 	formations.DrawSpecificOffensiveFormation(imd, win, formationIteration)
+
+}
+
+func DrawBuildDefensivePlaybookMenuSelectFormation(imd *imdraw.IMDraw, win *pixelgl.Window, formationIteration int) {
+
+	DrawBuildDefensivePlaybookMenu(imd, win)
+
+	atlas := text.NewAtlas(basicfont.Face7x13, text.ASCII)
+	basicTxtMenuSelectFormation := text.New(pixel.V(600, 500), atlas)
+
+	fmt.Fprintln(basicTxtMenuSelectFormation, "Select your formation:")
+	basicTxtMenuSelectFormation.Draw(win, pixel.IM)
+
+	formations.DrawSpecificDefensiveFormation(imd, win, formationIteration)
 
 }
 

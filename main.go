@@ -323,6 +323,7 @@ func run() {
 	imdBuildOffensivePlaybook := imdraw.New(nil)
 	imdOffensivePlaybookAddPlays := imdraw.New(nil)
 	imdOffensivePlaybookEditPlays := imdraw.New(nil)
+	imdPlaybookAddDefensivePlays := imdraw.New(nil)
 
 	// The lines on the football field:
 	// 1 pixel = 3.6 inches
@@ -396,6 +397,7 @@ func run() {
 
 	offensiveEditPlaybookMenuLookup := map[string]string{
 		"Edit Plays in Playbook":          "OffensivePlaybookEditPlays",
+		"Add Defensive Play to Playbook":  "PlaybookAddDefensivePlay",
 		"Add Plays to Playbook":           "OffensivePlaybookAddPlays",
 		"Back to Offensive Playbook Menu": "OffensivePlaybook",
 		"Back to Main Menu":               "MainMenu",
@@ -430,6 +432,8 @@ func run() {
 
 	OffensivePlaybookAddPlaysMenuSelection := "Formation"
 
+	DefensivePlaybookAddPlaysMenuSelection := ""
+
 	OffensivePlaybookEditPlaysMenuSelection := "SelectPlay"
 
 	var selectedFormation int
@@ -459,10 +463,14 @@ func run() {
 	//var buildOffensivePlay playbook.OffensivePlay
 	buildOffensivePlay := playbook.ReturnEmptyOffensivePlay()
 
+	buildDefensivePlay := playbook.ReturnEmptyDefensivePlay()
+
 	allOffensiveFormations := formations.ReturnAllOffensiveTeamFormations()
 	allOffensiveRoutes := routes.ReturnAllOffensePlayRoutes()
 	// Used for the view all routes menu
 	singlePlayerOffensiveFormation := formations.SetOffensiveTeamFormationShowRoutes()
+
+	allDefensiveFormations := formations.ReturnAllDefensiveTeamFormations()
 
 	//pdf := gofpdf.New("P", "pt", "Letter", "")
 	pdf := gofpdf.New("P", "pt", "Letter", "")
@@ -939,6 +947,102 @@ func run() {
 				windowMenu = windowMenuPrevious
 			} else {
 				windowMenu = offensiveEditPlaybookMenuLookup[playbookMenuSelection]
+			}
+
+		} else if windowMenu == "PlaybookAddDefensivePlay" {
+
+			//The variables for the playbook
+			// - filename for the playbook: loadedPlaybookFileName
+			// - playbook variable name: loadedTeamOffensivePlayBook
+
+			if win.JustPressed(pixelgl.KeyEscape) {
+				windowMenuPrevious = "PlaybookAddDefensivePlay"
+				windowMenu = "EditLoadedOffensivePlaybook"
+			}
+
+			win.Clear(colornames.Darkolivegreen)
+
+			imdPlaybookAddDefensivePlays.Clear()
+
+			field.DrawFootballFieldYardNumbers(imdFootballField, win)
+
+			imdFootballField.Draw(win)
+
+			playbook.DrawBuildDefensivePlaybookMenuSelectFormation(imdPlaybookAddDefensivePlays, win, drawSelectFormationIteration)
+
+			imdPlaybookAddDefensivePlays.Draw(win)
+
+			if win.JustPressed(pixelgl.KeyEnter) {
+				selectedFormation = drawSelectFormationIteration
+
+				playName, okSelected, err := dlgs.Entry("Enter Defensive Play Name", "Name of the play:", "default")
+				if err != nil {
+					panic(err)
+				}
+
+				if okSelected {
+					buildDefensivePlay.PlayName = playName
+					buildDefensivePlay.Formation = allDefensiveFormations.Formations[selectedFormation]
+					DefensivePlaybookAddPlaysMenuSelection = "Confirmation"
+				}
+			}
+
+			if win.JustPressed(pixelgl.KeyUp) {
+				if drawSelectFormationIteration > 0 {
+					drawSelectFormationIteration += -1
+				}
+			} else if win.JustPressed(pixelgl.KeyDown) {
+				if drawSelectFormationIteration < len(allDefensiveFormations.Formations)-1 {
+					drawSelectFormationIteration += 1
+				}
+			}
+
+			if DefensivePlaybookAddPlaysMenuSelection == "Confirmation" {
+
+				//TODO build a confirmation screen:
+
+				hasConfirmed, err := dlgs.Question("Done creating the play?", "Are you sure you are done creating this play?", true)
+				if err != nil {
+					panic(err)
+				}
+
+				if hasConfirmed {
+					DefensivePlaybookAddPlaysMenuSelection = "Done"
+				} else {
+					DefensivePlaybookAddPlaysMenuSelection = ""
+				}
+
+			} else if DefensivePlaybookAddPlaysMenuSelection == "Done" {
+
+				//TODO build a success screen:
+				// Let the user know the play successfully added to the playbook
+				// save playbook
+				// reset everything to add another play to the playbook
+				loadedTeamOffensivePlayBook.DefensivePlays = append(loadedTeamOffensivePlayBook.DefensivePlays, playbook.AddDefensivePlayBookPage(buildDefensivePlay.PlayName, buildDefensivePlay.Formation))
+
+				//Save the playbook to disk
+				playbook.SavePlayBookToFile(loadedTeamOffensivePlayBook, loadedPlaybookFileName)
+
+				//reset the play back to null
+				buildDefensivePlay = playbook.ReturnEmptyDefensivePlay()
+
+				hasConfirmed, err := dlgs.Question("Create another play?", "Do you want to create another play?", true)
+				if err != nil {
+					panic(err)
+				}
+
+				if hasConfirmed {
+					DefensivePlaybookAddPlaysMenuSelection = ""
+				} else {
+					windowMenu = "OffensivePlaybook"
+				}
+
+			}
+
+			win.Update()
+
+			if frameTick != nil {
+				<-frameTick.C
 			}
 
 		} else if windowMenu == "OffensivePlaybookAddPlays" {
