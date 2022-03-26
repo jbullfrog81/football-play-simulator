@@ -249,6 +249,56 @@ func CreateOffensivePlaybookPdf(pdf *gofpdf.Fpdf, offensivePlaybook PlayBook) {
 			pdf.Circle(playerStartingLocationX, playerStartingLocationY, playerCircleRadius, "FD")
 		}
 	}
+
+	//count of the number of offensive plays
+	offensivePlayCount := len(offensivePlaybook.OffensivePlays)
+
+	// The last plays of the playbook are defensive plays
+	// Recommend having a max of 22 offensive plays so
+	// 2 defensive plays can be printed
+	for defensePlayNumber := range offensivePlaybook.DefensivePlays {
+
+		if (defensePlayNumber + offensivePlayCount) == 0 {
+			footballLocationX = footballOrigLocationX
+			footballLocationY = 90.0
+		} else if (defensePlayNumber+offensivePlayCount)%8 == 0 {
+			footballLocationY += 120.0
+			footballLocationX = footballOrigLocationX
+		} else if (defensePlayNumber+offensivePlayCount)%4 == 0 {
+			footballLocationY += 90.0
+			footballLocationX = footballOrigLocationX
+		} else {
+			if (defensePlayNumber + offensivePlayCount) != 0 {
+				footballLocationX += playOutlinesWidth
+			}
+		}
+
+		for _, playerValue := range offensivePlaybook.DefensivePlays[defensePlayNumber].Formation.Players {
+
+			playerStartingLocationX = playerValue.Coordinates.BallOffsetX*scaleFactor + footballLocationX
+			playerStartingLocationY = playerValue.Coordinates.BallOffsetY*-1*scaleFactor + footballLocationY
+
+			playerCurrentLocationX = playerStartingLocationX
+			playerCurrentLocationY = playerStartingLocationY
+
+			//Being lazy as I don't want to retype as playerCurrentLocationX and playerCurrentLocationY
+			xCurrent = playerCurrentLocationX
+			yCurrent = playerCurrentLocationY
+
+			xNew = xCurrent
+			yNew = yCurrent
+
+			// set the color of the route for the player
+			pdf.SetDrawColor(int(playerValue.Attributes.Color.R), int(playerValue.Attributes.Color.G), int(playerValue.Attributes.Color.B))
+
+			//Player color - R,G,B inputs for the fill color
+			pdf.SetFillColor(int(playerValue.Attributes.Color.R), int(playerValue.Attributes.Color.G), int(playerValue.Attributes.Color.B))
+
+			//Draw the player as a cirlce with fill no outline (FD for fill and outline)
+			//do this here so it will be on top of the route
+			pdf.Circle(playerStartingLocationX, playerStartingLocationY, playerCircleRadius, "FD")
+		}
+	}
 }
 
 func ReturnEmptyOffensivePlay() (blankPlay OffensivePlay) {
