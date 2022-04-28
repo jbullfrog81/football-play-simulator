@@ -111,6 +111,7 @@ func ReturnAllOffensiveTeamFormations() (AllFormations AllOffenseTeamFormations)
 	AllFormations.Formations = append(AllFormations.Formations, SetOffensiveTeamFormationShotgunTwinsLeftBackRight())
 	AllFormations.Formations = append(AllFormations.Formations, SetOffensiveTeamFormationShotgunTwinsRightBackLeft())
 	AllFormations.Formations = append(AllFormations.Formations, SetOffensiveTeamFormationShotgunTwinsRightBackRight())
+	AllFormations.Formations = append(AllFormations.Formations, SetOffensiveTeamFormationShotgunDoubleTwins())
 
 	return AllFormations
 }
@@ -663,6 +664,47 @@ func SetOffensiveTeamFormationShotgunSplitBackRecieverLeft() OffenseTeamFormatio
 	offensiveTeam.SnapType = "Shotgun"
 	offensiveTeam.Receivers = 1
 	offensiveTeam.RunningBacks = 2
+
+	return offensiveTeam
+
+}
+
+func SetOffensiveTeamFormationShotgunDoubleTwins() OffenseTeamFormation {
+
+	var leftGuard, center, quarterBack, receiver1, receiver2, receiver3, receiver4 OffensePlayer
+
+	receiver1.Attributes = DefineOffensivePlayerAttributes("Wide Receiver", 2.0, 5.0, colornames.Forestgreen)
+	receiver2.Attributes = DefineOffensivePlayerAttributes("Wide Receiver", 2.0, 5.0, colornames.Red)
+	leftGuard.Attributes = DefineOffensivePlayerAttributes("Left Guard", 2.0, 5.0, colornames.Orange)
+	center.Attributes = DefineOffensivePlayerAttributes("Center", 2.0, 5.0, colornames.Lightskyblue)
+	receiver3.Attributes = DefineOffensivePlayerAttributes("Wide Receiver", 2.0, 5.0, colornames.Blue)
+	receiver4.Attributes = DefineOffensivePlayerAttributes("Wide Receiver", 2.0, 5.0, colornames.Orange)
+	quarterBack.Attributes = DefineOffensivePlayerAttributes("Quarterback", 2.0, 5.0, colornames.Black)
+
+	receiver1.Coordinates = DefineOffensivePlayerCoordinates(190.0, 145.0, 190.0, 145.0)
+	receiver2.Coordinates = DefineOffensivePlayerCoordinates(200.0, 145.0, 200.0, 145.0)
+	leftGuard.Coordinates = DefineOffensivePlayerCoordinates(240.0, 145.0, 240.0, 145.0)
+	center.Coordinates = DefineOffensivePlayerCoordinates(260.0, 145.0, 260.0, 145.0)
+	receiver3.Coordinates = DefineOffensivePlayerCoordinates(330.0, 145.0, 330.0, 145.0)
+	receiver4.Coordinates = DefineOffensivePlayerCoordinates(340.0, 145.0, 340.0, 145.0)
+	quarterBack.Coordinates = DefineOffensivePlayerCoordinates(260.0, 115.0, 260.0, 115.0)
+
+	var offensiveTeam OffenseTeamFormation
+
+	offensiveTeam.Players = append(offensiveTeam.Players, receiver1)
+	offensiveTeam.Players = append(offensiveTeam.Players, receiver2)
+	offensiveTeam.Players = append(offensiveTeam.Players, leftGuard)
+	offensiveTeam.Players = append(offensiveTeam.Players, center)
+	offensiveTeam.Players = append(offensiveTeam.Players, receiver3)
+	offensiveTeam.Players = append(offensiveTeam.Players, receiver4)
+	offensiveTeam.Players = append(offensiveTeam.Players, quarterBack)
+
+	//offensiveTeam = DefineOffensiveTeamFormation(&leftGuard, &center, &rightGuard, &quarterBack, &runningBackRight, &receiver1, &runningBackLeft)
+
+	offensiveTeam.FormationName = "Double Twins"
+	offensiveTeam.SnapType = "Shotgun"
+	offensiveTeam.Receivers = 4
+	offensiveTeam.RunningBacks = 0
 
 	return offensiveTeam
 

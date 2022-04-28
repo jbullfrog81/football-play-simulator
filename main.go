@@ -917,7 +917,7 @@ func run() {
 				OffenseFormationIteration -= 1
 			}
 
-			if win.JustPressed(pixelgl.KeyUp) && OffenseFormationIteration < 9 {
+			if win.JustPressed(pixelgl.KeyUp) && OffenseFormationIteration < len(allOffensiveFormations.Formations)-1 {
 				OffenseFormationIteration += 1
 			}
 
