@@ -31,9 +31,7 @@ import (
 var (
 	frameTick *time.Ticker
 	fps       float64
-	// TODO add the following:
-	// - View Offensive Routes
-	// - Defense
+
 	mainMenuLookup = map[string]string{
 		"Offensive Playbook":        "OffensivePlaybook",
 		"View Offensive Formations": "ViewOffensiveFormations",
